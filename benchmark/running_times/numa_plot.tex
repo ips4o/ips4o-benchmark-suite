@@ -1,0 +1,33 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{array} % for @{}c@{}
+\usepackage{pgfplots}
+\usepackage{xspace}
+
+\input{names.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Comparison of NUMA arrays}
+
+\begin{document}
+
+\maketitle
+
+\comppaspas
+
+\begin{table}
+  \resizebox{\textwidth}{!}{%
+\input{numa.tex}
+}
+  \caption{
+    Average slowdowns of the local array (LA), the interleaved array
+    (IA), the striped array (SA), and the NUMA array (NA) for
+    different parallel sorting algorithms on different machines. We
+    only consider inputs with at $2^{21}t$ bytes.}
+\end{table}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

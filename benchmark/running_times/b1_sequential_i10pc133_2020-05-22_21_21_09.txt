@@ -1,0 +1,70 @@
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=67108864	run=0	benchmarkconfigerror=0	checkermilli=391.033	generatormilli=655.162	preprocmilli=0	milli=3090.16	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=67108864	run=1	benchmarkconfigerror=0	checkermilli=390.478	generatormilli=630.593	preprocmilli=0	milli=3035.94	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=134217728	run=0	benchmarkconfigerror=0	checkermilli=777.499	generatormilli=1284.42	preprocmilli=0	milli=6178.21	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=134217728	run=1	benchmarkconfigerror=0	checkermilli=777.469	generatormilli=1246.82	preprocmilli=0	milli=6334.98	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=268435456	run=0	benchmarkconfigerror=0	checkermilli=1105.09	generatormilli=2540.79	preprocmilli=0	milli=13259.1	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=268435456	run=1	benchmarkconfigerror=0	checkermilli=1555.09	generatormilli=2531.56	preprocmilli=0	milli=13279.4	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=536870912	run=0	benchmarkconfigerror=0	checkermilli=3120.12	generatormilli=5063.17	preprocmilli=0	milli=27397.3	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=536870912	run=1	benchmarkconfigerror=0	checkermilli=3119.8	generatormilli=5050.35	preprocmilli=0	milli=27927	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=16777216	run=0	benchmarkconfigerror=0	checkermilli=192.714	generatormilli=517.438	preprocmilli=0	milli=2524.51	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=16777216	run=1	benchmarkconfigerror=0	checkermilli=182.757	generatormilli=483.648	preprocmilli=0	milli=2536.24	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=33554432	run=0	benchmarkconfigerror=0	checkermilli=361.997	generatormilli=1015.65	preprocmilli=0	milli=5225.28	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=33554432	run=1	benchmarkconfigerror=0	checkermilli=382.804	generatormilli=961.501	preprocmilli=0	milli=5293.11	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=67108864	run=0	benchmarkconfigerror=0	checkermilli=762.013	generatormilli=2021.66	preprocmilli=0	milli=11193.2	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=67108864	run=1	benchmarkconfigerror=0	checkermilli=761.403	generatormilli=1869.03	preprocmilli=0	milli=10868.5	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=134217728	run=0	benchmarkconfigerror=0	checkermilli=1437.68	generatormilli=3981.06	preprocmilli=0	milli=22339.6	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=134217728	run=1	benchmarkconfigerror=0	checkermilli=1519.56	generatormilli=3756.93	preprocmilli=0	milli=23513.4	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=268435456	run=0	benchmarkconfigerror=0	checkermilli=3035.59	generatormilli=7867.26	preprocmilli=0	milli=46772.4	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=ips4oml	parallel=0	threads=1	vector=vector	copyback=1	size=268435456	run=1	benchmarkconfigerror=0	checkermilli=3032.7	generatormilli=7506.09	preprocmilli=0	milli=46340.5	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=67108864	run=0	benchmarkconfigerror=0	checkermilli=278.382	generatormilli=664.097	preprocmilli=0	milli=7666.42	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=67108864	run=1	benchmarkconfigerror=0	checkermilli=279.434	generatormilli=633.905	preprocmilli=0	milli=7269.01	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=134217728	run=0	benchmarkconfigerror=0	checkermilli=555.076	generatormilli=1274.3	preprocmilli=0	milli=16057.1	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=134217728	run=1	benchmarkconfigerror=0	checkermilli=777.018	generatormilli=1274.87	preprocmilli=0	milli=16028.2	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=268435456	run=0	benchmarkconfigerror=0	checkermilli=1544.88	generatormilli=2585.01	preprocmilli=0	milli=31832.5	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=268435456	run=1	benchmarkconfigerror=0	checkermilli=1529.87	generatormilli=2484.39	preprocmilli=0	milli=31654.1	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=536870912	run=0	benchmarkconfigerror=0	checkermilli=3059.85	generatormilli=5150.45	preprocmilli=0	milli=66945	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=qtuple	datatype=qtuple	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=536870912	run=1	benchmarkconfigerror=0	checkermilli=3070.41	generatormilli=5017.2	preprocmilli=0	milli=69006.8	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=16777216	run=0	benchmarkconfigerror=0	checkermilli=191.471	generatormilli=506.267	preprocmilli=0	milli=3774.45	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=16777216	run=1	benchmarkconfigerror=0	checkermilli=183.242	generatormilli=488.612	preprocmilli=0	milli=3886.59	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=33554432	run=0	benchmarkconfigerror=0	checkermilli=361.024	generatormilli=1020.04	preprocmilli=0	milli=8300.38	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=33554432	run=1	benchmarkconfigerror=0	checkermilli=385.459	generatormilli=957.007	preprocmilli=0	milli=8320.31	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=67108864	run=0	benchmarkconfigerror=0	checkermilli=722.133	generatormilli=1997.46	preprocmilli=0	milli=17737.2	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=67108864	run=1	benchmarkconfigerror=0	checkermilli=763.341	generatormilli=1893.85	preprocmilli=0	milli=17692.8	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=134217728	run=0	benchmarkconfigerror=0	checkermilli=1521.75	generatormilli=3996.35	preprocmilli=0	milli=37490.3	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=134217728	run=1	benchmarkconfigerror=0	checkermilli=1520.89	generatormilli=3826.27	preprocmilli=0	milli=36666.7	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=268435456	run=0	benchmarkconfigerror=0	checkermilli=2868.94	generatormilli=7979.92	preprocmilli=0	milli=76109.9	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	machine=i10pc133	gen=byte	datatype=byte	algo=quickxsort	parallel=0	threads=1	vector=vector	copyback=1	size=268435456	run=1	benchmarkconfigerror=0	checkermilli=3036.76	generatormilli=7515.17	preprocmilli=0	milli=79196.7	sortedsequence=1	permutation=1	meminterleaved=0
+RESULT	algo=ippradixsort	configwarning=1	datatype=qtuple
+RESULT	gen=qtuple	configwarning=1	datatype=byte
+RESULT	gen=byte	configwarning=1	datatype=qtuple
+RESULT	algo=ippradixsort	configwarning=1	datatype=byte

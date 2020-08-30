@@ -1,0 +1,92 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{fullpage}
+\usepackage{verbatim}
+
+\usepackage{xcolor}
+\usepackage{morefloats}
+\usepackage{tikz,pgfplots}
+
+\usepackage{placeins}
+\usepackage{cleveref}
+\usepackage{subcaption}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{
+  units,
+  groupplots
+}
+\pgfplotsset{compat=1.5}
+\makeatletter
+\newcommand\gpsubtitle[1]{(\@alph{\pgfplots@group@current@plot}) #1}
+\makeatother
+
+\usepackage{xspace}
+
+\usepackage[showframe]{geometry}
+\input{names.tex}
+
+\newcommand*\SubLabel[1]{
+  \node [
+  anchor=north west,
+  text width=2em,
+  text height=2ex,
+  text depth=1ex,
+  align=left,
+  ] at (axis description cs:0.5,1.2)
+  {\phantomsubcaption\label{#1}\subref{#1})};
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Performance Plots}
+
+
+\begin{document}
+
+\pgfplotscreateplotcyclelist{my exotic sequential perf}{%
+  black,every mark/.append style={solid,fill=gray},mark=otimes*,mark size=1.75pt\\%
+  lime!80!black,every mark/.append style={fill=lime},mark=*,mark size=1.4pt\\%
+   brown!60!black,every mark/.append style={solid,fill=brown!80!black},mark=*,mark size=1.4pt\\%
+  brown!60!black,every mark/.append style={fill=brown!80!black},mark=square*,mark size=1.4pt\\%
+  red!60!black,dashed,every mark/.append style={solid,fill=red!80!black},mark=square*,mark size=1.4pt\\%
+  red,dashed,every mark/.append style={solid,fill=red!80!black},mark=diamond*,mark size=1.75pt\\%
+  red,dashed,mark=star,mark size=1.75pt\\%
+}
+
+\pgfplotsset{
+  plotstylesequentialperf/.style={
+    cycle list name=my exotic sequential perf,
+  }
+}
+
+
+
+\pgfplotscreateplotcyclelist{my exotic parallel perf}{%
+  black,every mark/.append style={solid,fill=gray},mark=otimes*,mark size=1.75pt\\%
+  orange,every mark/.append style={fill=orange!80!black},mark=triangle*,mark size=1.75pt\\%
+  yellow!60!black,dashed,every mark/.append style={solid,fill=yellow!80!black},mark=square*,mark size=1.4pt\\%
+  teal,every mark/.append style={fill=teal!80!black},mark=star,mark size=1.75pt\\%
+  brown!60!black,every mark/.append style={fill=brown!80!black},mark=square*,mark size=1.4pt\\%
+  red!70!white,every mark/.append style={solid,fill=red!80!black},mark=*,mark size=1.4pt\\%
+  red,dashed,mark=star,mark size=1.75pt\\%
+  red,dashed,every mark/.append style={solid,fill=red!80!black},mark=diamond*,mark size=1.75pt\\%
+  red!60!black,dashed,every mark/.append style={solid,fill=red!80!black},mark=square*,mark size=1.4pt\\%
+}
+
+\pgfplotsset{
+  plotstyleparallelperf/.style={
+     cycle list name=my exotic parallel perf,
+  }
+}
+
+\input{performance_seq_pairwise_one_row.tex}
+\input{performance_par_pairwise_one_row.tex}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

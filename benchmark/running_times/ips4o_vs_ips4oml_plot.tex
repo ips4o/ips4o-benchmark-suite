@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+
+\usepackage{pgfplots}
+\usepackage{xspace}
+
+\input{names.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Average slowdown of \compiparassssort and \compiparassssortnts}
+
+\begin{document}
+
+\maketitle
+
+\begin{table}
+\input{ips4o_vs_ips4oml_times.tex}
+\caption{
+    This table shows the average slowdown of \compiparassssort and
+    \compiparassssortnts to the best of both algorithms for different
+    array types and machines.  The
+    numbers in parentheses show the average running times of
+    \compiparassssort divided by $n/t \log_2 n$ in
+    nanoseconds.  We only consider inputs with at least
+    $2^{21}t$~bytes.}
+\end{table}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

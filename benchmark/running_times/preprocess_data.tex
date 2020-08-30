@@ -1,0 +1,456 @@
+%% SQL
+%% drop table if exists avgnuma CASCADE;
+%% create table avgnuma as
+%% select machine, sortedsequence, permutation, gen, datatype, algo, parallel, threads, size, vector , meminterleaved, copyback, AVG(milli) as milli
+%% from statsnuma
+%% where run > 0 and sortedsequence = 1 and permutation = 1 and milli > 0
+%% and (algo not like 'aspas' or size < 2^31) and (algo not like 'aspasparallel' or size < 2^30)
+%% group by machine, sortedsequence, permutation, gen, datatype, algo, parallel, threads, size, vector , meminterleaved, copyback
+
+%% SQL
+%% drop table if exists avgspeedup CASCADE;
+%% create table avgspeedup as
+%% select machine, sortedsequence, permutation, gen, datatype, algo, parallel, threads, size, vector , meminterleaved, copyback, AVG(milli) as milli
+%% from statsspeedup
+%% where run > 0 and sortedsequence = 1 and permutation = 1 and milli > 0
+%% and (algo not like 'aspas' or size < 2^31) and (algo not like 'aspasparallel' or size < 2^30)
+%% group by machine, sortedsequence, permutation, gen, datatype, algo, parallel, threads, size, vector , meminterleaved, copyback
+
+%% SQL
+%% drop table if exists avgparallel CASCADE;
+%% create table avgparallel as
+%% select machine, sortedsequence, permutation, gen, datatype, algo, parallel, threads, size, vector , meminterleaved, copyback, AVG(milli) as milli
+%% from statsparallel
+%% where run > 0 and sortedsequence = 1 and permutation = 1 and milli > 0
+%% and (algo not like 'aspas' or size < 2^31) and (algo not like 'aspasparallel' or size < 2^30)
+%% group by machine, sortedsequence, permutation, gen, datatype, algo, parallel, threads, size, vector , meminterleaved, copyback
+
+%% SQL
+%% drop table if exists avgsequential CASCADE;
+%% create table avgsequential as
+%% select machine, sortedsequence, permutation, gen, datatype, algo, parallel, threads, size, vector , meminterleaved, copyback, AVG(milli) as milli
+%% from statssequential
+%% where run > 0 and sortedsequence = 1 and permutation = 1 and milli > 0
+%% and (algo not like 'aspas' or size < 2^31) and (algo not like 'aspasparallel' or size < 2^30)
+%% group by machine, sortedsequence, permutation, gen, datatype, algo, parallel, threads, size, vector , meminterleaved, copyback
+
+%% SQL
+%% drop table if exists pownalgos CASCADE;
+%% create table pownalgos (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into pownalgos (datatype, algo)
+%% values
+%% ('double', 'ips4oparallel'),
+%% ('double', 'ips4omlparallel'),
+%% ('double', 'ps4oparallel')
+
+%% SQL
+%% drop table if exists pcomparisonalgos CASCADE;
+%% create table pcomparisonalgos (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into pcomparisonalgos (datatype, algo)
+%% values
+%% ('double', 'gnuquicksortbalanced'),
+%% ('double', 'ips4oparallel'),
+%% ('double', 'ips4omlparallel'),
+%% ('double', 'pbbssamplesort'),
+%% ('double', 'tbbparallelsort'),
+%% ('double', 'aspasparallel'),
+%% ('double', 'gnuparallel'),
+%% ('double', 'ps4oparallel')
+
+
+%% SQL
+%% drop table if exists ips4omlmsdradix CASCADE;
+%% create table ips4omlmsdradix (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into ips4omlmsdradix (datatype, algo)
+%% values
+%% ('pair', 'ips4omlparallel'),
+%% ('pair', 'inplacemsdradixsort')
+
+
+%% SQL
+%% drop table if exists pradixalgoswithips4oml CASCADE;
+%% create table pradixalgoswithips4oml (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into pradixalgoswithips4oml (datatype, algo)
+%% values
+%% ('uint64', 'ips4omlparallel'),
+%% ('uint64', 'pbbsradixsort'),
+%% ('uint64', 'raduls'),
+%% ('uint64', 'ps4oparallel'),
+%% ('uint64', 'regionsort'),
+%% ('uint64', 'ips2raparallel')
+
+%% ('uint64', 'ips2raparallel'),
+
+%% SQL
+%% drop table if exists pradixalgos CASCADE;
+%% create table pradixalgos (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into pradixalgos (datatype, algo)
+%% values
+%% ('uint64', 'pbbsradixsort'),
+%% ('uint64', 'raduls'),
+%% ('uint64', 'regionsort'),
+%% ('uint64', 'ips2raparallel')
+
+%% SQL
+%% drop table if exists ponlydoublealgoswithips4oml CASCADE;
+%% create table ponlydoublealgoswithips4oml (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into ponlydoublealgoswithips4oml (datatype, algo)
+%% values
+%% ('double', 'aspasparallel')
+
+%% SQL
+%% drop table if exists pfast CASCADE;
+%% create table pfast (
+%% machine character varying(100),
+%% algo character varying(100),
+%% vector character varying(100),
+%% copyback bigint,
+%% meminterleaved bigint
+%% )
+
+%% SQL
+%% insert into pfast (machine, algo, vector, copyback, meminterleaved)
+%% values
+%% ('i10pc133', 'aspasparallel', 'vector', 0, 0),
+%% ('i10pc133', 'gnuparallel', 'vector', 0, 0),
+%% ('i10pc133', 'gnuquicksortbalanced', 'vector', 0, 0),
+%% ('i10pc133', 'ips4omlparallel', 'vector', 0, 0),
+%% ('i10pc133', 'ps4oparallel', 'vector', 0, 0),
+%% ('i10pc133', 'pbbssamplesort', 'vector', 0, 0),
+%% ('i10pc133', 'tbbparallelsort', 'vector', 0, 0),
+%% ('i10pc133', 'pbbsradixsort', 'vector', 0, 0),
+%% ('i10pc133', 'raduls', 'vector', 0, 0),
+%% ('i10pc133', 'regionsort', 'vector', 0, 0),
+%% ('i10pc133', 'ips2raparallel', 'vector', 0, 0),
+%% ('i10pc132', 'aspasparallel', 'vector', 0, 1),
+%% ('i10pc132', 'gnuparallel', 'vector', 0, 1),
+%% ('i10pc132', 'gnuquicksortbalanced', 'vector', 0, 1),
+%% ('i10pc132', 'ips4omlparallel', 'vector', 0, 1),
+%% ('i10pc132', 'ps4oparallel', 'vector', 0, 1),
+%% ('i10pc132', 'pbbssamplesort', 'vector', 0, 1),
+%% ('i10pc132', 'tbbparallelsort', 'vector', 0, 1),
+%% ('i10pc132', 'pbbsradixsort', 'vector', 0, 1),
+%% ('i10pc132', 'raduls', 'vector', 0, 1),
+%% ('i10pc132', 'regionsort', 'vector', 0, 1),
+%% ('i10pc132', 'ips2raparallel', 'vector', 0, 1),
+%% ('i10pc136', 'aspasparallel', 'vector', 0, 1),
+%% ('i10pc136', 'gnuparallel', 'vector', 0, 1),
+%% ('i10pc136', 'gnuquicksortbalanced', 'vector', 0, 1),
+%% ('i10pc136', 'gnuquicksortunbalanced', 'vector', 0, 1),
+%% ('i10pc136', 'ips4omlparallel', 'vector', 0, 1),
+%% ('i10pc136', 'ps4oparallel', 'vector', 0, 1),
+%% ('i10pc136', 'pbbssamplesort', 'vector', 0, 1),
+%% ('i10pc136', 'tbbparallelsort', 'vector', 0, 1),
+%% ('i10pc136', 'pbbsradixsort', 'vector', 0, 1),
+%% ('i10pc136', 'raduls', 'vector', 0, 1),
+%% ('i10pc136', 'regionsort', 'vector', 0, 1),
+%% ('i10pc136', 'ips2raparallel', 'vector', 0, 1),
+%% ('i10pc135', 'aspasparallel', 'vector', 0, 1),
+%% ('i10pc135', 'gnuparallel', 'vector', 0, 1),
+%% ('i10pc135', 'gnuquicksortbalanced', 'vector', 0, 1),
+%% ('i10pc135', 'ips4omlparallel', 'vector', 0, 1),
+%% ('i10pc135', 'ps4oparallel', 'vector', 0, 1),
+%% ('i10pc135', 'pbbssamplesort', 'vector', 0, 1),
+%% ('i10pc135', 'tbbparallelsort', 'vector', 0, 1),
+%% ('i10pc135', 'pbbsradixsort', 'vector', 0, 1),
+%% ('i10pc135', 'raduls', 'vector', 0, 1),
+%% ('i10pc135', 'regionsort', 'vector', 0, 1),
+%% ('i10pc135', 'ips2raparallel', 'vector', 0, 1)
+
+%% SQL
+%% drop table if exists psimplevector CASCADE;
+%% create table psimplevector (
+%% machine character varying(100),
+%% algo character varying(100),
+%% vector character varying(100),
+%% copyback bigint,
+%% meminterleaved bigint
+%% )
+
+%% SQL
+%% insert into psimplevector (machine, algo, vector, copyback, meminterleaved)
+%% values
+%% ('i10pc133', 'aspasparallel', 'vector', 1, 0),
+%% ('i10pc133', 'gnuparallel', 'vector', 1, 0),
+%% ('i10pc133', 'gnuquicksortbalanced', 'vector', 1, 0),
+%% ('i10pc133', 'ips2ramlparallel', 'vector', 1, 0),
+%% ('i10pc133', 'ips4omlparallel', 'vector', 1, 0),
+%% ('i10pc133', 'ps4oparallel', 'vector', 1, 0),
+%% ('i10pc133', 'pbbssamplesort', 'vector', 1, 0),
+%% ('i10pc133', 'tbbparallelsort', 'vector', 1, 0),
+%% ('i10pc133', 'pbbsradixsort', 'vector', 1, 0),
+%% ('i10pc133', 'raduls', 'vector', 1, 0),
+%% ('i10pc133', 'regionsort', 'vector', 1, 0),
+%% ('i10pc133', 'ips2raparallel', 'vector', 1, 0),
+%% ('i10pc132', 'aspasparallel', 'vector', 1, 0),
+%% ('i10pc132', 'gnuparallel', 'vector', 1, 0),
+%% ('i10pc132', 'gnuquicksortbalanced', 'vector', 1, 0),
+%% ('i10pc132', 'ips4omlparallel', 'vector', 1, 0),
+%% ('i10pc132', 'ps4oparallel', 'vector', 1, 0),
+%% ('i10pc132', 'ips2ramlparallel', 'vector', 1, 0),
+%% ('i10pc132', 'pbbssamplesort', 'vector', 1, 0),
+%% ('i10pc132', 'tbbparallelsort', 'vector', 1, 0),
+%% ('i10pc132', 'pbbsradixsort', 'vector', 1, 0),
+%% ('i10pc132', 'raduls', 'vector', 1, 0),
+%% ('i10pc132', 'regionsort', 'vector', 1, 0),
+%% ('i10pc132', 'ips2raparallel', 'vector', 1, 0),
+%% ('i10pc136', 'aspasparallel', 'vector', 1, 0),
+%% ('i10pc136', 'gnuparallel', 'vector', 1, 0),
+%% ('i10pc136', 'gnuquicksortbalanced', 'vector', 1, 0),
+%% ('i10pc136', 'gnuquicksortunbalanced', 'vector', 1, 0),
+%% ('i10pc136', 'ips4omlparallel', 'vector', 1, 0),
+%% ('i10pc136', 'ps4oparallel', 'vector', 1, 0),
+%% ('i10pc136', 'ips2ramlparallel', 'vector', 1, 0),
+%% ('i10pc136', 'pbbssamplesort', 'vector', 1, 0),
+%% ('i10pc136', 'tbbparallelsort', 'vector', 1, 0),
+%% ('i10pc136', 'pbbsradixsort', 'vector', 1, 0),
+%% ('i10pc136', 'raduls', 'vector', 1, 0),
+%% ('i10pc136', 'regionsort', 'vector', 1, 0),
+%% ('i10pc136', 'ips2raparallel', 'vector', 1, 0),
+%% ('i10pc135', 'aspasparallel', 'vector', 1, 0),
+%% ('i10pc135', 'gnuparallel', 'vector', 1, 0),
+%% ('i10pc135', 'gnuquicksortbalanced', 'vector', 1, 0),
+%% ('i10pc135', 'ips4omlparallel', 'vector', 1, 0),
+%% ('i10pc135', 'ps4oparallel', 'vector', 1, 0),
+%% ('i10pc135', 'ips2ramlparallel', 'vector', 1, 0),
+%% ('i10pc135', 'pbbssamplesort', 'vector', 1, 0),
+%% ('i10pc135', 'tbbparallelsort', 'vector', 1, 0),
+%% ('i10pc135', 'pbbsradixsort', 'vector', 1, 0),
+%% ('i10pc135', 'raduls', 'vector', 1, 0),
+%% ('i10pc135', 'regionsort', 'vector', 1, 0),
+%% ('i10pc135', 'ips2raparallel', 'vector', 1, 0)
+
+%% ('i10pc135', 'gnuquicksortunbalanced', 'vector', 1, 0),
+%% ('i10pc136', 'gnuquicksortunbalanced', 'vector', 1, 0),
+%% ('i10pc132', 'gnuquicksortunbalanced', 'vector', 1, 0),
+%% ('i10pc133', 'gnuquicksortunbalanced', 'vector', 1, 0),
+
+%% SQL
+%% drop table if exists scomparisonunselectedalgos CASCADE;
+%% create table scomparisonunselectedalgos (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into scomparisonunselectedalgos (datatype, algo)
+%% values
+%% ('double', 'ssss'),
+%% ('double', 'ps4o')
+
+%% SQL
+%% drop table if exists scomparisonalgos CASCADE;
+%% create table scomparisonalgos (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into scomparisonalgos (datatype, algo)
+%% values
+%% ('uint64', 'yaroslavskiy'),
+%% ('uint64', 'quickxsort'),
+%% ('uint64', 'blockquicksort'),
+%% ('uint64', 'wikisort'),
+%% ('uint64', 'timsort'),
+%% ('uint64', 'pdqsort'),
+%% ('uint64', 'stdsort'),
+%% ('uint64', 'ips4o'),
+%% ('uint64', 'ps4o')
+
+%% SQL
+%% drop table if exists scomparisonallalgos CASCADE;
+%% create table scomparisonallalgos (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into scomparisonallalgos (datatype, algo)
+%% values
+%% ('double', 'quickxsort'),
+%% ('double', 'blockquicksort'),
+%% ('double', 'wikisort'),
+%% ('double', 'timsort'),
+%% ('double', 'pdqsort'),
+%% ('double', 'stdsort'),
+%% ('double', 'ips4o'),
+%% ('double', 'ps4o'),
+%% ('double', 'ssss'),
+%% ('double', 'yaroslavskiy')
+
+%% SQL
+%% drop table if exists sradixalgoswithips4oml CASCADE;
+%% create table sradixalgoswithips4oml (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into sradixalgoswithips4oml (datatype, algo)
+%% values
+%% ('uint64', 'skasort'),
+%% ('uint64', 'ips2ra'),
+%% ('uint64', 'ippradixsort'),
+%% ('uint64', 'learnedsort')
+
+%% SQL
+%% drop table if exists sonlydoublealgoswithips4oml CASCADE;
+%% create table sonlydoublealgoswithips4oml (
+%% datatype character varying(100),
+%% algo character varying(100)
+%% )
+
+%% SQL
+%% insert into sonlydoublealgoswithips4oml (datatype, algo)
+%% values
+%% ('uint64', 'ippradixsort')
+
+%% SQL
+%% drop table if exists titles CASCADE;
+%% create table titles(
+%% algo character varying(100),
+%% title character varying(100),
+%% titleorder int
+%% )
+
+%% SQL
+%% insert into titles (algo, title, titleorder)
+%% values
+%% ('skasort', '\radixsska', 8),
+%% ('ips2ra', '\compissrsort', 13),
+%% ('yaroslavskiy', '\compsyaros', 3),
+%% ('blockquicksort', '\compblock', 1),
+%% ('aspas', '\comppaspas', 10),
+%% ('ippradixsort', '\radixipp', 9),
+%% ('learnedsort', '\radixlearned', 10),
+%% ('wikisort', '\compswiki', 7),
+%% ('quickxsort', '\compsmergequick', 6),
+%% ('timsort', '\compstim', 5),
+%% ('pdqsort', '\compspdq', 1),
+%% ('stdsort', '\compssort', 4),
+%% ('ssss', '\compssssschneider', 11),
+%% ('ips4o', '\compissssort', 0),
+%% ('ps4o', '\compmyssssaxtmann', 2),
+%% ('openjdkyaroslavskiy', '\compjdksyaros', 3),
+%% ('aspasparallel', '\comppaspas', 10),
+%% ('raduls', '\radixraduls', 8),
+%% ('ips4oparallel', '\compiparassssortnts', 12),
+%% ('ps4oparallel', '\compmyparassssaxtmann', 2),
+%% ('ips4omlparallel', '\compiparassssort', 0),
+%% ('gnuquicksortbalanced', '\comppbalancedsort', 3),
+%% ('tbbparallelsort', '\compptbb', 6),
+%% ('regionsort', '\radixregion', 9),
+%% ('ips2raparallel', '\compiparassrsort', 13),
+%% ('pbbsradixsort', '\radixppbbr', 7),
+%% ('pbbssamplesort', '\compppbbs', 1),
+%% ('gnuparallel', '\comppsort', 5),
+%% ('inplacemsdradixsort', '\radiximsd', 12)
+
+%% SQL
+%% drop table if exists gennames CASCADE;
+%% create table gennames(
+%% gen character varying(100),
+%% genname character varying(100),
+%% genorder int
+%% )
+
+%% SQL
+%% insert into gennames (gen, genname, genorder)
+%% values
+%% ('zipf', '\distzipf', 5),
+%% ('random', '\distuniform', 10),
+%% ('exponential', '\distexpo', 4),
+%% ('almostsorted', '\distalmostsorted', 9),
+%% ('sorted', '\distsorted', 1),
+%% ('reverse', '\distreversesorted', 2),
+%% ('zero', '\distones', 3),
+%% ('rootdupls', '\distduplicatesroot', 6),
+%% ('twicedupes', '\distduplicatestwice', 7),
+%% ('eightdupes', '\distduplicateseight', 8),
+%% ('byte', '\distuniform', 11),
+%% ('qtuple', '\distuniform', 12)
+
+%% SQL
+%% drop table if exists datatypenames CASCADE;
+%% create table datatypenames(
+%% datatype character varying(100),
+%% datatypename character varying(100)
+%% )
+
+%% SQL
+%% insert into datatypenames (datatype, datatypename)
+%% values
+%% ('byte', '\bytes'),
+%% ('pair', '\pair'),
+%% ('qtuple', '\quartet'),
+%% ('double', '\double'),
+%% ('uint32', '\uint'),
+%% ('uint64', '\ulong')
+
+%% SQL
+%% drop table if exists machinenames CASCADE;
+%% create table machinenames(
+%% machine character varying(100),
+%% machinename character varying(100),
+%% machineorder int
+%% )
+
+%% SQL
+%% insert into machinenames (machine, machinename, machineorder)
+%% values
+%% ('i10pc133', '\pcamd', 1),
+%% ('i10pc136', '\pcintelfour', 2),
+%% ('i10pc132', '\pcinteltwo', 3),
+%% ('i10pc135', '\pcintellargefour', 4)
+
+%% SQL
+%% drop table if exists datatypesizes CASCADE;
+%% create table datatypesizes(
+%% datatype character varying(100),
+%% dsize int
+%% )
+
+%% SQL
+%% insert into datatypesizes (datatype, dsize)
+%% values
+%% ('byte', 100),
+%% ('pair', 16),
+%% ('qtuple', 32),
+%% ('double', 8),
+%% ('uint32', 4),
+%% ('uint64', 8)
+
+
+
+

@@ -1,0 +1,209 @@
+%%%% load parallel values
+
+%% SQL
+%% drop view if exists p CASCADE;
+%% create view p as
+%% select * from pradixalgoswithips4oml
+%% union
+%% select * from pcomparisonalgos
+
+%% SQL
+%% drop view if exists palgos1 CASCADE;
+%% create view palgos1 as
+%% select statsspeedup.* from statsspeedup inner join p
+%% on statsspeedup.algo = p.algo
+
+%% SQL
+%% drop view if exists palgos2 CASCADE;
+%% create view palgos2 as
+%% select * from palgos1 natural join pfast
+
+%% SQL
+%% drop view if exists palgos CASCADE;
+%% create view palgos as
+%% select run, machine, gen, datatype, algo, parallel, threads, vector, size, meminterleaved, copyback, milli
+%% from palgos2
+%% where run > 0 and sortedsequence = 1 and permutation = 1 and milli > 0
+
+%% SQL
+%% drop view if exists pavg CASCADE;
+%% create view pavg as
+%% select machine, algo, size, datatype, gen, threads, AVG(milli) as paravgmilli
+%% from palgos
+%% group by machine, algo, size, datatype, threads, gen
+
+%% SQL
+%% drop view if exists pavgnames CASCADE;
+%% create view pavgnames as
+%% select pavg.*, titles.title, titles.titleorder from pavg
+%% inner join titles
+%% on titles.algo like pavg.algo
+
+%%%% load sequential ips4o values
+
+%% SQL drop view if exists seq CASCADE;
+%% create view seq as
+%% select size, datatype, machine, gen, AVG(milli) as seqavgmilli
+%% from avgsequential
+%% where algo like 'ips4o' and datatype like 'uint64' and size = 2^30 and gen like 'random'
+%% group by size, datatype, machine, gen
+
+%% SQL
+%% drop view if exists speedup CASCADE;
+%% create view speedup as
+%% select pavgnames.threads, pavgnames.algo, pavgnames.title, pavgnames.titleorder, pavgnames.machine, pavgnames.datatype, seq.seqavgmilli / pavgnames.paravgmilli as speedup
+%% from seq inner join pavgnames
+%% on seq.size = pavgnames.size and seq.datatype = pavgnames.datatype and seq.machine = pavgnames.machine and seq.gen = pavgnames.gen
+
+\begin{figure}[htb]
+  \begin{tikzpicture}
+    \begin{groupplot}[
+      group style={
+        group size=2 by 2,
+        vertical sep=1.2cm,
+      },
+      width=0.5\textwidth,
+      height=0.25\textheight,
+      plotstyleparallel,
+      xmajorgrids=true,
+      ymajorgrids=true,
+      ymin=0,
+      xmin=0,
+      eighty groupplot style/.style={
+        xmax=160,
+        xtick={0, 40, 80, 120, 160}
+      },
+      onehundrettwentyeight groupplot style/.style={
+        xmax=128,
+        xtick={0, 40, 80, 120, 160}
+      },
+      sixteen groupplot style/.style={
+        xmax=32,
+        xtick={0, 8, 16, 24, 32}
+      },
+      thirtytwo groupplot style/.style={
+        xmax=64,
+        xtick={0, 16, 32, 48, 64}
+      },
+      ]
+      
+      \nextgroupplot[
+      eighty groupplot style,
+      title=\pcintellargefour]
+    %% MULTIPLOT(algo|ptitle) select title as ptitle, threads as x, speedup as y, MULTIPLOT
+    %% from speedup
+    %% where machine like 'i10pc135' and (threads % 8 = 0 or threads = 2)
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% order by titleorder, x
+    \addplot coordinates { (2,1.24142) (8,4.57697) (16,8.58199) (24,11.5176) (32,13.5939) (40,14.9173) (48,15.4915) (56,17.0632) (64,18.0857) (72,18.6926) (80,20.0208) (88,27.1158) (96,26.6139) (104,27.829) (112,31.972) (120,33.3546) (128,40.036) (136,38.0662) (144,42.5895) (152,39.9528) (160,47.4141) };
+    \addlegendentry{\compiparassssort};
+    \addplot coordinates { (2,0.470825) (8,1.75243) (16,3.3401) (24,4.6099) (32,5.58782) (40,6.68318) (48,7.75098) (56,9.11175) (64,9.82062) (72,10.7519) (80,11.4373) (88,12.1136) (96,14.6787) (104,15.0177) (112,15.9662) (120,16.8278) (128,18.0059) (136,19.0253) (144,19.5469) (152,20.3514) (160,20.9129) };
+    \addlegendentry{\compppbbs};
+    \addplot coordinates { (2,0.49895) (8,1.80989) (16,3.25131) (24,4.2279) (32,5.07068) (40,5.80527) (48,5.29607) (56,6.21358) (64,6.51233) (72,7.28719) (80,6.77202) (88,7.29574) (96,8.21947) (104,8.08855) (112,10.8345) (120,10.8251) (128,8.93225) (136,10.692) (144,10.6228) (152,11.6755) (160,13.0272) };
+    \addlegendentry{\comppbalancedsort};
+    \addplot coordinates { (2,0.981385) (8,3.64927) (16,6.75593) (24,9.2797) (32,11.0601) (40,12.9752) (48,12.2637) (56,14.0219) (64,14.4557) (72,15.146) (80,15.5503) (88,18.8832) (96,20.146) (104,21.0703) (112,21.2432) (120,21.8675) (128,24.1167) (136,24.3028) (144,26.7391) (152,25.6956) (160,26.5206) };
+    \addlegendentry{\radixppbbr};
+    \addplot coordinates { (2,2.06268) (8,7.58471) (16,14.0007) (24,18.3072) (32,21.9988) (40,23.4069) (48,18.1512) (56,18.475) (64,18.3323) (72,17.9225) (80,18.1015) (88,24.5109) (96,23.8962) (104,22.6017) (112,19.9642) (120,23.8332) (128,24.5888) (136,22.2813) (144,19.1551) (152,19.3886) (160,18.6866) };
+    \addlegendentry{\radixraduls};
+    \addplot coordinates { (2,1.01428) (8,3.80831) (16,6.80352) (24,8.86621) (32,10.7254) (40,12.4627) (48,13.3257) (56,15.2395) (64,16.2248) (72,16.81) (80,17.2745) (88,22.4016) (96,24.045) (104,21.0765) (112,19.4979) (120,19.8451) (128,26.336) (136,22.6653) (144,18.0386) (152,17.7698) (160,17.5898) };
+    \addlegendentry{\radixregion};
+    \addplot coordinates { (2,1.79287) (8,6.54323) (16,12.0351) (24,15.5152) (32,17.9431) (40,19.2885) (48,18.5354) (56,19.2603) (64,20.0921) (72,19.9708) (80,20.5262) (88,28.2646) (96,31.0098) (104,30.8401) (112,36.1552) (120,36.8338) (128,41.9005) (136,41.4005) (144,43.5759) (152,50.9109) (160,51.2748) };
+    \addlegendentry{\compiparassrsort};
+
+      \legend{}
+      
+    \coordinate (c1) at (rel axis cs:0,1);
+      
+      \nextgroupplot[
+        sixteen groupplot style,
+      title=\pcamd]
+    %% MULTIPLOT(algo|ptitle) select title as ptitle, threads as x, speedup as y, MULTIPLOT
+    %% from speedup
+    %% where machine like 'i10pc133' and (threads % 2 = 0 or threads = 2)
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% order by titleorder, x
+    \addplot coordinates { (2,1.38565) (4,2.62811) (6,3.75338) (8,4.81279) (10,5.43335) (12,6.38123) (14,7.0237) (16,7.42546) (18,7.64376) (20,7.85615) (22,8.23461) (24,8.34362) (26,8.29617) (28,8.2702) (30,8.34553) (32,8.37237) };
+    \addlegendentry{\compiparassssort};
+    \addplot coordinates { (2,0.533089) (4,1.01487) (6,1.45424) (8,1.89338) (10,1.96497) (12,2.51501) (14,3.06637) (16,3.43815) (18,3.15595) (20,4.07942) (22,4.37063) (24,4.67181) (26,4.55598) (28,5.04416) (30,5.50192) (32,5.74743) };
+    \addlegendentry{\compppbbs};
+    \addplot coordinates { (2,0.582071) (4,1.13088) (6,1.61989) (8,2.02218) (10,1.97157) (12,2.50448) (14,2.67439) (16,2.69101) (18,2.76273) (20,2.81457) (22,2.8022) (24,2.74599) (26,2.8746) (28,2.76643) (30,2.71811) (32,2.74788) };
+    \addlegendentry{\comppbalancedsort};
+    \addplot coordinates { (2,1.26484) (4,2.36705) (6,3.27462) (8,4.00493) (10,4.57716) (12,5.02057) (14,5.27351) (16,5.52709) (18,5.52687) (20,5.83554) (22,6.04093) (24,6.13828) (26,6.14574) (28,6.21487) (30,6.18188) (32,6.17202) };
+    \addlegendentry{\radixppbbr};
+    \addplot coordinates { (2,2.82978) (4,5.2775) (6,6.69448) (8,7.39462) (10,7.44778) (12,7.98259) (14,7.95962) (16,7.91291) (18,8.12953) (20,8.14815) (22,8.09124) (24,8.03949) (26,8.07442) (28,8.02325) (30,7.97163) (32,7.94151) };
+    \addlegendentry{\radixraduls};
+    \addplot coordinates { (2,1.1407) (4,2.18774) (6,3.08129) (8,3.92468) (10,4.70451) (12,5.17958) (14,5.93767) (16,6.38591) (18,6.48595) (20,6.97779) (22,7.24603) (24,7.35727) (26,7.3997) (28,7.49519) (30,7.53126) (32,7.52644) };
+    \addlegendentry{\radixregion};
+    \addplot coordinates { (2,2.19558) (4,3.91839) (6,5.22272) (8,6.26002) (10,6.81153) (12,7.12757) (14,7.71978) (16,7.78276) (18,7.85415) (20,8.07679) (22,8.19542) (24,8.27421) (26,8.2512) (28,8.17488) (30,8.27925) (32,8.21207) };
+    \addlegendentry{\compiparassrsort};
+
+      \legend{}
+      
+    \coordinate (c2) at (rel axis cs:1,1);
+      
+      \nextgroupplot[
+      xlabel={Thread count},
+      thirtytwo groupplot style,
+      every axis y label/.append style={at=(ticklabel cs:1.1)},
+      ylabel={Speedup $t_{\text{par}} / t_{\text{I1S}^4\text{o}}$},
+      title=\pcinteltwo]
+    %% MULTIPLOT(algo|ptitle) select title as ptitle, threads as x, speedup as y, MULTIPLOT
+    %% from speedup
+    %% where machine like 'i10pc132' and (threads % 4 = 0 or threads = 2)
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% order by titleorder, x
+    \addplot coordinates { (2,1.44669) (4,2.87562) (8,5.71036) (12,8.51577) (16,11.2257) (20,13.816) (24,16.2904) (28,18.7002) (32,20.8188) (36,23.4011) (40,25.6398) (44,26.1082) (48,27.1086) (52,31.1665) (56,33.203) (60,36.2755) (64,37.9008) };
+    \addlegendentry{\compiparassssort};
+    \addplot coordinates { (2,0.601964) (4,1.20085) (8,2.39844) (12,3.58434) (16,4.75337) (20,5.89732) (24,7.01989) (28,8.06435) (32,9.14021) (36,8.93313) (40,9.4449) (44,11.0908) (48,13.5255) (52,14.3044) (56,15.1483) (60,16.2588) (64,17.4906) };
+    \addlegendentry{\compppbbs};
+    \addplot coordinates { (2,0.661946) (4,1.32288) (8,2.60473) (12,3.87571) (16,5.12158) (20,6.29348) (24,7.33184) (28,8.64501) (32,9.59433) (36,8.09839) (40,9.59031) (44,10.8342) (48,11.4758) (52,12.7815) (56,14.0172) (60,14.2907) (64,14.6138) };
+    \addlegendentry{\comppbalancedsort};
+    \addplot coordinates { (2,1.29836) (4,2.4437) (8,4.71858) (12,6.88132) (16,9.12004) (20,10.9962) (24,12.9111) (28,14.6258) (32,16.1174) (36,18.5276) (40,19.757) (44,21.6281) (48,22.8809) (52,23.9143) (56,25.0931) (60,26.7483) (64,27.714) };
+    \addlegendentry{\radixppbbr};
+    \addplot coordinates { (2,2.53276) (4,5.07135) (8,10.1153) (12,14.9578) (16,19.89) (20,24.3424) (24,28.5691) (28,31.169) (32,35.4289) (36,35.6776) (40,37.6896) (44,40.367) (48,44.1655) (52,44.7814) (56,44.3224) (60,45.3241) (64,47.612) };
+    \addlegendentry{\radixraduls};
+    \addplot coordinates { (2,1.25702) (4,2.52449) (8,5.00887) (12,7.41037) (16,9.64126) (20,11.7626) (24,13.8426) (28,15.8139) (32,17.7093) (36,20.0266) (40,21.1011) (44,24.1483) (48,25.8424) (52,27.5518) (56,28.9393) (60,30.917) (64,32.306) };
+    \addlegendentry{\radixregion};
+    \addplot coordinates { (2,2.02071) (4,3.98549) (8,7.84271) (12,11.5767) (16,15.1005) (20,18.3294) (24,21.5091) (28,23.9407) (32,25.8794) (36,29.5551) (40,32.2595) (44,32.9665) (48,37.083) (52,38.4177) (56,40.0805) (60,41.7448) (64,42.7882) };
+    \addlegendentry{\compiparassrsort};
+
+      \legend{}
+
+      \nextgroupplot[
+      xlabel={Thread count},
+      onehundrettwentyeight groupplot style,
+      title=\pcintelfour,
+      every legend/.append style={at=(ticklabel cs:1.1)},
+      legend style={at={($(0,0)+(1cm,1cm)$)},legend columns=5,fill=none,draw=black,anchor=center,align=center},
+      legend to name=legendplotps
+      ]
+    %% MULTIPLOT(algo|ptitle) select title as ptitle, threads as x, speedup as y, MULTIPLOT
+    %% from speedup
+    %% where machine like 'i10pc136' and (threads % 4 = 0 or threads = 2)
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel' and algo not like 'gnuparallel'
+    %% order by titleorder, x
+    \addplot coordinates { (2,1.36796) (4,2.72115) (8,5.29791) (12,7.21394) (16,9.5254) (20,11.106) (24,14.3613) (28,15.9906) (32,17.6192) (36,19.2483) (40,20.8719) (44,20.3963) (48,23.4963) (52,25.0392) (56,26.5642) (60,25.4949) (64,27.7334) (68,29.9416) (72,31.435) (76,31.7803) (80,33.1362) (84,30.7624) (88,34.2156) (92,32.7803) (96,35.1258) (100,33.0093) (104,37.8254) (108,34.9046) (112,38.7227) (116,39.3754) (120,38.6412) (124,40.4467) (128,40.9235) };
+    \addlegendentry{\compiparassssort};
+    \addplot coordinates { (2,0.522949) (4,1.04283) (8,2.04936) (12,2.97716) (16,3.89883) (20,4.92935) (24,5.96494) (28,6.28525) (32,7.74552) (36,8.34143) (40,9.64977) (44,10.1699) (48,11.3123) (52,12.0221) (56,13.0537) (60,13.5334) (64,14.3286) (68,14.7759) (72,15.7384) (76,16.1595) (80,16.8476) (84,17.3882) (88,17.8991) (92,18.28) (96,18.8688) (100,19.3719) (104,19.8491) (108,20.1513) (112,20.6676) (116,20.9912) (120,21.4574) (124,21.9062) (128,22.1704) };
+    \addlegendentry{\compppbbs};
+    \addplot coordinates { (2,0.527685) (4,1.05319) (8,2.06164) (12,2.97659) (16,3.83082) (20,4.3746) (24,5.54341) (28,6.0042) (32,7.04471) (36,7.40855) (40,8.86332) (44,9.14752) (48,10.3493) (52,10.7056) (56,10.7197) (60,11.4619) (64,11.5008) (68,11.6418) (72,11.8972) (76,11.9676) (80,12.5729) (84,13.2834) (88,12.4632) (92,13.3853) (96,14.0185) (100,13.6522) (104,12.9788) (108,12.1008) (112,14.2939) (116,12.987) (120,15.3618) (124,13.4727) (128,14.1938) };
+    \addlegendentry{\comppbalancedsort};
+    \addplot coordinates { (2,1.26242) (4,2.51576) (8,4.7589) (12,6.4351) (16,8.3407) (20,11.0167) (24,12.9253) (28,14.5473) (32,15.8455) (36,17.8574) (40,19.7629) (44,21.0708) (48,22.0379) (52,23.4755) (56,24.9555) (60,25.7855) (64,25.9767) (68,27.5361) (72,28.2581) (76,28.8973) (80,29.6621) (84,30.2638) (88,30.8067) (92,30.5795) (96,32.0512) (100,32.4597) (104,33.4301) (108,33.7412) (112,33.5231) (116,33.7994) (120,34.6267) (124,33.2605) (128,33.5803) };
+    \addlegendentry{\radixppbbr};
+    \addplot coordinates { (2,2.68836) (4,5.29556) (8,10.0694) (12,12.6432) (16,15.3728) (20,19.9717) (24,23.8015) (28,25.9265) (32,27.9574) (36,29.9166) (40,33.5739) (44,35.1351) (48,35.3731) (52,37.9253) (56,39.0871) (60,39.3624) (64,41.7053) (68,41.6076) (72,41.7372) (76,41.9891) (80,42.4001) (84,41.4802) (88,43.215) (92,42.7998) (96,42.7712) (100,42.7355) (104,42.0844) (108,41.3155) (112,41.3324) (116,40.7469) (120,40.7685) (124,41.0451) (128,42.3767) };
+    \addlegendentry{\radixraduls};
+    \addplot coordinates { (2,1.3001) (4,2.57552) (8,4.94896) (12,7.24026) (16,9.20596) (20,11.6735) (24,13.7754) (28,15.6053) (32,17.3312) (36,19.3854) (40,21.0336) (44,22.2644) (48,23.46) (52,24.9441) (56,26.149) (60,26.9819) (64,27.8081) (68,28.8608) (72,29.7087) (76,30.0887) (80,30.6664) (84,31.1455) (88,31.6206) (92,31.6994) (96,32.0021) (100,32.4475) (104,32.7028) (108,32.6753) (112,33.0078) (116,33.1468) (120,33.4547) (124,33.5162) (128,33.7211) };
+    \addlegendentry{\radixregion};
+    \addplot coordinates { (2,2.1506) (4,4.21609) (8,7.89241) (12,10.4111) (16,12.2331) (20,15.6392) (24,18.2524) (28,18.9506) (32,21.5088) (36,23.5288) (40,25.4192) (44,26.2154) (48,28.2729) (52,29.396) (56,31.7057) (60,31.5522) (64,33.3579) (68,33.1492) (72,36.0708) (76,35.3721) (80,37.026) (84,37.8076) (88,38.692) (92,36.8373) (96,39.7115) (100,38.3045) (104,41.1542) (108,38.5146) (112,41.1487) (116,41.3376) (120,42.1875) (124,42.1317) (128,41.446) };
+    \addlegendentry{\compiparassrsort};
+
+    \end{groupplot}
+    \coordinate (c3) at ($(c1)!.5!(c2)$);
+    \node[below] at (c3 |- current bounding box.south)
+    {\pgfplotslegendfromname{legendplotps}};
+  \end{tikzpicture}
+  \caption{
+    Speedup of parallel algorithms with different number of threads relative to our sequential implementation \compissssort on different machines, sorting $2^{30}$ elements of \ulong values with input distribution \distuniform.
+  }
+  \label{fig:par speedup}
+\end{figure}

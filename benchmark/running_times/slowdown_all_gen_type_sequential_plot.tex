@@ -1,0 +1,113 @@
+\documentclass{article}
+
+\usepackage{booktabs}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{fullpage}
+\usepackage{verbatim}
+
+\usepackage{xcolor}
+\usepackage{morefloats}
+\usepackage{tikz,pgfplots}
+
+\usepackage{placeins}
+
+\usepackage{pgfplotstable}
+\usepackage{subfig}
+\usepackage{xspace}
+
+\input{names.tex}
+
+\newsubfloat{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Numa Plots}
+
+
+\begin{document}
+
+\begin{table}
+  \resizebox*{!}{\textheight}{
+    \input{slowdown_all_gen_type_sequential_all.tex}
+  }
+  \caption{
+    Average slowdowns of sequential algorithms for different data types and input distributions.
+    The average slowdowns average over the machines and input sizes with at least $2^{18}$ bytes.
+    \label{tab:slowdown seq all}
+  }
+\end{table}
+
+\begin{table}
+  \resizebox*{!}{\textheight}{
+    \input{slowdown_all_gen_type_sequential_all_variance.tex}
+  }
+  \caption{
+    Average slowdown variance of sequential algorithms for different data types and input distributions.
+    The average slowdowns average over the machines and input sizes with at least $2^{18}$ bytes.
+    \label{tab:slowdown seq all}
+  }
+\end{table}
+
+\begin{table}
+  \resizebox*{!}{\textheight}{
+    \input{slowdown_all_gen_type_sequential_all_i10pc128.tex}
+  }
+  \caption{
+    Average slowdowns of sequential algorithms for different data types and input distributions on \pcintelfour.
+    The average slowdowns average over input sizes with at least $2^{18}$ bytes.
+    \label{tab:slowdown seq 128}
+  }
+\end{table}
+
+\begin{table}
+  \resizebox*{!}{\textheight}{
+    \input{slowdown_all_gen_type_sequential_all_i10pc132.tex}
+  }
+  \caption{
+    Average slowdowns of sequential algorithms for different data types and input distributions on \pcinteltwo.
+    The average slowdowns average over input sizes with at least $2^{18}$ bytes.
+    \label{tab:slowdown seq 132}
+  }
+\end{table}
+
+\begin{table}
+  \resizebox*{!}{\textheight}{
+    \input{slowdown_all_gen_type_sequential_all_i10pc133.tex}
+  }
+  \caption{
+    Average slowdowns of sequential algorithms for different data types and input distributions on \pcamd.
+    The average slowdowns average over input sizes with at least $2^{18}$ bytes.
+    \label{tab:slowdown seq 133}
+  }
+\end{table}
+
+\begin{table}
+  \resizebox*{!}{\textheight}{
+    \input{slowdown_all_gen_type_sequential_all_i10pc135.tex}
+  }
+  \caption{
+    Average slowdowns of sequential algorithms for different data types and input distributions on \pcintellargefour.
+    The average slowdowns average over input sizes with at least $2^{18}$ bytes.
+    \label{tab:slowdown seq 135}
+  }
+\end{table}
+
+\begin{table}
+  \centering
+  \resizebox*{!}{\textheight}{
+    \input{slowdown_all_gen_type_sequential_s4o_comparison.tex}
+  }
+  \caption{
+    Average slowdowns of sequential algorithms for different data types and input distributions.
+    The average slowdowns average over the machines and input sizes with at least $2^{18}$ bytes.
+    \label{tab:slowdown seq all}
+  }
+\end{table}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

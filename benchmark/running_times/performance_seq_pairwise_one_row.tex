@@ -1,0 +1,155 @@
+%% SQL
+%% drop view if exists perfips4oskatitle CASCADE;
+%% create view perfips4oskatitle as
+%% select perfips4oska.*, titles.title, titles.titleorder from perfips4oska
+%% inner join titles
+%% on titles.algo like perfips4oska.algo
+
+
+%% SQL
+%% drop view if exists perfips4opdqtitle CASCADE;
+%% create view perfips4opdqtitle as
+%% select perfips4opdq.*, titles.title, titles.titleorder from perfips4opdq
+%% inner join titles
+%% on titles.algo like perfips4opdq.algo
+
+
+%% SQL
+%% drop view if exists perfips2raskatitle CASCADE;
+%% create view perfips2raskatitle as
+%% select perfips2raska.*, titles.title, titles.titleorder from perfips2raska
+%% inner join titles
+%% on titles.algo like perfips2raska.algo
+
+
+%% SQL
+%% drop view if exists perfips2rapdqtitle CASCADE;
+%% create view perfips2rapdqtitle as
+%% select perfips2rapdq.*, titles.title, titles.titleorder from perfips2rapdq
+%% inner join titles
+%% on titles.algo like perfips2rapdq.algo
+
+\begin{figure}[tbp]
+  \begin{tikzpicture}
+    \begin{groupplot}[
+      group style={
+        group size=4 by 1,
+        x descriptions at=edge bottom,
+        y descriptions at=edge left,
+        horizontal sep=0.4cm,
+      },
+      width=0.315\textwidth,
+      height=0.2\textheight,
+      xmin=0,
+      xmax=2,
+      ymin=0.0,
+      ymax=1.05,
+      plotstylesequentialperf,
+      xmajorgrids=true,
+      ymajorgrids=true,
+      ytick = {0, 0.25, 0.5, 0.75, 1},
+      xtick = {0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2},
+      xticklabels = {0, , 0.25, , 1, , 2.25, , 4},
+      ]
+      
+      \nextgroupplot[
+      ylabel={Fraction of instances},
+      ]
+      %% MULTIPLOT(algo|ptitle) select title as ptitle, ratio as x, n as y, MULTIPLOT
+      %% from perfips4opdqtitle
+      %% order by titleorder, x
+      \addplot coordinates { (0,0.786947) (0.1,0.794074) (0.2,0.807577) (0.3,0.831583) (0.4,0.850338) (0.5,0.863466) (0.6,0.870593) (0.7,0.877344) (0.8,0.88147) (0.9,0.886347) (1,0.899475) (1.1,0.917479) (1.2,0.944486) (1.3,0.963991) (1.4,0.977494) (1.5,0.985746) (1.6,0.988747) (1.7,0.992873) (1.8,0.996249) (1.9,0.9985) (2,5) (2,0.99925) };
+      \addlegendentry{\compissssort};
+      \addplot coordinates { (0,0.213053) (0.1,0.22168) (0.2,0.248312) (0.3,0.344711) (0.4,0.487247) (0.5,0.61853) (0.6,0.692423) (0.7,0.773818) (0.8,0.836459) (0.9,0.893098) (1,0.944861) (1.1,0.975994) (1.2,0.995499) (1.3,0.99925) (1.4,1) (1.5,1) (1.6,1) (1.7,1) (1.8,1) (1.9,1) (2,1) (2,5) };
+      \addlegendentry{\compspdq};
+      \addplot coordinates { (2,5) };
+      \addlegendentry{\radixsska};
+      \addplot coordinates { (2,5) };
+      \addlegendentry{\compissrsort};
+
+      \legend{}
+      
+      \coordinate (c1) at (rel axis cs:0,1);
+      
+      \nextgroupplot[
+      every legend/.append style={at=(ticklabel cs:1.1)},
+      legend style={at={($(0,0)+(1cm,1cm)$)},legend columns=6,fill=none,draw=black,anchor=center,align=center},
+      legend to name=legendplotsc
+      ]
+      %% MULTIPLOT(algo|ptitle) select title as ptitle, ratio as x, n as y, MULTIPLOT
+      %% from perfips4oskatitle
+      %% order by titleorder, x
+      \addplot coordinates { (0,0.523631) (0.1,0.533383) (0.2,0.576519) (0.3,0.644786) (0.4,0.73931) (0.5,0.834584) (0.6,0.912978) (0.7,0.945987) (0.8,0.966242) (0.9,0.984246) (1,0.993623) (1.1,0.9985) (1.2,1) (1.3,1) (1.4,1) (1.5,1) (1.6,1) (1.7,1) (1.8,1) (1.9,1) (2,5) (2,1) };
+      \addlegendentry{\compissssort};
+      \addplot coordinates { (2,5) };
+      \addlegendentry{\compspdq};
+      \addplot coordinates { (0,0.476369) (0.1,0.488372) (0.2,0.532258) (0.3,0.604651) (0.4,0.690173) (0.5,0.777569) (0.6,0.846587) (0.7,0.9006) (0.8,0.93886) (0.9,0.963241) (1,0.977869) (1.1,0.987622) (1.2,0.994749) (1.3,0.996999) (1.4,0.99925) (1.5,1) (1.6,1) (1.7,1) (1.8,1) (1.9,1) (2,5) (2,1) };
+      \addlegendentry{\radixsska};
+      \addplot coordinates { (2,5) };
+      \addlegendentry{\compissrsort};
+
+      \legend{}
+      
+      \nextgroupplot[
+      ]
+      %% MULTIPLOT(algo|ptitle) select title as ptitle, ratio as x, n as y, MULTIPLOT
+      %% from perfips2rapdqtitle
+      %% order by titleorder, x
+      \addplot coordinates { (2,5) };
+      \addlegendentry{\compissssort};
+      \addplot coordinates { (0,0.155698) (0.1,0.161049) (0.2,0.17496) (0.3,0.196362) (0.4,0.229535) (0.5,0.277154) (0.6,0.327983) (0.7,0.401284) (0.8,0.479401) (0.9,0.560728) (1,0.649545) (1.1,0.719636) (1.2,0.786517) (1.3,0.850187) (1.4,0.905832) (1.5,0.952381) (1.6,0.974853) (1.7,0.986089) (1.8,0.993044) (1.9,1) (2,5) (2,1) };
+      \addlegendentry{\compspdq};
+      \addplot coordinates { (2,5) };
+      \addlegendentry{\radixsska};
+      \addplot coordinates { (0,0.844302) (0.1,0.849117) (0.2,0.861958) (0.3,0.88122) (0.4,0.900482) (0.5,0.921883) (0.6,0.93954) (0.7,0.955056) (0.8,0.968432) (0.9,0.975923) (1,0.981808) (1.1,0.988229) (1.2,0.993044) (1.3,0.994115) (1.4,0.99572) (1.5,0.998395) (1.6,0.999465) (1.7,0.999465) (1.8,1) (1.9,1) (2,1) (2,5) };
+      \addlegendentry{\compissrsort};
+
+      \legend{}
+      
+      \nextgroupplot[
+      every legend/.append style={at=(ticklabel cs:1.1)},
+      legend style={at={($(0,0)+(1cm,1cm)$)},legend columns=6,fill=none,draw=black,anchor=center,align=center},
+      legend to name=legendplotsc
+      ]
+      %% MULTIPLOT(algo|ptitle) select title as ptitle, ratio as x, n as y, MULTIPLOT
+      %% from perfips2raskatitle
+      %% order by titleorder, x
+      \addplot coordinates { (2,5) };
+      \addlegendentry{\compissssort};
+      \addplot coordinates { (2,5) };
+      \addlegendentry{\compspdq};
+      \addplot coordinates { (0,0.11985) (0.1,0.129481) (0.2,0.150883) (0.3,0.191546) (0.4,0.256287) (0.5,0.351525) (0.6,0.46656) (0.7,0.562333) (0.8,0.667202) (0.9,0.766185) (1,0.840556) (1.1,0.899947) (1.2,0.949706) (1.3,0.963617) (1.4,0.978063) (1.5,0.989299) (1.6,0.992509) (1.7,0.99465) (1.8,0.99679) (1.9,0.99893) (2,0.999465) (2,5) };
+      \addlegendentry{\radixsska};
+      \addplot coordinates { (0,0.88015) (0.1,0.887105) (0.2,0.905832) (0.3,0.93633) (0.4,0.959872) (0.5,0.976458) (0.6,0.988764) (0.7,0.993579) (0.8,0.99465) (0.9,0.99572) (1,1) (1.1,1) (1.2,1) (1.3,1) (1.4,1) (1.5,1) (1.6,1) (1.7,1) (1.8,1) (1.9,1) (2,1) (2,5) };
+      \addlegendentry{\compissrsort};
+
+      \coordinate (c2) at (rel axis cs:1,1);
+
+    \end{groupplot}
+
+    
+    \coordinate (c23s) at ($(group c2r1.south)!.5!(group c3r1.south)$);
+    \node[yshift=-0.75cm] at (c23s) {{Running time ratio relative to best $-$ $1$}};
+
+    \coordinate (c12n) at ($(group c1r1.north)!.5!(group c2r1.north)$);
+    \node[yshift=0.5cm] at (c12n) {{All Data Types}};
+
+    \coordinate (c34n) at ($(group c3r1.north)!.5!(group c4r1.north)$);
+    \node[yshift=0.5cm] at (c34n) {{Unsigned Integer Key}};
+
+    
+    \coordinate (c3) at ($(c1)!.5!(c2)$);
+    \node[below] at (c3 |- current bounding box.south)
+    {\pgfplotslegendfromname{legendplotsc}};
+  \end{tikzpicture}
+  \caption{Pairwise performance profiles of our algorithms
+    \compissssort and \compissrsort to the fastest competitors
+    \compspdq and \radixsska. The performance plots with \compissssort
+    use all data types. The performance plots with the radix sort
+    algorithm \compissrsort use input instances with with unsigned
+    integer keys (\uint, \ulong, and \pair data types). The results
+    were obtained on all machines for all input distributions with at
+    least $2^{18}$ bytes except \distsorted, \distreversesorted, and
+    \distones.}\label{fig:perf seq}
+\end{figure}
+

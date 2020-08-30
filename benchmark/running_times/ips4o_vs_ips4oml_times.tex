@@ -1,0 +1,145 @@
+%% SQL
+%% drop view if exists algos CASCADE;
+%% create view algos as
+%% select run, machine, gen, datatype, algo, parallel, threads, vector, size, meminterleaved, copyback, milli
+%% from statsnuma
+%% where (datatype like 'double' and (algo similar to 'ips4omlparallel|ips4oparallel'))
+
+
+%% SQL
+%% drop view if exists avg CASCADE;
+%% create view avg as
+%% select machine, gen, datatype, algo, parallel, threads, vector, size, meminterleaved, copyback, AVG(milli) as milli
+%% from algos
+%% where run > 0
+%% group by machine, gen, datatype, algo, parallel, threads, vector, size, meminterleaved, copyback
+
+%% SQL
+%% drop view if exists configgrouped CASCADE;
+%% create view configgrouped as
+%% select machine, gen, datatype, vector, meminterleaved, copyback, parallel, threads, size, MIN(milli) as configgrouped
+%% from avg
+%% group by machine, gen, datatype, vector, meminterleaved, copyback, parallel, threads, size
+
+%% SQL
+%% drop view if exists avgandconfiggrouped CASCADE;
+%% create view avgandconfiggrouped as
+%% select avg.machine, avg.gen, avg.datatype, avg.algo, avg.parallel, avg.threads, avg.vector, avg.meminterleaved, avg.copyback, avg.size, avg.milli, configgrouped.configgrouped as configgrouped
+%% from avg
+%% inner join configgrouped
+%% on avg.machine like configgrouped.machine and
+%% avg.gen like configgrouped.gen and
+%% avg.datatype like configgrouped.datatype and
+%% avg.vector like configgrouped.vector and
+%% avg.meminterleaved = configgrouped.meminterleaved and
+%% avg.copyback = configgrouped.copyback and
+%% avg.parallel = configgrouped.parallel and
+%% avg.threads = configgrouped.threads and
+%% avg.size = configgrouped.size
+
+%% SQL
+%% drop view if exists ratio CASCADE;
+%% create view ratio as
+%% select machine, gen, avgandconfiggrouped.datatype, algo, parallel, threads, vector, meminterleaved, copyback,
+%% exp(avg(ln(milli / configgrouped))) as ratio
+%% from avgandconfiggrouped
+%% inner join datatypesizes
+%% on avgandconfiggrouped.datatype = datatypesizes.datatype
+%% where size * datatypesizes.dsize >= (2^21 * threads)
+%% group by machine, gen, avgandconfiggrouped.datatype, algo, parallel, threads, vector, meminterleaved, copyback
+
+%% SQL
+%% drop view if exists rtips4o CASCADE;
+%% create view rtips4o as
+%% select machine, gen, avg.datatype, algo, parallel, threads, vector, meminterleaved, copyback,
+%% 1E6 * avg(milli / (size * log(2, size) / threads)) as ratio
+%% from avg
+%% inner join datatypesizes
+%% on avg.datatype = datatypesizes.datatype
+%% where size * datatypesizes.dsize >= (2^21 * threads)
+%%  and algo like 'ips4omlparallel'
+%%  group by machine, gen, avg.datatype, algo, parallel, threads, vector, meminterleaved, copyback
+
+%% SQL
+%% create OR REPLACE view ratiovectornaming as
+%% select machine, ratio, 'd' myvec
+%% from ratio
+%% where vector like 'vector' and meminterleaved=0 and copyback=1 and algo like 'ips4oparallel'
+%% UNION ALL
+%% select machine, ratio, 'i' myvec
+%% from ratio
+%% where vector like 'vector' and meminterleaved=1 and copyback=0 and algo like 'ips4oparallel'
+%% UNION ALL
+%% select machine, ratio, 's' myvec
+%% from ratio
+%% where vector like 'vector' and meminterleaved=0 and copyback=0 and algo like 'ips4oparallel'
+%% UNION ALL
+%% select machine, ratio, 'n' myvec
+%% from ratio
+%% where vector like 'NumaAlignedArray' and meminterleaved=0 and copyback=0 and algo like 'ips4oparallel'
+%% UNION ALL
+%% select machine, ratio, 'dml' myvec
+%% from ratio
+%% where vector like 'vector' and meminterleaved=0 and copyback=1 and algo like 'ips4omlparallel'
+%% UNION ALL
+%% select machine, ratio, 'iml' myvec
+%% from ratio
+%% where vector like 'vector' and meminterleaved=1 and copyback=0 and algo like 'ips4omlparallel'
+%% UNION ALL
+%% select machine, ratio, 'sml' myvec
+%% from ratio
+%% where vector like 'vector' and meminterleaved=0 and copyback=0 and algo like 'ips4omlparallel'
+%% UNION ALL
+%% select machine, ratio, 'nml' myvec
+%% from ratio
+%% where vector like 'NumaAlignedArray' and meminterleaved=0 and copyback=0 and algo like 'ips4omlparallel'
+%% UNION ALL
+%% select machine, ratio, 'dabs' myvec
+%% from rtips4o
+%% where vector like 'vector' and meminterleaved=0 and copyback=1
+%% UNION ALL
+%% select machine, ratio, 'iabs' myvec
+%% from rtips4o
+%% where vector like 'vector' and meminterleaved=1 and copyback=0
+%% UNION ALL
+%% select machine, ratio, 'sabs' myvec
+%% from rtips4o
+%% where vector like 'vector' and meminterleaved=0 and copyback=0
+%% UNION ALL
+%% select machine, ratio, 'nabs' myvec
+%% from rtips4o
+%% where vector like 'NumaAlignedArray' and meminterleaved=0 and copyback=0
+
+%% SQL create or replace view ratiotime as
+%% select ratiovectornaming.*, machinename, machineorder
+%% from ratiovectornaming inner join machinenames
+%% on ratiovectornaming.machine = machinenames.machine
+
+%     %% TABULAR REFORMAT(col 1-3=(precision=2) row 0-100=(max=bold))
+  \begin{tabular}{l|ccl|ccl|ccl|ccl}
+    & \multicolumn {3}{c|}{local array} &  \multicolumn {3}{c|}{interleaved array} &  \multicolumn {3}{c|}{striped array} &  \multicolumn {3}{c}{NUMA array} \\ 
+    & ips$^4$oNT & \multicolumn {2}{c|}{ips4o} & ips$^4$oNT &  \multicolumn {2}{c|}{ips4o} & ips$^4$oNT & \multicolumn {2}{c|}{ips4o} & ips$^4$oNT &  \multicolumn {2}{c}{ips4o} \\\hline
+    %% TABULAR REFORMAT(col 1-12=(precision=2) col 3,6,9,12=(prefix=\hspace{-0.8em}{(} suffix={)}))
+    %% SELECT machinename, 
+    %% max((case when myvec like 'd' then ratio else 0 end)) as "b",
+    %% max((case when myvec like 'dml' then ratio else 0 end)) as "b",
+    %% max((case when myvec like 'dabs' then ratio else 0 end)) as "b",
+    %% max((case when myvec like 'i' then ratio else 0 end)) as "b",
+    %% max((case when myvec like 'iml' then ratio else 0 end)) as "b",
+    %% max((case when myvec like 'iabs' then ratio else 0 end)) as "b",
+    %% max((case when myvec like 's' then ratio else 0 end)) as "f",
+    %% max((case when myvec like 'sml' then ratio else 0 end)) as "f",
+    %% max((case when myvec like 'sabs' then ratio else 0 end)) as "f",
+    %% max((case when myvec like 'n' then ratio else 0 end)) as "j",
+    %% max((case when myvec like 'nml' then ratio else 0 end)) as "j",
+    %% max((case when myvec like 'nabs' then ratio else 0 end)) as "j"
+    %% from ratiotime
+    %% group by machineorder, machine, machinename
+    %% order by machineorder
+               \pcamd & 1.07 & 1.00 &  \hspace{-0.8em}{(}3.62{)} & 1.06 & 1.00 & \hspace{-0.8em}{(}3.59{)} & 1.06 & 1.00 & \hspace{-0.8em}{(}3.61{)} & 1.05 & 1.00 & \hspace{-0.8em}{(}3.67{)} \\
+         \pcintelfour & 1.04 & 1.00 &  \hspace{-0.8em}{(}4.47{)} & 1.04 & 1.00 & \hspace{-0.8em}{(}4.46{)} & 1.04 & 1.00 & \hspace{-0.8em}{(}4.47{)} & 1.05 & 1.00 & \hspace{-0.8em}{(}4.44{)} \\
+          \pcinteltwo & 1.03 & 1.01 &  \hspace{-0.8em}{(}5.65{)} & 1.02 & 1.01 & \hspace{-0.8em}{(}4.47{)} & 1.04 & 1.04 & \hspace{-0.8em}{(}5.01{)} & 1.02 & 1.01 & \hspace{-0.8em}{(}4.52{)} \\
+    \pcintellargefour & 1.51 & 1.09 & \hspace{-0.8em}{(}17.46{)} & 1.13 & 1.00 & \hspace{-0.8em}{(}5.22{)} & 1.84 & 1.00 & \hspace{-0.8em}{(}6.90{)} & 2.54 & 1.00 & \hspace{-0.8em}{(}5.66{)} \\
+    % END TABULAR SELECT machinename,  max((case when myvec like 'd' then ratio...))
+
+\end{tabular}

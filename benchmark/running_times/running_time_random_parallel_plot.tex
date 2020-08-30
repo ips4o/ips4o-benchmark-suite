@@ -1,0 +1,99 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{fullpage}
+\usepackage{verbatim}
+
+\usepackage{xcolor}
+\usepackage{morefloats}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{
+  units,
+  groupplots
+}
+\pgfplotsset{compat=1.5}
+\makeatletter
+\newcommand\gpsubtitle[1]{(\@alph{\pgfplots@group@current@plot}) #1}
+\makeatother
+
+\usepackage{placeins}
+
+\usepackage{pgfplotstable}
+\usepackage{subfig}
+\usepackage{xspace}
+
+\input{names.tex}
+
+\newsubfloat{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Parallel Running Times}
+
+
+\begin{document}
+
+\pgfplotscreateplotcyclelist{my exotic parallel}{%
+  black,every mark/.append style={solid,fill=gray},mark=otimes*,mark size=1.75pt\\%
+  orange,every mark/.append style={fill=orange!80!black},mark=triangle*,mark size=1.75pt\\%
+  yellow!60!black,dashed,every mark/.append style={solid,fill=yellow!80!black},mark=square*,mark size=1.4pt\\%
+  teal,every mark/.append style={fill=teal!80!black},mark=star,mark size=1.75pt\\%
+  brown!60!black,every mark/.append style={fill=brown!80!black},mark=square*,mark size=1.4pt\\%
+  blue,mark=star,every mark/.append style=solid,mark size=1.75pt\\%
+  red!70!white,every mark/.append style={solid,fill=red!80!black},mark=*,mark size=1.4pt\\%
+  red,dashed,mark=star,mark size=1.75pt\\%
+  red,dashed,every mark/.append style={solid,fill=red!80!black},mark=diamond*,mark size=1.75pt\\%
+  red!60!black,dashed,every mark/.append style={solid,fill=red!80!black},mark=square*,mark size=1.4pt\\%
+}
+
+\pgfplotsset{
+  plotstyleparallel/.style={
+    cycle list name=my exotic parallel,
+  }
+}
+
+\input{running_time_random_parallel_pretty.tex}
+
+\begin{figure}[tbp]
+  \input{running_time_parallel_allgen_one_machine_pretty_i10pc128.tex}
+  \caption{
+    Running times of parallel algorithms on different input distributions and data types of size $D$ executed on machine \pcintelfour.
+    A horizontal (vertical) line in the bottom left corner indicates that the algorithm's running time was too large for the plot (that the algorithm's interface does not accept the data type).
+  }
+  \label{fig:par rt distr types 128}
+\end{figure}
+
+\begin{figure}[tbp]
+\input{running_time_parallel_allgen_one_machine_pretty_i10pc132.tex}
+  \caption{
+    Running times of parallel algorithms on different input distributions and data types of size $D$ executed on machine \pcinteltwo.
+    A horizontal (vertical) line in the top right corner indicates that the algorithm's running time was too large for the plot (that the algorithm's interface does not accept the data type).
+  }
+  \label{fig:par rt distr types 132}
+\end{figure}
+
+\begin{figure}[tbp]
+\input{running_time_parallel_allgen_one_machine_pretty_i10pc133.tex}
+  \caption{
+    Running times of parallel algorithms on different input distributions and data types of size $D$ executed on machine \pcamd.
+    A horizontal (vertical) line in the top right corner indicates that the algorithm's running time was too large for the plot (that the algorithm's interface does not accept the data type).
+  }
+  \label{fig:par rt distr types 133}
+\end{figure}
+
+\begin{figure}[tbp]
+\input{running_time_parallel_allgen_one_machine_pretty_i10pc135.tex}
+  \caption{
+    Running times of parallel algorithms on different input distributions and data types of size $D$ executed on machine \pcintellargefour.
+    A horizontal (vertical) line in the top right corner indicates that the algorithm's running time was too large for the plot (that the algorithm's interface does not accept the data type).
+  }
+  \label{fig:par rt distr types 135}
+\end{figure}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

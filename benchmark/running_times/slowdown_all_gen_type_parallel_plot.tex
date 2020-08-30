@@ -1,0 +1,147 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{fullpage}
+\usepackage{verbatim}
+
+\usepackage{xcolor}
+\usepackage{morefloats}
+\usepackage{tikz,pgfplots}
+
+\usepackage{placeins}
+
+\usepackage{pgfplotstable}
+\usepackage{subfig}
+\usepackage{xspace}
+ 
+\usepackage{multirow}
+
+\input{names.tex}
+
+\newsubfloat{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Slowdown of Parallel Algorithms}
+
+\begin{document}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped.tex}
+}
+  \caption{ Average slowdowns of parallel algorithms for different
+    data types and input distributions.  The average slowdowns average
+    over the machines and input sizes with at least $2^{21}t$
+    bytes.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_i10pc128.tex}
+}
+  \caption{
+    Average slowdowns of parallel algorithms for different data types and input distributions obtained on machine \pcintelfour.
+    The average slowdowns average input sizes with at least $2^{21}t$ bytes.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_i10pc132.tex}
+}
+  \caption{
+    Average slowdowns of parallel algorithms for different data types and input distributions obtained on machine \pcinteltwo.
+    The average slowdowns average input sizes with at least $2^{21}t$ bytes.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_i10pc133.tex}
+}
+  \caption{
+    Average slowdowns of parallel algorithms for different data types and input distributions obtained on machine \pcamd.
+    The average slowdowns average input sizes with at least $2^{21}t$ bytes.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_i10pc135.tex}
+}
+  \caption{
+    Average slowdowns of parallel algorithms for different data types and input distributions obtained on machine \pcintellargefour.
+    The average slowdowns average input sizes with at least $2^{21}t$ bytes.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_simplevector.tex}
+  }
+\caption{Average slowdowns of parallel algorithms for different
+    data types and input distributions.  The average slowdowns average
+    over the machines and input sizes with at least $2^{21}t$
+    bytes. The experiments use the local array.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_simplevector_i10pc128.tex}
+  }
+  \caption{
+    Average slowdowns of parallel algorithms for different data types and input distributions obtained on machine \pcintelfour.
+    The average slowdowns average input sizes with at least $2^{21}t$ bytes. The experiments use the local array.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_simplevector_i10pc132.tex}
+  }
+  \caption{
+    Average slowdowns of parallel algorithms for different data types and input distributions obtained on machine \pcinteltwo.
+    The average slowdowns average input sizes with at least $2^{21}t$ bytes. The experiments use the local array.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_simplevector_i10pc133.tex}
+  }
+  \caption{
+    Average slowdowns of parallel algorithms for different data types and input distributions obtained on machine \pcamd.
+    The average slowdowns average input sizes with at least $2^{21}t$ bytes. The experiments use the local array.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_all_grouped_simplevector_i10pc135.tex}
+  }
+  \caption{
+    Average slowdowns of parallel algorithms for different data types and input distributions obtained on machine \pcintellargefour.
+    The average slowdowns average input sizes with at least $2^{21}t$ bytes. The experiments use the local array.
+  }
+\end{table}
+  
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \input{slowdown_all_gen_type_parallel_ips4oml_MSdradix_grouped.tex}
+  }
+  \caption{ Average slowdowns of parallel algorithms for different
+    data types and input distributions.  The average slowdowns average
+    over the machines and input sizes with at least $2^{21}t$
+    bytes. The experiments use the local array.
+  }
+\end{table}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

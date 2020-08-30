@@ -1,0 +1,580 @@
+%% create view with algorithms we want to use here
+
+%% SQL
+%% drop view if exists algonames CASCADE;
+%% create view algonames as
+%% select algo from sradixalgoswithips4oml
+%% union
+%% select algo from scomparisonalgos
+%% union
+%% select algo from sonlydoublealgoswithips4oml
+
+%%% Select algorithms we wan to use here (algonames).
+%%% Also add correct algorithm name (titles), datatype names (datatypenames) and input distribution names (gennames) used in our latex documents
+%%% Furthermore, select sizes and valid inputs (sortedsequence = 1 and permutation = 1 and milli > 0).
+%%% (milli > 0 to detect wrong results of zero and sorted inputs)
+
+%% SQL
+%% drop view if exists avg9j3h CASCADE;
+%% create view avg9j3h as
+%% select avgsequential.datatype, avgsequential.machine, avgsequential.gen, genorder, avgsequential.algo, size, genname, datatypename, title, AVG(milli) as avgmilli
+%% from avgsequential
+%% inner join algonames on algonames.algo like avgsequential.algo
+%% inner join gennames on avgsequential.gen = gennames.gen
+%% inner join datatypenames on avgsequential.datatype = datatypenames.datatype
+%% inner join titles on avgsequential.algo = titles.algo
+%% inner join datatypesizes on avgsequential.datatype = datatypesizes.datatype
+%% where size * datatypesizes.dsize >= (2^18 * threads)
+%% group by avgsequential.datatype, avgsequential.machine, avgsequential.gen, genorder, avgsequential.algo, title, genname, datatypename, size
+
+%% SQL
+%% drop view if exists minavg CASCADE;
+%% create view minavg as
+%% select datatype, machine, gen, genorder, size, MIN(avgmilli) as minmilli
+%% from avg9j3h
+%% group by datatype, machine, gen, genorder, size
+
+%% SQL drop view if exists avgmin CASCADE;
+%% create view avgmin as
+%% select * from avg9j3h natural join minavg
+
+
+%% SQL drop view if exists slowdown CASCADE;
+%% create view slowdown as
+%% select datatype, gen, genorder, genname, datatypename, algo, title, variance(avgmilli / minmilli) as slowdown
+%% from avgmin
+%% group by datatype, gen, genorder, genname, algo, title, datatypename
+
+%% SQL drop table if exists aggrresy83n CASCADE;
+%% create table aggrresy83n as
+%% select datatypename, genname,
+%% MIN((case when algo like 'ips4o' then slowdown else NULL end)) as ips4o,
+%% MIN((case when algo like 'pdqsort' then slowdown else NULL end)) as pdqsort,
+%% MIN((case when algo like 'blockquicksort' then slowdown else NULL end)) as blockquicksort,
+%% MIN((case when algo like 'ps4o' then slowdown else NULL end)) as ps4o,
+%% MIN((case when algo like 'yaroslavskiy' then slowdown else NULL end)) as yaroslavskiy,
+%% MIN((case when algo like 'stdsort' then slowdown else NULL end)) as stdsort,
+%% MIN((case when algo like 'timsort' then slowdown else NULL end)) as timsort,
+%% MIN((case when algo like 'quickxsort' then slowdown else NULL end)) as quickxsort,
+%% MIN((case when algo like 'wikisort' then slowdown else NULL end)) as wikisort,
+%% MIN((case when algo like 'skasort' then slowdown else NULL end)) as skasort,
+%% MIN((case when algo like 'ippradixsort' then slowdown else NULL end)) as ippradixsort,
+%% MIN((case when algo like 'learnedsort' then slowdown else NULL end)) as learnedsort
+%% from slowdown
+%% group by datatypename, genname, genorder
+%% order by datatypename, genorder
+
+\begin{tabular}{ll|rrrrrrrrr|rrr}
+  Type
+  & Distribution
+  & \rotatebox[origin=c]{90}{\compissssort}
+  & \rotatebox[origin=c]{90}{\compspdq}
+  & \rotatebox[origin=c]{90}{\compblock}
+  & \rotatebox[origin=c]{90}{\compmyssssaxtmann}
+  & \rotatebox[origin=c]{90}{\compjdksyaros}
+  & \rotatebox[origin=c]{90}{\compssort}
+  & \rotatebox[origin=c]{90}{\compstim}
+  & \rotatebox[origin=c]{90}{\compsmergequick}
+  & \rotatebox[origin=c]{90}{\compswiki}
+  & \rotatebox[origin=c]{90}{\radixsska}
+  & \rotatebox[origin=c]{90}{\radixipp}
+  & \rotatebox[origin=c]{90}{\radixlearned}\\\hline
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\double'
+  %% and genname similar to '\\distones|\\distsorted|\\distreversesorted'
+  \double &        \distsorted &          0.01 & 0.05 & 79.78 & \textbf{0.01} & 14.69 & 46.91 &          0.03 & 770.98 &  1.10 & 61.53 & 3300.89 & 2145.63 \\
+  \double & \distreversesorted & \textbf{0.01} & 0.24 & 73.64 &          0.04 &  8.16 & 14.22 &          0.11 & 321.19 & 19.86 & 24.64 & 1401.22 &  520.45 \\
+  \double &          \distones &          0.02 & 0.09 & 77.03 &          0.07 &  0.04 & 24.88 & \textbf{0.01} & 630.69 &  2.56 & 31.08 &   78.49 &   25.12 \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\double' an...
+
+  \hline\hline
+  
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\double'
+  %% and genname not similar to '\\distones|\\distsorted|\\distreversesorted'
+  \double &            \distexpo & \textbf{0.00} & 0.01 & 0.04 & 0.02 & 0.16 & 0.20 &          0.57 & 0.93 & 1.79 &          0.03 & 0.10 &  0.05 \\
+  \double &            \distzipf & \textbf{0.03} & 0.05 & 0.13 & 0.03 & 0.38 & 0.54 &          1.82 & 3.17 & 4.44 &          0.06 & 0.12 &  0.23 \\
+  \double &  \distduplicatesroot & \textbf{0.05} & 0.11 & 0.20 & 0.25 & 0.12 & 0.16 &          0.15 & 1.63 & 3.40 &          0.38 & 3.76 &  0.58 \\
+  \double & \distduplicatestwice &          0.04 & 0.03 & 0.05 & 0.04 & 0.26 & 0.31 &          0.25 & 0.43 & 0.91 & \textbf{0.02} & 0.10 &  0.18 \\
+  \double & \distduplicateseight & \textbf{0.00} & 0.03 & 0.05 & 0.02 & 0.18 & 0.21 &          0.39 & 0.49 & 1.62 &          0.05 & 0.19 &  0.14 \\
+  \double &    \distalmostsorted &          0.30 & 0.06 & 0.43 & 0.84 & 0.35 & 0.14 & \textbf{0.06} & 2.57 & 0.98 &          0.92 & 2.20 & 14.43 \\
+  \double &         \distuniform &          0.01 & 0.02 & 0.02 & 0.03 & 0.20 & 0.18 &          0.37 & 0.28 & 1.02 & \textbf{0.01} & 0.20 &  1.89 \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\double' an...
+
+  % ------------------------------------------------------------------------------
+  % Average only existing values
+  \hline
+  Total  & &
+
+  %% SQL
+  %% drop view if exists avgnoheuristics CASCADE;
+  %% create view avgnoheuristics as
+  %% select datatype, machine, gen, genorder, algo, title, genname, datatypename, size, avgmilli
+  %% from avg9j3h
+  %% where gen not like 'zero' and gen not like 'sorted' and gen not like 'reverse' and datatypename like '\\double'
+
+  %% SQL
+  %% drop view if exists minavg CASCADE;
+  %% create view minavg as
+  %% select datatype, machine, gen, genorder, size, MIN(avgmilli) as minmilli
+  %% from avgnoheuristics
+  %% group by datatype, machine, gen, genorder, size
+
+  %% SQL drop view if exists avgmin CASCADE;
+  %% create view avgmin as
+  %% select * from avgnoheuristics natural join minavg
+  
+
+  %% SQL drop view if exists slowdownoverall CASCADE;
+  %% create view slowdownoverall as
+  %% select algo, title, variance(avgmilli / minmilli) as slowdown
+  %% from avgmin
+  %% group by algo, title
+
+  %% SQL drop view if exists overallrank CASCADE;
+  %% create view overallrank as
+  %% select algo, title, RANK () OVER (order by slowdown) rank
+  %% from slowdownoverall
+  
+  %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
+  %% select
+  %% MIN((case when algo like 'ips4o' then slowdown else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then slowdown else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then slowdown else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then slowdown else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then slowdown else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then slowdown else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then slowdown else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then slowdown else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then slowdown else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then slowdown else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then slowdown else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then slowdown else NULL end)) as learnedsort
+  %% from slowdownoverall
+  0.27 & \textbf{0.06} & 0.25 & 0.55 & 0.41 & 0.37 & 2.39 & 3.02 & 2.58 & 0.47 & 2.45 & 8.40 \\
+  % END TABULAR select MIN((case when algo like 'ips4o' then slowdown else NU...))
+
+  Rank & &
+  %% TABULAR
+  %% select
+  %% MIN((case when algo like 'ips4o' then rank else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then rank else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then rank else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then rank else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then rank else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then rank else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then rank else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then rank else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then rank else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then rank else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then rank else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then rank else NULL end)) as learnedsort
+  %% from overallrank
+  3 & 1 & 2 & 7 & 5 & 4 & 8 & 11 & 10 & 6 & 9 & 12 \\\hline\hline
+  % END TABULAR select MIN((case when algo like 'ips4o' then rank else NULL e...))
+           
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\ulong'
+  %% and genname similar to '\\distones|\\distsorted|\\distreversesorted'
+  \ulong &        \distsorted &          0.02 & 0.14 &  93.59 & \textbf{0.01} & 17.16 & 60.54 & 0.05 & 687.71 &  0.37 & 120.12 & 4423.10 & 3792.62 \\
+  \ulong & \distreversesorted & \textbf{0.01} & 0.25 &  59.84 &          0.01 &  5.52 & 12.73 & 0.14 & 224.77 & 18.65 &  25.46 & 1239.99 & 1215.02 \\
+  \ulong &          \distones & \textbf{0.05} & 0.11 & 107.87 &          0.06 &  0.06 & 22.89 & 0.06 & 493.03 &  2.20 &  39.07 &  120.51 &   21.60 \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\ulong' and...
+
+  \hline\hline
+  
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\ulong'
+  %% and genname not similar to '\\distones|\\distsorted|\\distreversesorted'
+  \ulong &            \distexpo & \textbf{0.01} &          0.02 & 0.06 & 0.03 & 0.21 & 0.21 & 0.73 & 0.75 &  2.29 & 0.02 & 0.19 &  0.08 \\
+  \ulong &            \distzipf & \textbf{0.08} &          0.25 & 0.80 & 0.26 & 1.87 & 2.52 & 9.09 & 8.41 & 18.95 & 0.24 & 0.50 &  0.51 \\
+  \ulong &  \distduplicatesroot & \textbf{0.12} &          0.50 & 1.02 & 0.92 & 0.37 & 0.70 & 0.41 & 5.35 & 11.56 & 0.93 & 1.22 &  1.48 \\
+  \ulong & \distduplicatestwice & \textbf{0.09} &          0.27 & 0.35 & 0.18 & 1.32 & 1.55 & 1.72 & 1.57 &  5.08 & 0.17 & 3.04 &  1.14 \\
+  \ulong & \distduplicateseight & \textbf{0.05} &          0.10 & 0.24 & 0.09 & 0.76 & 0.86 & 2.20 & 1.67 &  6.70 & 0.15 & 2.44 &  0.14 \\
+  \ulong &    \distalmostsorted &          0.22 & \textbf{0.03} & 0.41 & 0.75 & 0.33 & 0.15 & 0.12 & 1.33 &  1.60 & 1.17 & 6.77 & 14.70 \\
+  \ulong &         \distuniform & \textbf{0.03} &          0.09 & 0.14 & 0.07 & 0.54 & 0.66 & 1.42 & 0.75 &  2.93 & 0.03 & 0.63 &  6.44 \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\ulong' and...
+
+  % ------------------------------------------------------------------------------
+  % Average only existing values
+  \hline
+  Total  & &
+
+  %% SQL
+  %% drop view if exists avgnoheuristics CASCADE;
+  %% create view avgnoheuristics as
+  %% select datatype, machine, gen, genorder, algo, title, genname, datatypename, size, avgmilli
+  %% from avg9j3h
+  %% where gen not like 'zero' and Gen not like 'sorted' and gen not like 'reverse' and datatypename like '\\ulong'
+
+  %% SQL
+  %% drop view if exists minavg CASCADE;
+  %% create view minavg as
+  %% select datatype, machine, gen, genorder, size, MIN(avgmilli) as minmilli
+  %% from avgnoheuristics
+  %% group by datatype, machine, gen, genorder, size
+
+  %% SQL drop view if exists avgmin CASCADE;
+  %% create view avgmin as
+  %% select * from avgnoheuristics natural join minavg
+  
+
+  %% SQL drop view if exists slowdownoverall CASCADE;
+  %% create view slowdownoverall as
+  %% select algo, title, variance(avgmilli / minmilli) as slowdown
+  %% from avgmin
+  %% group by algo, title
+
+  %% SQL drop view if exists overallrank CASCADE;
+  %% create view overallrank as
+  %% select algo, title, RANK () OVER (order by slowdown) rank
+  %% from slowdownoverall
+  
+  %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
+  %% select
+  %% MIN((case when algo like 'ips4o' then slowdown else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then slowdown else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then slowdown else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then slowdown else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then slowdown else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then slowdown else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then slowdown else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then slowdown else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then slowdown else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then slowdown else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then slowdown else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then slowdown else NULL end)) as learnedsort
+  %% from slowdownoverall
+  \textbf{0.25} & 0.30 & 0.55 & 0.68 & 1.41 & 1.56 & 5.99 & 4.04 & 8.78 & 0.70 & 4.89 & 15.23 \\
+  % END TABULAR select MIN((case when algo like 'ips4o' then slowdown else NU...))
+
+  Rank & &
+  %% TABULAR
+  %% select
+  %% MIN((case when algo like 'ips4o' then rank else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then rank else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then rank else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then rank else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then rank else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then rank else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then rank else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then rank else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then rank else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then rank else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then rank else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then rank else NULL end)) as learnedsort
+  %% from overallrank
+  2 & 3 & 4 & 5 & 7 & 8 & 11 & 9 & 12 & 6 & 10 & 13 \\\hline\hline
+  % END TABULAR select MIN((case when algo like 'ips4o' then rank else NULL e...))
+
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\uint'
+  %% and genname similar to '\\distones|\\distsorted|\\distreversesorted'
+  \uint &        \distsorted & 1389379547.63 & 3886419203.52 & 1770811693642.31 & 1540930978.64 & 364847333096.11 & 1633287681159.99 & 1123423199.81 & 14284993304318.10 & 12982645610.74 & 967094769690.84 & \textbf{4774.24} & 62608850094207.90 \\
+  \uint & \distreversesorted &         23.77 &          8.27 &           122.84 &         54.03 &            9.31 &            62.12 & \textbf{0.00} &            470.54 &          12.51 &           27.35 &          1527.87 &           2272.81 \\
+  \uint &          \distones & 1557707744.41 & 5835311067.03 & 1842041331459.66 & 1864067667.59 &   1641189439.18 &  743028000814.22 & 1314249155.20 &     6009915833.98 & 61603504895.14 & 213337677232.26 &   \textbf{47.64} &   745061836651.71 \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\uint' and ...
+
+  \hline\hline
+  
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\uint'
+  %% and genname not similar to '\\distones|\\distsorted|\\distreversesorted'
+  \uint &            \distexpo &          0.05 & 0.09 & 0.21 & 0.08 & 0.70 & 0.89 &          2.01 &  1.98 &  5.76 &          0.05 & \textbf{0.02} &  0.57 \\
+  \uint &            \distzipf & \textbf{0.08} & 0.28 & 0.94 & 0.12 & 2.19 & 3.12 &          9.68 & 11.69 & 19.99 &          0.18 &          0.09 &  0.83 \\
+  \uint &  \distduplicatesroot & \textbf{0.12} & 0.69 & 1.47 & 0.87 & 0.37 & 0.81 &          0.19 &  7.78 &  8.03 &          0.87 &          0.27 &  2.03 \\
+  \uint & \distduplicatestwice &          0.17 & 0.33 & 0.48 & 0.27 & 1.84 & 2.28 &          2.36 &  2.07 &  5.83 & \textbf{0.11} &          0.56 &  2.65 \\
+  \uint & \distduplicateseight & \textbf{0.07} & 0.26 & 0.48 & 0.20 & 2.30 & 2.59 &          5.90 &  4.32 & 13.68 &          0.10 &          1.53 &  0.65 \\
+  \uint &    \distalmostsorted &          1.40 & 0.71 & 1.64 & 4.50 & 1.17 & 3.83 & \textbf{0.02} &  6.50 &  2.90 &          3.08 &          8.18 & 55.44 \\
+  \uint &         \distuniform &          0.22 & 0.26 & 0.39 & 0.27 & 1.51 & 1.69 &          3.43 &  1.04 &  5.70 &          0.18 & \textbf{0.04} &  3.92 \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\uint' and ...
+
+  % ------------------------------------------------------------------------------
+  % Average only existing values
+  \hline
+  Total  & &
+
+  %% SQL
+  %% drop view if exists avgnoheuristics CASCADE;
+  %% create view avgnoheuristics as
+  %% select datatype, machine, gen, genorder, algo, title, genname, datatypename, size, avgmilli
+  %% from avg9j3h
+  %% where gen not like 'zero' and gen not like 'sorted' and gen not like 'reverse' and datatypename like '\\uint'
+
+  %% SQL
+  %% drop view if exists minavg CASCADE;
+  %% create view minavg as
+  %% select datatype, machine, gen, genorder, size, MIN(avgmilli) as minmilli
+  %% from avgnoheuristics
+  %% group by datatype, machine, gen, genorder, size
+
+  %% SQL drop view if exists avgmin CASCADE;
+  %% create view avgmin as
+  %% select * from avgnoheuristics natural join minavg
+  
+
+  %% SQL drop view if exists slowdownoverall CASCADE;
+  %% create view slowdownoverall as
+  %% select algo, title, variance(avgmilli / minmilli) as slowdown
+  %% from avgmin
+  %% group by algo, title
+
+  %% SQL drop view if exists overallrank CASCADE;
+  %% create view overallrank as
+  %% select algo, title, RANK () OVER (order by slowdown) rank
+  %% from slowdownoverall
+  
+  %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
+  %% select
+  %% MIN((case when algo like 'ips4o' then slowdown else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then slowdown else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then slowdown else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then slowdown else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then slowdown else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then slowdown else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then slowdown else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then slowdown else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then slowdown else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then slowdown else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then slowdown else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then slowdown else NULL end)) as learnedsort
+  %% from slowdownoverall
+  0.65 & \textbf{0.49} & 0.92 & 1.68 & 2.72 & 3.09 & 10.92 & 6.77 & 12.42 & 0.95 & 4.24 & 40.29 \\
+  % END TABULAR select MIN((case when algo like 'ips4o' then slowdown else NU...))
+
+  Rank & &
+  %% TABULAR
+  %% select
+  %% MIN((case when algo like 'ips4o' then rank else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then rank else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then rank else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then rank else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then rank else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then rank else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then rank else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then rank else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then rank else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then rank else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then rank else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then rank else NULL end)) as learnedsort
+  %% from overallrank
+  3 & 2 & 4 & 6 & 7 & 8 & 11 & 10 & 12 & 5 & 9 & 13 \\\hline\hline
+  % END TABULAR select MIN((case when algo like 'ips4o' then rank else NULL e...))
+  
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\pair'
+  %% and genname similar to '\\distones|\\distsorted|\\distreversesorted'
+  \pair &        \distsorted & \textbf{0.01} &          0.14 & 38.49 & 0.01 &         12.13 & 36.50 & 0.04 & 280.27 &  0.30 & 38.22 &  &  \\
+  \pair & \distreversesorted &          0.22 & \textbf{0.05} & 22.40 & 0.05 &          2.74 &  6.38 & 0.14 &  74.15 & 19.20 &  6.68 &  &  \\
+  \pair &          \distones &          0.08 &          0.19 & 33.58 & 0.01 & \textbf{0.00} & 30.83 & 0.24 &   0.15 &  0.68 & 13.24 &  &  \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\pair' and ...
+  
+  \hline\hline
+  
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\pair'
+  %% and genname not similar to '\\distones|\\distsorted|\\distreversesorted'
+  \pair &            \distexpo &          0.03 &          0.12 & 0.04 & 0.11 & 0.15 & 0.16 & 0.65 & 0.47 & 2.31 & \textbf{0.02} &  &  \\
+  \pair &            \distzipf & \textbf{0.06} &          0.48 & 0.14 & 0.27 & 0.46 & 0.65 & 2.85 & 2.45 & 9.10 &          0.07 &  &  \\
+  \pair &  \distduplicatesroot & \textbf{0.10} &          0.15 & 0.21 & 0.42 & 0.13 & 0.37 & 0.73 & 1.60 & 9.70 &          0.26 &  &  \\
+  \pair & \distduplicatestwice & \textbf{0.04} &          0.36 & 0.05 & 0.10 & 0.25 & 0.35 & 0.43 & 0.35 & 2.29 &          0.05 &  &  \\
+  \pair & \distduplicateseight & \textbf{0.04} &          0.27 & 0.05 & 0.10 & 0.21 & 0.27 & 0.77 & 0.52 & 3.80 &          0.04 &  &  \\
+  \pair &    \distalmostsorted &          0.64 & \textbf{0.01} & 0.62 & 0.89 & 0.59 & 0.29 & 0.22 & 1.91 & 1.63 &          1.85 &  &  \\
+  \pair &         \distuniform &          0.06 &          0.37 & 0.07 & 0.12 & 0.30 & 0.34 & 0.84 & 0.46 & 2.69 & \textbf{0.02} &  &  \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\pair' and ...
+
+  % ------------------------------------------------------------------------------
+  % Average only existing values
+  \hline
+  Total  & &
+
+  %% SQL
+  %% drop view if exists avgnoheuristics CASCADE;
+  %% create view avgnoheuristics as
+  %% select datatype, machine, gen, genorder, algo, title, genname, datatypename, size, avgmilli
+  %% from avg9j3h
+  %% where gen not like 'zero' and gen not like 'sorted' and gen not like 'reverse' and datatypename like '\\pair'
+
+  %% SQL
+  %% drop view if exists minavg CASCADE;
+  %% create view minavg as
+  %% select datatype, machine, gen, genorder, size, MIN(avgmilli) as minmilli
+  %% from avgnoheuristics
+  %% group by datatype, machine, gen, genorder, size
+
+  %% SQL drop view if exists avgmin CASCADE;
+  %% create view avgmin as
+  %% select * from avgnoheuristics natural join minavg
+  
+
+  %% SQL drop view if exists slowdownoverall CASCADE;
+  %% create view slowdownoverall as
+  %% select algo, title, variance(avgmilli / minmilli) as slowdown
+  %% from avgmin
+  %% group by algo, title
+
+  %% SQL drop view if exists overallrank CASCADE;
+  %% create view overallrank as
+  %% select algo, title, RANK () OVER (order by slowdown) rank
+  %% from slowdownoverall
+  
+  %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
+  %% select
+  %% MIN((case when algo like 'ips4o' then slowdown else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then slowdown else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then slowdown else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then slowdown else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then slowdown else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then slowdown else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then slowdown else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then slowdown else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then slowdown else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then slowdown else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then slowdown else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then slowdown else NULL end)) as learnedsort
+  %% from slowdownoverall
+  0.61 & 0.66 & \textbf{0.42} & 1.00 & 0.48 & 0.42 & 2.08 & 2.50 & 4.78 & 0.88 &  &  \\
+  % END TABULAR select MIN((case when algo like 'ips4o' then slowdown else NU...))
+
+  Rank & &
+  %% TABULAR
+  %% select
+  %% MIN((case when algo like 'ips4o' then rank else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then rank else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then rank else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then rank else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then rank else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then rank else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then rank else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then rank else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then rank else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then rank else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then rank else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then rank else NULL end)) as learnedsort
+  %% from overallrank
+  5 & 6 & 2 & 8 & 4 & 3 & 9 & 10 & 11 & 7 &  &  \\\hline\hline
+  % END TABULAR select MIN((case when algo like 'ips4o' then rank else NULL e...))
+  
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\quartet'
+  \quartet & \distuniform & 0.02 & 0.16 & 0.05 & 0.16 & 0.13 & 0.16 & 0.45 & 0.25 & 1.98 & \textbf{0.00} &  &  \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\quartet'
+
+  % ------------------------------------------------------------------------------
+  % Average only existing values
+  \hline
+  %% Total  & &
+
+  %% SQL
+  %% drop view if exists avgnoheuristics CASCADE;
+  %% create view avgnoheuristics as
+  %% select datatype, machine, gen, genorder, algo, title, genname, datatypename, size, avgmilli
+  %% from avg9j3h
+  %% where gen not like 'zero' and gen not like 'sorted' and gen not like 'reverse' and datatypename like '\\quartet'
+
+  %% SQL
+  %% drop view if exists minavg CASCADE;
+  %% create view minavg as
+  %% select datatype, machine, gen, genorder, size, MIN(avgmilli) as minmilli
+  %% from avgnoheuristics
+  %% group by datatype, machine, gen, genorder, size
+
+  %% SQL drop view if exists avgmin CASCADE;
+  %% create view avgmin as
+  %% select * from avgnoheuristics natural join minavg
+  
+
+  %% SQL drop view if exists slowdownoverall CASCADE;
+  %% create view slowdownoverall as
+  %% select algo, title, variance(avgmilli / minmilli) as slowdown
+  %% from avgmin
+  %% group by algo, title
+
+  %% SQL drop view if exists overallrank CASCADE;
+  %% create view overallrank as
+  %% select algo, title, RANK () OVER (order by slowdown) rank
+  %% from slowdownoverall
+
+  Rank & &
+  %% TABULAR
+  %% select
+  %% MIN((case when algo like 'ips4o' then rank else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then rank else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then rank else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then rank else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then rank else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then rank else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then rank else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then rank else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then rank else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then rank else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then rank else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then rank else NULL end)) as learnedsort
+  %% from overallrank
+  2 & 6 & 3 & 7 & 4 & 5 & 9 & 8 & 10 & 1 &  &  \\\hline\hline
+  % END TABULAR select MIN((case when algo like 'ips4o' then rank else NULL e...))
+           
+  %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
+  %% select * from aggrresy83n where datatypename like '\\bytes'
+  \bytes & \distuniform & 0.07 & 0.09 & 0.11 & 0.18 & 0.17 & 0.10 & 0.29 & 0.25 & 2.18 & \textbf{0.02} &  &  \\
+  % END TABULAR select * from aggrresy83n where datatypename like '\\bytes'
+
+  % ------------------------------------------------------------------------------
+  % Average only existing values
+  \hline
+  %% Total & &
+
+  %% SQL
+  %% drop view if exists avgnoheuristics CASCADE;
+  %% create view avgnoheuristics as
+  %% select datatype, machine, gen, genorder, algo, title, genname, datatypename, size, avgmilli
+  %% from avg9j3h
+  %% where gen not like 'zero' and gen not like 'sorted' and gen not like 'reverse' and datatypename like '\\bytes'
+
+  %% SQL
+  %% drop view if exists minavg CASCADE;
+  %% create view minavg as
+  %% select datatype, machine, gen, genorder, size, MIN(avgmilli) as minmilli
+  %% from avgnoheuristics
+  %% group by datatype, machine, gen, genorder, size
+
+  %% SQL drop view if exists avgmin CASCADE;
+  %% create view avgmin as
+  %% select * from avgnoheuristics natural join minavg
+  
+
+  %% SQL drop view if exists slowdownoverall CASCADE;
+  %% create view slowdownoverall as
+  %% select algo, title, variance(avgmilli / minmilli) as slowdown
+  %% from avgmin
+  %% group by algo, title
+
+  %% SQL drop view if exists overallrank CASCADE;
+  %% create view overallrank as
+  %% select algo, title, RANK () OVER (order by slowdown) rank
+  %% from slowdownoverall
+  
+  Rank & &
+  %% TABULAR
+  %% select
+  %% MIN((case when algo like 'ips4o' then rank else NULL end)) as ips4o,
+  %% MIN((case when algo like 'pdqsort' then rank else NULL end)) as pdqsort,
+  %% MIN((case when algo like 'blockquicksort' then rank else NULL end)) as blockquicksort,
+  %% MIN((case when algo like 'ps4o' then rank else NULL end)) as ps4o,
+  %% MIN((case when algo like 'yaroslavskiy' then rank else NULL end)) as yaroslavskiy,
+  %% MIN((case when algo like 'stdsort' then rank else NULL end)) as stdsort,
+  %% MIN((case when algo like 'timsort' then rank else NULL end)) as timsort,
+  %% MIN((case when algo like 'quickxsort' then rank else NULL end)) as quickxsort,
+  %% MIN((case when algo like 'wikisort' then rank else NULL end)) as wikisort,
+  %% MIN((case when algo like 'skasort' then rank else NULL end)) as skasort,
+  %% MIN((case when algo like 'ippradixsort' then rank else NULL end)) as ippradixsort,
+  %% MIN((case when algo like 'learnedsort' then rank else NULL end)) as learnedsort
+  %% from overallrank
+  2 & 3 & 5 & 7 & 6 & 4 & 9 & 8 & 10 & 1 &  &  \\\hline\hline
+  % END TABULAR select MIN((case when algo like 'ips4o' then rank else NULL e...))
+\end{tabular}
+
+%% SQL drop table if exists aggrresy83n CASCADE;
+
+%% SQL
+%% drop view if exists avg9j3h CASCADE;
