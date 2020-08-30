@@ -33,159 +33,144 @@
 
 #pragma once
 
-#include <cstring>
 #include <cstdint>
+#include <cstring>
 
 #include <SimdMt.hpp>
 
 struct pair_t {
-  using int_type = uint64_t;
+    using int_type = uint64_t;
 
-pair_t(int_type k) : k(k) {}
-pair_t(int_type k, int_type v) : k(k), v(v) {};
-pair_t(const pair_t &p) : k(p.k), v(p.v) {}
-  pair_t(){}
+    pair_t(int_type k) : k(k) {}
+    pair_t(int_type k, int_type v) : k(k), v(v){};
+    pair_t(const pair_t& p) : k(p.k), v(p.v) {}
+    pair_t() {}
 
-  bool operator <(const pair_t& p) const {
-    return k < p.k;
-  }
+    bool operator<(const pair_t& p) const { return k < p.k; }
 
-  bool operator >(const pair_t& p) const {
-    return k > p.k;
-  }
+    bool operator>(const pair_t& p) const { return k > p.k; }
 
-  bool operator == (const pair_t& p) const {
-    return k == p.k;
-  }
+    bool operator==(const pair_t& p) const { return k == p.k; }
 
-  bool operator != (const pair_t& p) const {
-    return !(*this == p);
-  }
+    bool operator!=(const pair_t& p) const { return !(*this == p); }
 
-  int_type k, v;
+    int_type k, v;
 };
 
 struct qtuple_t {
-  using int_type = uint64_t;
+    using int_type = uint64_t;
 
-qtuple_t(int_type k1, int_type k2, int_type k3, int_type v)
-: k1(k1), k2(k2), k3(k3), v(v) {};
+    qtuple_t(int_type k1, int_type k2, int_type k3, int_type v)
+        : k1(k1), k2(k2), k3(k3), v(v){};
 
-qtuple_t(const qtuple_t& q)
-: k1(q.k1), k2(q.k2), k3(q.k3), v(q.v) {}
+    qtuple_t(const qtuple_t& q) : k1(q.k1), k2(q.k2), k3(q.k3), v(q.v) {}
 
-  qtuple_t(){}
+    qtuple_t() {}
 
-  bool operator <(const qtuple_t& q) const {
-    if(k1 != q.k1)
-      return k1 < q.k1;
-    else if (k2 != q.k2)
-      return k2 < q.k2;
-    else return k3 < q.k3;
-  }
+    bool operator<(const qtuple_t& q) const {
+        if (k1 != q.k1)
+            return k1 < q.k1;
+        else if (k2 != q.k2)
+            return k2 < q.k2;
+        else
+            return k3 < q.k3;
+    }
 
-  bool operator >(const qtuple_t& q) const {
-    if (k1 != q.k1)
-      return k1 > q.k1;
-    else if (k2 != q.k2)
-      return k2 > q.k2;
-    else
-      return k3 > q.k3;
-  }
+    bool operator>(const qtuple_t& q) const {
+        if (k1 != q.k1)
+            return k1 > q.k1;
+        else if (k2 != q.k2)
+            return k2 > q.k2;
+        else
+            return k3 > q.k3;
+    }
 
-  /* bool operator <(const qtuple_t& q) const { */
-  /*   return std::make_tuple(k1, k2, k3) < std::make_tuple(q.k1, q.k2, q.k3); */
-  /* } */
+    /* bool operator <(const qtuple_t& q) const { */
+    /*   return std::make_tuple(k1, k2, k3) < std::make_tuple(q.k1, q.k2, q.k3); */
+    /* } */
 
-  /* bool operator >(const qtuple_t& q) const { */
-  /*   return std::make_tuple(k1, k2, k3) > std::make_tuple(q.k1, q.k2, q.k3); */
-  /* } */
+    /* bool operator >(const qtuple_t& q) const { */
+    /*   return std::make_tuple(k1, k2, k3) > std::make_tuple(q.k1, q.k2, q.k3); */
+    /* } */
 
-  /* bool operator <(const qtuple_t& q) const { */
-  /*   return (k1 < q.k1); */
-  /* } */
+    /* bool operator <(const qtuple_t& q) const { */
+    /*   return (k1 < q.k1); */
+    /* } */
 
-  /* bool operator >(const qtuple_t& q) const { */
-  /*   return (k1 > q.k1); */
-  /* } */
+    /* bool operator >(const qtuple_t& q) const { */
+    /*   return (k1 > q.k1); */
+    /* } */
 
-  /* bool operator <(const qtuple_t& q) const { */
-  /*   return (k1 < q.k1) || (k1 == q.k1 && k2 < q.k2) */
-  /*     || (k1 == q.k1 && k2 == q.k2 && k3 < q.k3);  */
-  /* } */
+    /* bool operator <(const qtuple_t& q) const { */
+    /*   return (k1 < q.k1) || (k1 == q.k1 && k2 < q.k2) */
+    /*     || (k1 == q.k1 && k2 == q.k2 && k3 < q.k3);  */
+    /* } */
 
-  /* bool operator >(const qtuple_t& q) const { */
-  /*   return (k1 > q.k1) || (k1 == q.k1 && k2 > q.k2) */
-  /*     || (k1 == q.k1 && k2 == q.k2 && k3 > q.k3); */
-  /* } */
+    /* bool operator >(const qtuple_t& q) const { */
+    /*   return (k1 > q.k1) || (k1 == q.k1 && k2 > q.k2) */
+    /*     || (k1 == q.k1 && k2 == q.k2 && k3 > q.k3); */
+    /* } */
 
-  bool operator == (const qtuple_t& q) const {
-    return k1 == q.k1 && k2 == q.k2 && k3 == q.k3;
-  }
+    bool operator==(const qtuple_t& q) const {
+        return k1 == q.k1 && k2 == q.k2 && k3 == q.k3;
+    }
 
-  bool operator != (const qtuple_t& q) const {
-    return !(*this == q);
-  }
+    bool operator!=(const qtuple_t& q) const { return !(*this == q); }
 
-  int_type k1, k2, k3, v;
+    int_type k1, k2, k3, v;
 };
 
-
 struct byte_t {
-  static constexpr const size_t keySize = 10;
-  static constexpr const size_t valSize = 90;
+    static constexpr const size_t keySize = 10;
+    static constexpr const size_t valSize = 90;
 
-  using int_type = uint8_t;
+    using int_type = uint8_t;
 
-  byte_t(const byte_t& b) {
-    memcpy(k, b.k, keySize);
-    memcpy(v, b.v, valSize);
-  }
-
-  byte_t(){};
-
-  byte_t(SimdMtGeneratorUint64& gen) {
-    uint64_t* ptr = reinterpret_cast<uint64_t*>(k);
-    *ptr = gen();
-    *(ptr + 1) = gen();
-  }
-
-  bool operator <(const byte_t& b) const {
-    for	(int i = 0; i < 10; ++i) {
-      if (k[i] != b.k[i])
-	return k[i] < b.k[i];
+    byte_t(const byte_t& b) {
+        memcpy(k, b.k, keySize);
+        memcpy(v, b.v, valSize);
     }
-    return false;
-    // return memcmp(k, b.k, keySize) < 0;
-  }
 
-  bool operator >(const byte_t& b) const {
-    for	(int i = 0; i < 10; ++i) {
-      if (k[i] != b.k[i])
-	return k[i] > b.k[i];
+    byte_t(){};
+
+    byte_t(SimdMtGeneratorUint64& gen) {
+        uint64_t* ptr = reinterpret_cast<uint64_t*>(k);
+        *ptr = gen();
+        *(ptr + 1) = gen();
     }
-    return false;
-    // return memcmp(k, b.k, keySize) > 0;
-  }
 
-  bool operator == (const byte_t& b) const {
-    for	(int i = 0; i < 10; ++i) {
-      if (k[i] != b.k[i])
-	return false;
+    bool operator<(const byte_t& b) const {
+        for (int i = 0; i < 10; ++i) {
+            if (k[i] != b.k[i]) return k[i] < b.k[i];
+        }
+        return false;
+        // return memcmp(k, b.k, keySize) < 0;
     }
-    return true;
-    // return memcmp(k, b.k, keySize) == 0;
-  }
 
-  bool operator != (const byte_t& b) const {
-    for	(int i = 0; i < 10; ++i) {
-      if (k[i] == b.k[i])
-	return false;
+    bool operator>(const byte_t& b) const {
+        for (int i = 0; i < 10; ++i) {
+            if (k[i] != b.k[i]) return k[i] > b.k[i];
+        }
+        return false;
+        // return memcmp(k, b.k, keySize) > 0;
     }
-    return true;
-    // return !(*this == b);
-  }
 
-  int_type k[keySize];
-  int_type v[valSize];
+    bool operator==(const byte_t& b) const {
+        for (int i = 0; i < 10; ++i) {
+            if (k[i] != b.k[i]) return false;
+        }
+        return true;
+        // return memcmp(k, b.k, keySize) == 0;
+    }
+
+    bool operator!=(const byte_t& b) const {
+        for (int i = 0; i < 10; ++i) {
+            if (k[i] == b.k[i]) return false;
+        }
+        return true;
+        // return !(*this == b);
+    }
+
+    int_type k[keySize];
+    int_type v[valSize];
 };

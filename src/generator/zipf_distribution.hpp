@@ -70,101 +70,91 @@ namespace common {
  * When N -> infinity this becomes the Hurwitz Zeta mass function
  * When N -> infinity and q = 0, this becomes the Riemann Zeta mass function
  */
-class ZipfDistribution
-{
-public:
-  //! create uninitialized object. be careful.
-  ZipfDistribution() = default;
+class ZipfDistribution {
+ public:
+    //! create uninitialized object. be careful.
+    ZipfDistribution() = default;
 
-  /*!
-   * Creates a new Zipf-Mandelbrot distribution given s, q, N
-   *
-   *           p(k;N,q,s) = 1/( H(N,q,s)*(k+q)^s )
-   *
-   * where
-   *           H(N,q,s) = sum_(n=1)^(N) 1/(n+q)^s
-   *
-   * and s > 1, q >= 0, N > 1
-   *
-   * Only N and s needs to be specified. The default for q is 0.
-   */
-  ZipfDistribution(const size_t N, const double s, const double q = 0)
-    : N_(N), s_(s), q_(q),
-      dist_(make_dist(N, s, q)) { }
+    /*!
+     * Creates a new Zipf-Mandelbrot distribution given s, q, N
+     *
+     *           p(k;N,q,s) = 1/( H(N,q,s)*(k+q)^s )
+     *
+     * where
+     *           H(N,q,s) = sum_(n=1)^(N) 1/(n+q)^s
+     *
+     * and s > 1, q >= 0, N > 1
+     *
+     * Only N and s needs to be specified. The default for q is 0.
+     */
+    ZipfDistribution(const size_t N, const double s, const double q = 0)
+        : N_(N), s_(s), q_(q), dist_(make_dist(N, s, q)) {}
 
-  //! pick next random number in the range [1,num)
-  template <typename Engine>
-  size_t operator () (Engine& eng) { return dist_(eng) + 1; }
-
-  //! deliver population size
-  size_t N() const { return N_; }
-
-  //! parameter of distribution
-  double q() const { return q_; }
-
-  //! parameter of distribution
-  double s() const { return s_; }
-
-  //! minimum value of distribution
-  size_t min() const { return 1; }
-
-  //! maximum value (inclusive) of distribution
-  size_t max() const { return N_; }
-
-  static std::vector<double> make_vec(size_t N, double s, double q = 0) {
-    if (!(s > 0.0)) {
-      abort();
+    //! pick next random number in the range [1,num)
+    template <typename Engine>
+    size_t operator()(Engine& eng) {
+        return dist_(eng) + 1;
     }
 
-    std::vector<double> probs(N);
+    //! deliver population size
+    size_t N() const { return N_; }
 
-    double p_sum = 0.0;
-    for (size_t k = 1; k < N + 1; ++k) {
-      double prob = 1.0 / std::pow(static_cast<double>(k) + q, s);
-      p_sum += prob;
-      probs[k - 1] = prob;
+    //! parameter of distribution
+    double q() const { return q_; }
+
+    //! parameter of distribution
+    double s() const { return s_; }
+
+    //! minimum value of distribution
+    size_t min() const { return 1; }
+
+    //! maximum value (inclusive) of distribution
+    size_t max() const { return N_; }
+
+    static std::vector<double> make_vec(size_t N, double s, double q = 0) {
+        if (!(s > 0.0)) { abort(); }
+
+        std::vector<double> probs(N);
+
+        double p_sum = 0.0;
+        for (size_t k = 1; k < N + 1; ++k) {
+            double prob = 1.0 / std::pow(static_cast<double>(k) + q, s);
+            p_sum += prob;
+            probs[k - 1] = prob;
+        }
+
+        double p_norm = 1.0 / p_sum;
+        for (size_t i = 0; i < N; ++i) { probs[i] *= p_norm; }
+
+        return probs;
     }
 
-    double p_norm = 1.0 / p_sum;
-    for (size_t i = 0; i < N; ++i) {
-      probs[i] *= p_norm;
+ private:
+    size_t N_;
+    double s_;
+    double q_;
+
+    using dist_type = std::discrete_distribution<size_t>;
+    dist_type dist_;
+
+    static dist_type make_dist(size_t N, double s, double q) {
+        if (!(s > 0.0)) { abort(); }
+
+        std::vector<double> probs(N);
+
+        double p_sum = 0.0;
+        for (size_t k = 1; k < N + 1; ++k) {
+            double prob = 1.0 / std::pow(static_cast<double>(k) + q, s);
+            p_sum += prob;
+            probs[k - 1] = prob;
+        }
+
+        double p_norm = 1.0 / p_sum;
+        for (size_t i = 0; i < N; ++i) { probs[i] *= p_norm; }
+
+        return dist_type(probs.begin(), probs.end());
     }
-
-    return probs;
-  }
-
-private:
-  size_t N_;
-  double s_;
-  double q_;
-
-  using dist_type = std::discrete_distribution<size_t>;
-  dist_type dist_;
-
-  static dist_type make_dist(size_t N, double s, double q) {
-    if (!(s > 0.0)) {
-      abort();
-    }
-
-    std::vector<double> probs(N);
-
-    double p_sum = 0.0;
-    for (size_t k = 1; k < N + 1; ++k) {
-      double prob = 1.0 / std::pow(static_cast<double>(k) + q, s);
-      p_sum += prob;
-      probs[k - 1] = prob;
-    }
-
-    double p_norm = 1.0 / p_sum;
-    for (size_t i = 0; i < N; ++i) {
-      probs[i] *= p_norm;
-    }
-
-    return dist_type(probs.begin(), probs.end());
-  }
 };
 
-} // namespace common
-} // namespace thrill
-
-/******************************************************************************/
+}  // namespace common
+}  // namespace thrill

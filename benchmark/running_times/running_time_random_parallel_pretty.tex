@@ -45,7 +45,9 @@
         vertical sep=1.2cm,
       },
       width=0.5\textwidth,
-      height=0.25\textheight,
+      height=0.3\textheight,
+      ymax=2.6,
+      ytick={0, 0.5, 1, 1.5, 2.0, 2.5},
       xmode=log,
       log base x=2,
       legend columns = 4,
@@ -53,11 +55,10 @@
       xmajorgrids=true,
       ymajorgrids=true,
       ymin=0,
-      ytick={0, 0.25, 0.5, 0.75, 1,0, 1.25},
-      ymax=1.3,
       xmin=2^16,
       xmax=2^34,
       restrict y to domain=-1:30,
+      every axis title/.append style={yshift=-0.2cm},
       clip mode=individual,
       ]
       
@@ -66,7 +67,7 @@
     %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (8 * size * log(2, size)) as y, MULTIPLOT
     %% from pavgnames
     %% where machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
-    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'mcstlmwm'
     %% order by titleorder, x
     \addplot+[on layer=foreground, mark layer=foreground] coordinates { (8192,100.558) (16384,82.862) (32768,89.8879) (65536,77.8785) (131072,69.5082) (262144,272.842) (524288,91.485) (1048576,51.7348) (2097152,16.214) (4194304,8.19541) (8388608,4.83204) (16777216,3.0039) (33554432,1.48097) (67108864,1.05922) (1.34218e+08,0.796086) (2.68435e+08,0.65567) (5.36871e+08,0.542512) (1.07374e+09,0.497786) (2.14748e+09,0.491777) (4.29497e+09,0.494022) (8.58993e+09,0.48621) (1.71799e+10,0.48513) };
     \addlegendentry{\compiparassssort};
@@ -93,7 +94,7 @@
     %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (8 * size * log(2, size)) as y, MULTIPLOT
     %% from pavgnames
     %% where machine like 'i10pc133' and datatype like 'uint64' and size >= 2^13
-    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'mcstlmwm'
     %% order by titleorder, x
     \addplot+[on layer=foreground, mark layer=foreground] coordinates { (8192,9.21107) (16384,10.6523) (32768,20.6204) (65536,14.3884) (131072,7.31475) (262144,2.53885) (524288,1.90118) (1048576,1.10824) (2097152,0.750215) (4194304,0.623472) (8388608,0.455158) (16777216,0.46659) (33554432,0.41079) (67108864,0.405667) (1.34218e+08,0.442744) (2.68435e+08,0.467612) (5.36871e+08,0.462489) (1.07374e+09,0.442474) (2.14748e+09,0.434272) (4.29497e+09,0.424741) };
     \addlegendentry{\compiparassssort};
@@ -124,7 +125,7 @@
     %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (8 * size * log(2, size)) as y, MULTIPLOT
     %% from pavgnames
     %% where machine like 'i10pc132' and datatype like 'uint64' and size >= 2^13
-    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'mcstlmwm'
     %% order by titleorder, x
     \addplot+[on layer=foreground, mark layer=foreground] coordinates { (8192,25.4084) (16384,24.2976) (32768,22.4278) (65536,21.3273) (131072,12.5926) (262144,6.0945) (524288,5.32001) (1048576,2.89062) (2097152,1.71489) (4194304,1.11993) (8388608,0.884531) (16777216,0.742201) (33554432,0.6418) (67108864,0.581225) (1.34218e+08,0.548394) (2.68435e+08,0.525091) (5.36871e+08,0.506375) (1.07374e+09,0.499082) (2.14748e+09,0.482917) (4.29497e+09,0.476268) (8.58993e+09,0.47384) (1.71799e+10,0.476959) };
     \addlegendentry{\compiparassssort};
@@ -153,7 +154,7 @@
     %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (8 * size * log(2, size)) as y, MULTIPLOT
     %% from pavgnames
     %% where machine like 'i10pc136' and datatype like 'uint64' and size >= 2^13
-    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'mcstlmwm'
     %% order by titleorder, x
     \addplot+[on layer=foreground, mark layer=foreground] coordinates { (8192,36.044) (16384,32.4001) (32768,29.9261) (65536,26.1731) (131072,90.5515) (262144,48.1624) (524288,24.3135) (1048576,11.8765) (2097152,5.97586) (4194304,3.33518) (8388608,1.96277) (16777216,1.26028) (33554432,0.815912) (67108864,0.625805) (1.34218e+08,0.540967) (2.68435e+08,0.500081) (5.36871e+08,0.467528) (1.07374e+09,0.452329) (2.14748e+09,0.430276) (4.29497e+09,0.424179) (8.58993e+09,0.417892) (1.71799e+10,0.416613) };
     \addlegendentry{\compiparassssort};

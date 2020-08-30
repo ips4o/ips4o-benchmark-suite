@@ -1,5 +1,7 @@
 #!/bin/bash
 
+MACHINE=$1
+
 export CC=/software/gcc/7.5.0/bin/gcc
 export CXX=/software/gcc/7.5.0/bin/g++
 

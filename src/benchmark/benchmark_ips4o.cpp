@@ -16,23 +16,21 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see
  * <https://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-#include "../../extern/pdqsort/pdqsort.h"
-
 #include "../benchmark.hpp"
+#include "../../extern/pdqsort/pdqsort.h"
 #include "../algorithm/ips4o.hpp"
 #include "../name_extractor.hpp"
 
 using Algorithm = Sequence<true, sequential::Ips4o>;
 
 int main(int argc, char *argv[]) {
-  Config config = readParameters(argc, argv, NameExtractor<Algorithm>());
-  benchmark<Algorithm>(config);
-  return 0;
+    Config config = readParameters(argc, argv, NameExtractor<Algorithm>());
+    benchmark<Algorithm>(config);
+    return 0;
 }
-

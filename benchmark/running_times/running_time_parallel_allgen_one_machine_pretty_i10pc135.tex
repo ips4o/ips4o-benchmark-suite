@@ -1,4 +1,3 @@
-%% SQL
 %% drop view if exists p CASCADE;
 %% create view p as
 %% select * from pradixalgoswithips4oml
@@ -69,12 +68,12 @@
 %% ('i10pc135', 'regionsort', 'double', 'random', 1, -1, 0.5*2^20*20*8/1000000),
 %% ('i10pc135', 'regionsort', 'double', 'random', 1, -2, 0.3*2^20*20*8/1000000),
 %% ('i10pc135', 'regionsort', 'double', 'random', 1, -3, 0.1*2^20*20*8/1000000),
-%% ('i10pc135', 'gnuquicksortunbalanced', 'byte', 'byte', 1, -1, 0.5*2^17*17*100/1000000),
-%% ('i10pc135', 'gnuquicksortunbalanced', 'byte', 'byte', 1, -2, 0.5*2^18*18*100/1000000),
-%% ('i10pc135', 'gnuquicksortunbalanced', 'byte', 'byte', 1, -3, 0.5*2^19*19*100/1000000),
-%% ('i10pc135', 'gnuquicksortbalanced', 'byte', 'byte', 1, -1, 0.3*2^17*17*100/1000000),
-%% ('i10pc135', 'gnuquicksortbalanced', 'byte', 'byte', 1, -2, 0.3*2^18*18*100/1000000),
-%% ('i10pc135', 'gnuquicksortbalanced', 'byte', 'byte', 1, -3, 0.3*2^19*19*100/1000000),
+%% ('i10pc135', 'mcstlubq', 'byte', 'byte', 1, -1, 0.5*2^17*17*100/1000000),
+%% ('i10pc135', 'mcstlubq', 'byte', 'byte', 1, -2, 0.5*2^18*18*100/1000000),
+%% ('i10pc135', 'mcstlubq', 'byte', 'byte', 1, -3, 0.5*2^19*19*100/1000000),
+%% ('i10pc135', 'mcstlbq', 'byte', 'byte', 1, -1, 0.3*2^17*17*100/1000000),
+%% ('i10pc135', 'mcstlbq', 'byte', 'byte', 1, -2, 0.3*2^18*18*100/1000000),
+%% ('i10pc135', 'mcstlbq', 'byte', 'byte', 1, -3, 0.3*2^19*19*100/1000000),
 %% ('i10pc135', 'pbbsradixsort', 'byte', 'byte', 1, -1, 0.5*2^15.5*15.5*100/1000000),
 %% ('i10pc135', 'pbbsradixsort', 'byte', 'byte', 1, -2, 0.3*2^15.5*15.5*100/1000000),
 %% ('i10pc135', 'pbbsradixsort', 'byte', 'byte', 1, -3, 0.1*2^15.5*15.5*100/1000000),
@@ -104,11 +103,24 @@
       group style={
         group size=2 by 4,
         vertical sep=1.2cm,
+        % x descriptions at=edge bottom,
+        % y descriptions at=edge left,
       },
       width=0.5\textwidth,
       height=0.22\textheight,
       xmode=log,
       log base x=2,
+      % xmin=2^7,
+      % xmax=2^32,
+      % ymin=-0.01,
+      % ymax=6,
+      % restrict y to domain=-1:20,
+      % legend columns = 5,
+      % subtitle below plot
+      % title style={at={([yshift=-8ex]0.5,0)},anchor=north},
+      % Add (a), (b), ... to subtitles
+      % subtitle/.style={title=\gpsubtitle{#1}}
+      % plotstype,
       plotstyleparallel,
       xmajorgrids=true,
       ymajorgrids=true,
@@ -118,6 +130,7 @@
       xmax=2^34,
       xtick={2^18, 2^22, 2^26, 2^30, 2^34},
       restrict y to domain=-1:30,
+      every axis title/.append style={yshift=-0.2cm},
       ]
       
       
@@ -125,7 +138,7 @@
       title=\distuniform \double]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (dsize * size * log(2, size)) as y, MULTIPLOT
       %% from pavgnames
-      %% where algo not like 'aspasparallel' and algo not like 'gnuparallel' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'double' and size >= 2^13
+      %% where algo not like 'aspasparallel' and algo not like 'mcstlmwm' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'double' and size >= 2^13
       %% and (algo not like 'tbbparallelsort' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
       %% and gen like 'random'
       %% order by titleorder, x    
@@ -138,13 +151,14 @@
 
       \legend{}
       
+      % (Relative) Coordinate at top of the first plot
       \coordinate (c1) at (rel axis cs:0,1);
       
       \nextgroupplot[
       title=\distalmostsorted \ulong]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (dsize * size * log(2, size)) as y, MULTIPLOT
       %% from pavgnames
-      %% where algo not like 'gnuparallel' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
+      %% where algo not like 'mcstlmwm' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
       %% and gen like 'almostsorted'
       %% and (algo not like 'tbbparallelsort' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
       %% order by titleorder, x
@@ -165,6 +179,7 @@
 
       \legend{}
       
+      % (Relative) Coordinate at top of the second plot
       \coordinate (c2) at (rel axis cs:1,1);
       
       \nextgroupplot[
@@ -172,7 +187,7 @@
       title=\distduplicatesroot \ulong]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (dsize * size * log(2, size)) as y, MULTIPLOT
       %% from pavgnames
-      %% where algo not like 'gnuparallel' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
+      %% where algo not like 'mcstlmwm' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
       %% and gen like 'rootdupls'
       %% and (algo not like 'tbbparallelsort' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
       %% order by titleorder, x
@@ -198,7 +213,7 @@
       ]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (dsize * size * log(2, size)) as y, MULTIPLOT
       %% from pavgnames
-      %% where algo not like 'gnuparallel' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
+      %% where algo not like 'mcstlmwm' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
       %% and (algo not like 'tbbparallelsort' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
       %% and gen like 'twicedupes'
       %% order by titleorder, x
@@ -225,7 +240,7 @@
       title=\distexpo \ulong]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (dsize * size * log(2, size)) as y, MULTIPLOT
       %% from pavgnames
-      %% where algo not like 'gnuparallel' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
+      %% where algo not like 'mcstlmwm' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
       %% and (algo not like 'tbbparallelsort' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
       %% and gen like 'exponential'
       %% order by titleorder, x
@@ -253,7 +268,7 @@
       ]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (dsize * size * log(2, size)) as y, MULTIPLOT
       %% from pavgnames
-      %% where algo not like 'gnuparallel' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
+      %% where algo not like 'mcstlmwm' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'uint64' and size >= 2^13
       %% and (algo not like 'tbbparallelsort' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
       %% and gen like 'zipf'
       %% order by titleorder, x
@@ -275,14 +290,13 @@
       \nextgroupplot[
       xlabel={Item count $n$},
       title=\distuniform \pair,
-      xmax=2^34.5,
       xmin=2^16,
-      xmax=2^32,
+      xmax=2^33,
       xtick={2^16, 2^20, 2^24, 2^28, 2^32},
       ]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (dsize * size * log(2, size)) as y, MULTIPLOT
       %% from pavgnames
-      %% where algo not like 'gnuparallel' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'pair' and size >= 2^13
+      %% where algo not like 'mcstlmwm' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'pair' and size >= 2^13
       %% and gen like 'random'
       %% and (algo not like 'tbbparallelsort' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
       %% and (algo not like 'raduls' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
@@ -313,11 +327,11 @@
       ]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, size as x, 1000000.0 * milli * threads / (dsize * size * log(2, size)) as y, MULTIPLOT
       %% from pavgnames
-      %% where algo not like 'gnuparallel' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'byte' and size >= 2^13
+      %% where algo not like 'mcstlmwm' and algo not like 'tbbparallelsort' and  algo not like 'ps4oparallel' and machine like 'i10pc135' and datatype like 'byte' and size >= 2^13
       %% and gen like 'byte'
       %% and (algo not like 'tbbparallelsort' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
-      %% and (algo not like 'gnuquicksortbalanced' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
-      %% and (algo not like 'gnuquicksortunbalanced' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
+      %% and (algo not like 'mcstlbq' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
+      %% and (algo not like 'mcstlubq' or 1000000.0 * milli * threads / (dsize * size * log(2, size)) <= 2)
       %% order by titleorder, x
       \addplot coordinates { (8192,30.7207) (16384,395.817) (32768,212.425) (65536,68.5549) (131072,26.9105) (262144,14.9205) (524288,6.11554) (1048576,4.31258) (2097152,1.51241) (4194304,0.959983) (8388608,0.81774) (16777216,0.698877) (33554432,0.509012) (67108864,0.453324) (1.34218e+08,0.441197) (2.68435e+08,0.424462) (5.36871e+08,0.407417) (1.07374e+09,0.414346) };
       \addlegendentry{\compiparassssort};

@@ -32,86 +32,78 @@
 
 #include <sort_checker.hpp>
 
-template<class T>
+template <class T>
 class ParallelChecker {
+    using Checker = checker::SortChecker<T>;
 
-  using Checker = checker::SortChecker<T>;
-  
-public:
-  ParallelChecker()
-    : num_threads_(std::thread::hardware_concurrency()) {
-    scs_.resize(num_threads_);
-  }
-
-  void add_pre(T* begin, T* end) {
-
-    const size_t size = end - begin;
-    const size_t thread_size = (size + num_threads_ - 1) / num_threads_;
-
-    std::vector<std::thread> threads(num_threads_ - 1);
-
-    auto exec = [](T* my_begin, T* my_end, Checker* sc) {
-		  for (auto it = my_begin; it != my_end; ++it) {
-		    sc->add_pre(*it);
-		  }
-		};
-
-    // Create threads and execute.
-    for(size_t i = 0; i < num_threads_ - 1; ++i) {
-      const size_t start = std::min(i * thread_size, size);
-      const size_t stop = std::min(start + thread_size, size);
-      threads[i] = std::thread(exec, begin + start, begin + stop, scs_.data() + i);
+ public:
+    ParallelChecker() : num_threads_(std::thread::hardware_concurrency()) {
+        scs_.resize(num_threads_);
     }
 
-    // Execute the remainder
-    const size_t start = std::min((num_threads_ - 1) * thread_size, size);
-    const size_t stop = std::min(start + thread_size, size);
-    exec(begin + start, begin + stop, scs_.data() + (num_threads_ - 1));
+    void add_pre(T* begin, T* end) {
+        const size_t size = end - begin;
+        const size_t thread_size = (size + num_threads_ - 1) / num_threads_;
 
-    // Wait for the other thread to finish their task
-    std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
-  }
+        std::vector<std::thread> threads(num_threads_ - 1);
 
-  template<class Comp>
-  void add_post(T* begin, T* end, Comp comp) {
+        auto exec = [](T* my_begin, T* my_end, Checker* sc) {
+            for (auto it = my_begin; it != my_end; ++it) { sc->add_pre(*it); }
+        };
 
-    const size_t size = end - begin;
-    const size_t thread_size = (size + num_threads_ - 1) / num_threads_;
+        // Create threads and execute.
+        for (size_t i = 0; i < num_threads_ - 1; ++i) {
+            const size_t start = std::min(i * thread_size, size);
+            const size_t stop = std::min(start + thread_size, size);
+            threads[i] = std::thread(exec, begin + start, begin + stop, scs_.data() + i);
+        }
 
-    std::vector<std::thread> threads(num_threads_ - 1);
+        // Execute the remainder
+        const size_t start = std::min((num_threads_ - 1) * thread_size, size);
+        const size_t stop = std::min(start + thread_size, size);
+        exec(begin + start, begin + stop, scs_.data() + (num_threads_ - 1));
 
-    auto exec = [&comp](T* my_begin, T* my_end, Checker* sc) {
-		  for (auto it = my_begin; it != my_end; ++it) {
-		    sc->add_post(*it, comp);
-		  }
-		};
-
-    // Create threads and execute.
-    for(size_t i = 0; i < num_threads_ - 1; ++i) {
-      const size_t start = std::min(i * thread_size, size);
-      const size_t stop = std::min(start + thread_size, size);
-      threads[i] = std::thread(exec, begin + start, begin + stop, scs_.data() + i);
+        // Wait for the other thread to finish their task
+        std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
     }
 
-    // Execute the remainder
-    const size_t start = std::min((num_threads_ - 1) * thread_size, size);
-    const size_t stop = std::min(start + thread_size, size);
-    exec(begin + start, begin + stop, scs_.data() + (num_threads_ - 1));
+    template <class Comp>
+    void add_post(T* begin, T* end, Comp comp) {
+        const size_t size = end - begin;
+        const size_t thread_size = (size + num_threads_ - 1) / num_threads_;
 
-    // Wait for the other threads to finish their task
-    std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
-  }
+        std::vector<std::thread> threads(num_threads_ - 1);
 
-  bool is_likely_permutated() {
-    return Checker::is_likely_permuted(scs_.begin(), scs_.end());
-  }
+        auto exec = [&comp](T* my_begin, T* my_end, Checker* sc) {
+            for (auto it = my_begin; it != my_end; ++it) { sc->add_post(*it, comp); }
+        };
 
-  template<class Comp>
-  bool is_likely_sorted(Comp comp) {
-    return Checker::is_likely_sorted(scs_.begin(), scs_.end(), comp);
-  }
+        // Create threads and execute.
+        for (size_t i = 0; i < num_threads_ - 1; ++i) {
+            const size_t start = std::min(i * thread_size, size);
+            const size_t stop = std::min(start + thread_size, size);
+            threads[i] = std::thread(exec, begin + start, begin + stop, scs_.data() + i);
+        }
 
-protected:
-  const int num_threads_;
-  std::vector<Checker> scs_;
+        // Execute the remainder
+        const size_t start = std::min((num_threads_ - 1) * thread_size, size);
+        const size_t stop = std::min(start + thread_size, size);
+        exec(begin + start, begin + stop, scs_.data() + (num_threads_ - 1));
+
+        // Wait for the other threads to finish their task
+        std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
+    }
+
+    bool is_likely_permutated() {
+        return Checker::is_likely_permuted(scs_.begin(), scs_.end());
+    }
+
+    template <class Comp>
+    bool is_likely_sorted(Comp comp) {
+        return Checker::is_likely_sorted(scs_.begin(), scs_.end(), comp);
+    }
+
+ protected:
+    const int num_threads_;
+    std::vector<Checker> scs_;
 };

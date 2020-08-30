@@ -24,19 +24,19 @@
 
 #pragma once
 
-#include <vector>
 #include <string>
+#include <vector>
 
 struct Config {
-  std::string machine{""};
-  int runs{0};
-  int num_threads{1};
-  long begin_logn{0};
-  long end_logn{0};
-  std::vector<std::string> algos;
-  std::vector<std::string> generators;
-  std::vector<std::string> datatypes;  
-  std::vector<std::string> vectors;
-  std::string info;
-  bool copyback;
+    std::string machine{""};
+    int runs{0};
+    int num_threads{1};
+    long begin_logn{0};
+    long end_logn{0};
+    std::vector<std::string> algos;
+    std::vector<std::string> generators;
+    std::vector<std::string> datatypes;
+    std::vector<std::string> vectors;
+    std::string info;
+    bool copyback;
 };

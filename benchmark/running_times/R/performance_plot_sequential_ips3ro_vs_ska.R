@@ -23,44 +23,27 @@ ratio_to_best = inner_join(avgparmin, avgfast) %>% mutate(ratio = milli/min) %>%
 test = ratio_to_best %>% filter(algo == 'ips4o') %>% collect(n=Inf)
 
 
-performance = ratio_to_best %>% filter(ratio <= 1) %>% group_by(algo) %>% summarise(n = n() / num_instances) %>% collect(n=Inf) %>% add_column(ratio = 0) %>% collect(n=Inf)
-step = 0.1
-begin = 0.0
-end = 2
+performance = ratio_to_best %>% filter(ratio <= 1) %>% group_by(algo) %>% summarise(n = n() / num_instances) %>% collect(n=Inf) %>% add_column(ratio = 1) %>% collect(n=Inf)
+step = 0.125
+begin = 1
+end = 3
 for(r in seq(from = begin, to = end, by = step)) {
-  r2 = r * r
-  group_to_best = ratio_to_best %>% filter(ratio <= r2 + 1) %>% group_by(algo) %>% summarise(n = n() / num_instances) %>% collect(n=Inf) %>% add_column(ratio = r2) %>% collect(n=Inf)
+  r2 = r
+  group_to_best = ratio_to_best %>% filter(ratio <= r2) %>% group_by(algo) %>% summarise(n = n() / num_instances) %>% collect(n=Inf) %>% add_column(ratio = r2) %>% collect(n=Inf)
   performance = union(performance, group_to_best)
-}
-
-step = 0.25
-mybreaks=c()
-for(r in seq(from = 0, to = end, by = step)) {
-  r2 = r * r
-  mybreaks <- c(mybreaks, round(r2, 2))
-}
-
-# Instead of scale_x_sqrt, we use our own transformation as scale_x_sqrt does not provide values for x < 0.
-# The result is that it is not possible to add the x-break '0'. 
-mysqrt_trans <- function() {
-  trans_new("mysqrt", 
-            transform = base::sqrt,
-            inverse = function(x) ifelse(x<0, 0, x^2),
-            domain = c(0, Inf))
 }
 
 performance1 = performance
 ggplot(data = performance1, aes(x = ratio, y = n, group = algo)) +
   geom_line(aes(color=algo))+
-  geom_point(aes(color=algo))+
-  scale_x_continuous(trans="mysqrt", limits=c(0, NA), breaks=mybreaks)
+  geom_point(aes(color=algo))
 
 tb_name = "perfips2raska"
 performance1 = performance1 %>% add_row(algo = 'skasort', n = 5, ratio = 4)
 performance1 = performance1 %>% add_row(algo = 'ips2ra', n = 5, ratio = 4)
 performance1 = performance1 %>% add_row(algo = 'pdqsort', n = 5, ratio = 4)
 performance1 = performance1 %>% add_row(algo = 'ips4o', n = 5, ratio = 4)
-formatted = performance1 %>% mutate(ratio=sqrt(ratio)) %>% format_csv()
+formatted = performance1 %>% format_csv()
 test = sub("\n", ") VALUES (", formatted)
 test = gsub("\n", "),(", test)
 test = gsub("\\((\\w+),", "\\('\\1',", test)

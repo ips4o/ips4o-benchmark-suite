@@ -22,157 +22,157 @@
  * <https://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-#include <vector>
 #include <string>
+#include <vector>
+
 #include <tclap/CmdLine.h>
 
+#include "generator/generator.hpp"
 #include "name_extractor.hpp"
 #include "vector_types.hpp"
-#include "generator/generator.hpp"
 
 constexpr uint32_t ALIGNMENT = 0x100;
 
 struct Config {
-  long begin_logn{0};
-  long end_logn{0};
-  std::vector<std::string> generators;
-  std::vector<std::string> datatypes;  
+    long begin_logn{0};
+    long end_logn{0};
+    std::vector<std::string> generators;
+    std::vector<std::string> datatypes;
 };
 
-using NumericalDatatypes = 
-  Sequence<false, Datatype<double>,
-  Sequence<false, Datatype<uint32_t>,
-  Sequence<true, Datatype<uint64_t>>>>;
+using NumericalDatatypes =
+        Sequence<false, Datatype<double>,
+        Sequence<false, Datatype<uint32_t>,
+        Sequence<true,  Datatype<uint64_t>
+    >>>;
 
-inline
-Config readParameters(int argc, char* argv[]) {
-  Config config;
+inline Config readParameters(int argc, char* argv[]) {
+    Config config;
 
-  try {
+    try {
+        TCLAP::CmdLine cmd("Benchmark of different Algorithms", ' ', "0.1");
 
-    TCLAP::CmdLine cmd("Benchmark of different Algorithms", ' ', "0.1");
+        std::vector<std::string> generator_allowed = NameExtractor<Generators>();
+        std::vector<std::string> datatype_allowed = NameExtractor<NumericalDatatypes>();
 
-    std::vector<std::string> generator_allowed = NameExtractor<Generators>();
-    std::vector<std::string> datatype_allowed = NameExtractor<NumericalDatatypes>();
+        TCLAP::ValuesConstraint<std::string> generator_allowedVals(generator_allowed);
 
-    TCLAP::ValuesConstraint<std::string> generator_allowedVals(generator_allowed);
+        TCLAP::ValuesConstraint<std::string> datatype_allowedVals(datatype_allowed);
 
-    TCLAP::ValuesConstraint<std::string> datatype_allowedVals(datatype_allowed);
+        TCLAP::MultiArg<std::string> generator_arg(
+                "g", "generator",
+                "Name of the generator. If no generator is specified, all generators are "
+                "executed.",
+                false, &generator_allowedVals);
+        TCLAP::MultiArg<std::string> datatype_arg(
+                "d", "datatype",
+                "Name of the datatype. If no datatype is specified, all datatypes are "
+                "executed.",
+                false, &datatype_allowedVals);
 
-    TCLAP::MultiArg<std::string> generator_arg("g","generator","Name of the generator. If no generator is specified, all generators are executed.",
-                                               false, &generator_allowedVals);
-    TCLAP::MultiArg<std::string> datatype_arg("d","datatype","Name of the datatype. If no datatype is specified, all datatypes are executed.",
-                                              false, &datatype_allowedVals);
-    
-    TCLAP::ValueArg<long> begin_logsize_arg("b","beginlogsize",
-                                            "The logarithm of the minimum input size in bytes.",
-                                            true, 0,"long");
-    
-    TCLAP::ValueArg<long> end_logsize_arg("e","endlogsize",
-                                          "The logarithm of the maximum input size in bytes (incl)",
-                                          true, 0,"long");
+        TCLAP::ValueArg<long> begin_logsize_arg(
+                "b", "beginlogsize", "The logarithm of the minimum input size in bytes.",
+                true, 0, "long");
 
-    cmd.add(generator_arg);
-    cmd.add(datatype_arg);
-    cmd.add(begin_logsize_arg);
-    cmd.add(end_logsize_arg);
+        TCLAP::ValueArg<long> end_logsize_arg(
+                "e", "endlogsize",
+                "The logarithm of the maximum input size in bytes (incl)", true, 0,
+                "long");
 
-    cmd.parse( argc, argv );
+        cmd.add(generator_arg);
+        cmd.add(datatype_arg);
+        cmd.add(begin_logsize_arg);
+        cmd.add(end_logsize_arg);
 
-    config.generators = generator_arg.getValue();
-    config.datatypes = datatype_arg.getValue();
+        cmd.parse(argc, argv);
 
-    if (config.generators.empty()) {
-      config.generators = generator_allowed;
+        config.generators = generator_arg.getValue();
+        config.datatypes = datatype_arg.getValue();
+
+        if (config.generators.empty()) { config.generators = generator_allowed; }
+        if (config.datatypes.empty()) { config.datatypes = datatype_allowed; }
+
+        config.begin_logn = begin_logsize_arg.getValue();
+        config.end_logn = end_logsize_arg.getValue();
+
+    } catch (TCLAP::ArgException& e)  // catch exceptions
+    {
+        std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
+        return Config();
     }
-    if (config.datatypes.empty()) {
-      config.datatypes = datatype_allowed;
-    }
 
-    config.begin_logn = begin_logsize_arg.getValue();
-    config.end_logn = end_logsize_arg.getValue();
-
-  } catch (TCLAP::ArgException &e)  // catch exceptions
-  { std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl; return Config();}
-
-  return config;
-  
+    return config;
 }
 
-template<class T>
+template <class T>
 std::pair<size_t, size_t> logSizes(const Config& config) {
-  const size_t type_log_size = tlx::integer_log2_ceil(sizeof(T));
-  const size_t min = config.begin_logn >= type_log_size ? config.begin_logn - type_log_size : 1;
-  const size_t max = config.end_logn >= type_log_size ? config.end_logn - type_log_size : 1;
-  return {min, max};
+    const size_t type_log_size = tlx::integer_log2_ceil(sizeof(T));
+    const size_t min =
+            config.begin_logn >= type_log_size ? config.begin_logn - type_log_size : 1;
+    const size_t max =
+            config.end_logn >= type_log_size ? config.end_logn - type_log_size : 1;
+    return {min, max};
 }
 
-template<class T, class Generator>
-void print (const Config& config) {
-  const auto [min_log_size, max_log_size] = logSizes<T>(config); 
-  
-  Generator gen;
-  for (size_t size = (1ul << min_log_size); size <= (1ul << max_log_size); size *= 2) {
-    AlignedUniquePtr<T> v(size, std::max<size_t>(16, ALIGNMENT));
-    assert(reinterpret_cast<uintptr_t>(v.get()) % ALIGNMENT == 0);
-      
-    gen(v.get(), v.get() + size);
+template <class T, class Generator>
+void print(const Config& config) {
+    const auto [min_log_size, max_log_size] = logSizes<T>(config);
 
-    for (size_t i = 0; i != size; ++i) {
-      std::cout << "RESULT"
-		<< "\tgen=" << Generator::name()
-		<< "\tdatatype=" << Datatype<T>::name()
-		<< "\tsize=" << size
-		<< "\tidx=" << i
-		<< "\tval=" << v[i]
-		<< std::endl;
-    }          
-  }
+    Generator gen;
+    for (size_t size = (1ul << min_log_size); size <= (1ul << max_log_size); size *= 2) {
+        AlignedUniquePtr<T> v(size, std::max<size_t>(16, ALIGNMENT));
+        assert(reinterpret_cast<uintptr_t>(v.get()) % ALIGNMENT == 0);
+
+        gen(v.get(), v.get() + size);
+
+        for (size_t i = 0; i != size; ++i) {
+            std::cout << "RESULT"
+                      << "\tgen=" << Generator::name()
+                      << "\tdatatype=" << Datatype<T>::name() << "\tsize=" << size
+                      << "\tidx=" << i << "\tval=" << v[i] << std::endl;
+        }
+    }
 }
 
-template<class T, class Generators>
+template <class T, class Generators>
 void selectAndExecGenerators(const Config& config) {
-  using Generator = typename Generators::SequenceClass;
-  for (const auto generator : config.generators) {
-    if (!Generator::name().compare(generator)) {
-      if constexpr (Generator::template accepts<T>()) {
-          print<T, Generator>(config);
-        } else {
-        std::cout << "RESULT"
-                  << "\tgen=" << Generator::name()
-                  << "\tconfigwarning=1"
-                  << "\tdatatype=" << Datatype<T>::name()<< std::endl;
-      }
+    using Generator = typename Generators::SequenceClass;
+    for (const auto generator : config.generators) {
+        if (!Generator::name().compare(generator)) {
+            if constexpr (Generator::template accepts<T>()) {
+                print<T, Generator>(config);
+            } else {
+                std::cout << "RESULT"
+                          << "\tgen=" << Generator::name() << "\tconfigwarning=1"
+                          << "\tdatatype=" << Datatype<T>::name() << std::endl;
+            }
+        }
     }
-  }
 
-  if constexpr (!Generators::isLast()) {
-      selectAndExecGenerators<T, typename Generators::SubSequence>(config);
+    if constexpr (!Generators::isLast()) {
+        selectAndExecGenerators<T, typename Generators::SubSequence>(config);
     }
 }
 
-template<class Datatypes>
+template <class Datatypes>
 void selectAndExecDatatype(const Config& config) {
-  
-  using TypeDescription = typename Datatypes::SequenceClass;
-  using T = typename TypeDescription::value_type;
-  
-  const std::string type_name = TypeDescription::name();
-  for (const auto datatype : config.datatypes) {
-    if (!type_name.compare(datatype)) {
-      selectAndExecGenerators<T, Generators>(config);
-    }
-  }
+    using TypeDescription = typename Datatypes::SequenceClass;
+    using T = typename TypeDescription::value_type;
 
-  if constexpr (!Datatypes::isLast()) {
-      selectAndExecDatatype<typename Datatypes::SubSequence>(config);
+    const std::string type_name = TypeDescription::name();
+    for (const auto datatype : config.datatypes) {
+        if (!type_name.compare(datatype)) {
+            selectAndExecGenerators<T, Generators>(config);
+        }
+    }
+
+    if constexpr (!Datatypes::isLast()) {
+        selectAndExecDatatype<typename Datatypes::SubSequence>(config);
     }
 }
 
-int main(int argc, char *argv[])
-{
-
-  Config config = readParameters(argc, argv);
-  selectAndExecDatatype<NumericalDatatypes>(config);
-  return 0;
+int main(int argc, char* argv[]) {
+    Config config = readParameters(argc, argv);
+    selectAndExecDatatype<NumericalDatatypes>(config);
+    return 0;
 }

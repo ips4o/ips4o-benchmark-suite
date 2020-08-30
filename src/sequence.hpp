@@ -24,17 +24,13 @@
 
 #pragma once
 
-template<bool last, class T, class SubSequenceT = void>
+template <bool last, class T, class SubSequenceT = void>
 struct Sequence {
-public:
-  Sequence() {
-  }
+ public:
+    Sequence() {}
 
-  static constexpr bool isLast() {
-    return last;
-  }
+    static constexpr bool isLast() { return last; }
 
-  
-  using SequenceClass = T;
-  using SubSequence = SubSequenceT;
+    using SequenceClass = T;
+    using SubSequence = SubSequenceT;
 };

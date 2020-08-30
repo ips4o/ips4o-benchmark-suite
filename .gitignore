@@ -1,0 +1,13 @@
+*.err
+*.info
+*.log
+RELEASE*
+release*
+build*
+compile_commands.json
+
+benchmark/running_times/b1*.txt
+
+*.aux
+*.out
+*.pdf

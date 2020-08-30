@@ -1,5 +1,7 @@
 #!/bin/bash
 
+MACHINE=$1
+
 . benchmark.sh
 
 parallel_test_numa 0 32
@@ -29,3 +31,11 @@ numa_test_copyback 33 37
 
 sequential_test 0 30
 sequential_test 31 35
+
+. benchmark_subroutines.sh
+
+sequential_subroutines_test 0 30
+parallel_subroutines_test 0 32
+
+sequential_subroutines_test 31 35
+parallel_subroutines_test 33 37

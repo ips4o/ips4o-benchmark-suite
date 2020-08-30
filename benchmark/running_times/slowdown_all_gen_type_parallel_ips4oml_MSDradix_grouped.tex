@@ -5,13 +5,13 @@
 %% create table statsparallel2bnmmdg as
 %% select avgparallel.* from avgparallel
 %% inner join pfast
-%% on ((avgparallel.algo like 'ips4omlparallel'
+%% on ((avgparallel.algo like 'ips4oparallel'
 %%   and pfast.machine like avgparallel.machine
 %%   and pfast.algo like avgparallel.algo
 %%   and pfast.vector like avgparallel.vector
 %%   and pfast.copyback = avgparallel.copyback
 %%   and pfast.meminterleaved = avgparallel.meminterleaved)
-%%  or avgparallel.algo like 'inplacemsdradixsort')
+%%  or avgparallel.algo like 'imsdradix')
 %%  and (avgparallel.machine like 'i10pc136'
 %%  or avgparallel.machine like 'i10pc132')
 
@@ -56,10 +56,10 @@
 %% SQL drop table if exists aggrresy83n CASCADE;
 %% create table aggrresy83n as
 %% select datatypename, genname,
-%% MIN((case when algo like 'ips4omlparallel' and machine like 'i10pc136' then slowdown else NULL end)) as ips4omlparallela,
-%% MIN((case when algo like 'inplacemsdradixsort' and machine like 'i10pc136' then slowdown else NULL end)) as pbbssamplesorta,
-%% MIN((case when algo like 'ips4omlparallel' and machine like 'i10pc132' then slowdown else NULL end)) as ips4omlparallelb,
-%% MIN((case when algo like 'inplacemsdradixsort' and machine like 'i10pc132' then slowdown else NULL end)) as pbbssamplesortb
+%% MIN((case when algo like 'ips4oparallel' and machine like 'i10pc136' then slowdown else NULL end)) as ips4oparallela,
+%% MIN((case when algo like 'imsdradix' and machine like 'i10pc136' then slowdown else NULL end)) as pbbssamplesorta,
+%% MIN((case when algo like 'ips4oparallel' and machine like 'i10pc132' then slowdown else NULL end)) as ips4oparallelb,
+%% MIN((case when algo like 'imsdradix' and machine like 'i10pc132' then slowdown else NULL end)) as pbbssamplesortb
 %% from slowdown
 %% group by datatypename, genname, genorder
 %% order by datatypename, genorder
@@ -99,21 +99,21 @@
                 &
   \begin{tabular}{cc}
   \multicolumn{2}{c}{\pcinteltwo}\\
-  \compiparassssort & \inplacemsdradixsort
+  \compiparassssort & \imsdradix
   \\\hline
   
   %% TABULAR REFORMAT(col 0-16=(precision=2) row 0-100=(min=bold))
-  %% select ips4omlparallelb, pbbssamplesortb from aggrresy83n where datatypename like '\\pair'
+  %% select ips4oparallelb, pbbssamplesortb from aggrresy83n where datatypename like '\\pair'
   %% and genname similar to '\\distones|\\distsorted|\\distreversesorted'
   \textbf{1.00} & 77.00 \\
   \textbf{1.00} &  7.23 \\
   \textbf{1.00} &       \\
-  % END TABULAR select ips4omlparallelb, pbbssamplesortb from aggrresy83n where...
+  % END TABULAR select ips4oparallelb, pbbssamplesortb from aggrresy83n where...
 
   \hline\hline
   
   %% TABULAR REFORMAT(col 0-16=(precision=2) row 0-100=(min=bold))
-  %% select ips4omlparallelb, pbbssamplesortb from aggrresy83n where datatypename like '\\pair'
+  %% select ips4oparallelb, pbbssamplesortb from aggrresy83n where datatypename like '\\pair'
   %% and genname not similar to '\\distones|\\distsorted|\\distreversesorted'
   \textbf{1.00} &  2.31 \\
   \textbf{1.00} & 35.64 \\
@@ -122,7 +122,7 @@
   \textbf{1.00} & 44.58 \\
   \textbf{1.00} & 10.47 \\
   \textbf{1.00} &  1.68 \\
-  % END TABULAR select ips4omlparallelb, pbbssamplesortb from aggrresy83n where...
+  % END TABULAR select ips4oparallelb, pbbssamplesortb from aggrresy83n where...
 
   % ------------------------------------------------------------------------------
   % Average only existing values
@@ -161,19 +161,19 @@
   
   %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' and machine like 'i10pc132' then slowdown else NULL end)) as ips4omlparallela,
-  %% MIN((case when algo like 'inplacemsdradixsort' and machine like 'i10pc132' then slowdown else NULL end)) as pbbssamplesorta
+  %% MIN((case when algo like 'ips4oparallel' and machine like 'i10pc132' then slowdown else NULL end)) as ips4oparallela,
+  %% MIN((case when algo like 'imsdradix' and machine like 'i10pc132' then slowdown else NULL end)) as pbbssamplesorta
   %% from slowdownoverall
   \textbf{1.00} & 10.95 \\
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' and machine...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' and machine...))
 
   %% TABULAR
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' and machine like 'i10pc132' then rank else NULL end)) as ips4omlparallela,
-  %% MIN((case when algo like 'inplacemsdradixsort' and machine like 'i10pc132' then rank else NULL end)) as pbbssamplesorta
+  %% MIN((case when algo like 'ips4oparallel' and machine like 'i10pc132' then rank else NULL end)) as ips4oparallela,
+  %% MIN((case when algo like 'imsdradix' and machine like 'i10pc132' then rank else NULL end)) as pbbssamplesorta
   %% from overallrank
   1 & 2 \\\hline
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' and machine...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' and machine...))
   \end{tabular}
 \end{tabular}
 

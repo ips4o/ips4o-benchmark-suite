@@ -40,34 +40,31 @@
       },
       width=0.315\textwidth,
       height=0.2\textheight,
-      xmin=0,
-      xmax=2,
+      xmin=1,
+      xmax=3,
       ymin=0.0,
       ymax=1.05,
       plotstyleparallelperf,
       xmajorgrids=true,
       ymajorgrids=true,
       subtitle/.style={title=#1},
-      ytick = {0, 0.25, 0.5, 0.75, 1},
-      xtick = {0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2},
-      xticklabels = {0, , 0.25, , 1, , 2.25, , 4},
       ]
       
       \nextgroupplot[
-      ylabel={Fraction of instances},
+      ylabel={Fraction of inputs},
       ]
       %% MULTIPLOT(algo|ptitle) select title as ptitle, ratio as x, n as y, MULTIPLOT
       %% from perfparips4opbbstitle
       %% order by titleorder, x
-      \addplot coordinates { (0,0.975793) (0.1,0.979132) (0.2,0.981636) (0.3,0.993322) (0.4,0.996661) (0.5,0.997496) (0.6,0.998331) (0.7,0.999165) (0.8,1) (0.9,1) (1,1) (1.1,1) (1.2,1) (1.3,1) (1.4,1) (1.5,1) (1.6,1) (1.7,1) (1.8,1) (1.9,1) (2,1) (2.12132,1) };
+      \addplot coordinates { (1,0.975793) (1.25,0.997496) (1.5,0.999165) (1.75,1) (2,1) (2.25,1) (2.5,1) (2.75,1) (3,1) (4.5,1) };
       \addlegendentry{\compiparassssort};
-      \addplot coordinates { (0,0.024207) (0.1,0.0250417) (0.2,0.0308848) (0.3,0.042571) (0.4,0.0559265) (0.5,0.123539) (0.6,0.206177) (0.7,0.329716) (0.8,0.442404) (0.9,0.551753) (1,0.656928) (1.1,0.753756) (1.2,0.856427) (1.3,0.909015) (1.4,0.931553) (1.5,0.952421) (1.6,0.961603) (1.7,0.965776) (1.8,0.966611) (1.9,0.967446) (2,0.967446) (2.12132,1) };
+      \addplot coordinates { (1,0.024207) (1.25,0.123539) (1.5,0.338898) (1.75,0.516694) (2,0.656928) (2.25,0.77379) (2.5,0.872287) (2.75,0.912354) (3,0.937396) (4.5,1) };
       \addlegendentry{\compppbbs};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\comppbalancedsort};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\radixregion};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\compiparassrsort};
 
       \legend{}
@@ -82,15 +79,15 @@
       %% MULTIPLOT(algo|ptitle) select title as ptitle, ratio as x, n as y, MULTIPLOT
       %% from perfparips4oquickbaltitle
       %% order by titleorder, x
-      \addplot coordinates { (0,0.998331) (0.1,0.999165) (0.2,1) (0.3,1) (0.4,1) (0.5,1) (0.6,1) (0.7,1) (0.8,1) (0.9,1) (1,1) (1.1,1) (1.2,1) (1.3,1) (1.4,1) (1.5,1) (1.6,1) (1.7,1) (1.8,1) (1.9,1) (2,1) (2.12132,1) };
+      \addplot coordinates { (1,0.998331) (1.25,1) (1.5,1) (1.75,1) (2,1) (2.25,1) (2.5,1) (2.75,1) (3,1) (4.5,1) };
       \addlegendentry{\compiparassssort};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\compppbbs};
-      \addplot coordinates { (0,0.00166945) (0.1,0.00166945) (0.2,0.00166945) (0.3,0.00250417) (0.4,0.0033389) (0.5,0.00500835) (0.6,0.00500835) (0.7,0.0175292) (0.8,0.024207) (0.9,0.0358932) (1,0.0542571) (1.1,0.0926544) (1.2,0.169449) (1.3,0.330551) (1.4,0.505843) (1.5,0.644407) (1.6,0.747078) (1.7,0.814691) (1.8,0.855593) (1.9,0.891486) (2,0.90818) (2.12132,1) };
+      \addplot coordinates { (1,0.00166945) (1.25,0.00500835) (1.5,0.0175292) (1.75,0.033389) (2,0.0542571) (2.25,0.102671) (2.5,0.199499) (2.75,0.373957) (3,0.530885) (4.5,1) };
       \addlegendentry{\comppbalancedsort};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\radixregion};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\compiparassrsort};
 
       \legend{}
@@ -100,15 +97,15 @@
       %% MULTIPLOT(algo|ptitle) select title as ptitle, ratio as x, n as y, MULTIPLOT
       %% from perfparliteralkeyips4oregiontitle
       %% order by titleorder, x
-      \addplot coordinates { (0,0.741667) (0.1,0.752381) (0.2,0.795238) (0.3,0.832143) (0.4,0.875) (0.5,0.913095) (0.6,0.940476) (0.7,0.967857) (0.8,0.980952) (0.9,0.990476) (1,0.99881) (1.1,1) (1.2,1) (1.3,1) (1.4,1) (1.5,1) (1.6,1) (1.7,1) (1.8,1) (1.9,1) (2,1) (2.12132,1) };
+      \addplot coordinates { (1,0.741667) (1.25,0.913095) (1.5,0.969048) (1.75,0.986905) (2,0.99881) (2.25,1) (2.5,1) (2.75,1) (3,1) (4.5,1) };
       \addlegendentry{\compiparassssort};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\compppbbs};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\comppbalancedsort};
-      \addplot coordinates { (0,0.258333) (0.1,0.261905) (0.2,0.289286) (0.3,0.34881) (0.4,0.433333) (0.5,0.554762) (0.6,0.654762) (0.7,0.704762) (0.8,0.765476) (0.9,0.80119) (1,0.829762) (1.1,0.847619) (1.2,0.87619) (1.3,0.909524) (1.4,0.932143) (1.5,0.961905) (1.6,0.971429) (1.7,0.978571) (1.8,0.984524) (1.9,0.984524) (2,0.985714) (2.12132,1) };
+      \addplot coordinates { (1,0.258333) (1.25,0.554762) (1.5,0.710714) (1.75,0.791667) (2,0.829762) (2.25,0.852381) (2.5,0.882143) (2.75,0.913095) (3,0.936905) (4.5,1) };
       \addlegendentry{\radixregion};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\compiparassrsort};
 
       \legend{}
@@ -121,15 +118,15 @@
       %% MULTIPLOT(algo|ptitle) select title as ptitle, ratio as x, n as y, MULTIPLOT
       %% from perfparliteralkeyips4oips2ratitle
       %% order by titleorder, x
-      \addplot coordinates { (0,0.62381) (0.1,0.641667) (0.2,0.680952) (0.3,0.735714) (0.4,0.794048) (0.5,0.840476) (0.6,0.889286) (0.7,0.941667) (0.8,0.963095) (0.9,0.989286) (1,0.996429) (1.1,1) (1.2,1) (1.3,1) (1.4,1) (1.5,1) (1.6,1) (1.7,1) (1.8,1) (1.9,1) (2,1) (2.12132,1) };
+      \addplot coordinates { (1,0.62381) (1.25,0.840476) (1.5,0.941667) (1.75,0.983333) (2,0.996429) (2.25,1) (2.5,1) (2.75,1) (3,1) (4.5,1) };
       \addlegendentry{\compiparassssort};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\compppbbs};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\comppbalancedsort};
-      \addplot coordinates { (2.12132,1) };
+      \addplot coordinates { (4.5,1) };
       \addlegendentry{\radixregion};
-      \addplot coordinates { (0,0.37619) (0.1,0.388095) (0.2,0.432143) (0.3,0.494048) (0.4,0.579762) (0.5,0.685714) (0.6,0.770238) (0.7,0.842857) (0.8,0.861905) (0.9,0.87381) (1,0.880952) (1.1,0.888095) (1.2,0.90119) (1.3,0.910714) (1.4,0.919048) (1.5,0.929762) (1.6,0.936905) (1.7,0.954762) (1.8,0.963095) (1.9,0.969048) (2,0.975) (2.12132,1) };
+      \addplot coordinates { (1,0.37619) (1.25,0.685714) (1.5,0.846429) (1.75,0.869048) (2,0.880952) (2.25,0.890476) (2.5,0.90119) (2.75,0.915476) (3,0.919048) (4.5,1) };
       \addlegendentry{\compiparassrsort};
 
       \coordinate (c2) at (rel axis cs:1,1);
@@ -138,13 +135,13 @@
 
     
     \coordinate (c23s) at ($(group c2r1.south)!.5!(group c3r1.south)$);
-    \node[yshift=-0.75cm] at (c23s) {{Running time ratio relative to best $-$ $1$}};
+    \node[yshift=-0.75cm] at (c23s) {{Running time ratio relative to best}};
 
     \coordinate (c12n) at ($(group c1r1.north)!.5!(group c2r1.north)$);
-    \node[yshift=0.5cm] at (c12n) {{All Data Types}};
+    \node[yshift=0.3cm] at (c12n) {{All Data Types}};
 
     \coordinate (c34n) at ($(group c3r1.north)!.5!(group c4r1.north)$);
-    \node[yshift=0.5cm] at (c34n) {{Unsigned Integer Key}};
+    \node[yshift=0.3cm] at (c34n) {{Unsigned Integer Key}};
 
     
     \coordinate (c3) at ($(c1)!.5!(c2)$);
@@ -155,10 +152,10 @@
     \compppbbs, \comppbalancedsort, \radixregion, and
     \compiparassrsort. The performance plots with \compppbbs and
     \comppbalancedsort use all data types. The performance plots with
-    \radixregion and \compiparassrsort use input instances with
+    \radixregion and \compiparassrsort use inputs with
     unsigned integer keys (\uint, \ulong, and \pair data types). The
     results were obtained on all machines for all input distributions
-    with at least $2^{18}$ bytes except \distsorted,
+    with at least $2^{21}t$ bytes except \distsorted,
     \distreversesorted, and \distones.}\label{fig:perf par}
 \end{figure}
 

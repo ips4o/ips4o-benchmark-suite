@@ -27,10 +27,10 @@
 #include <string>
 #include <vector>
 
-#include <numa_array.hpp>
 #include <AlignedUniquePtr.hpp>
+#include <numa_array.hpp>
 
-inline
-std::vector<std::string> get_vector_types() {
-  return std::vector<std::string>({Numa::AlignedArray<int>::name(), AlignedUniquePtr<int>::name()});
+inline std::vector<std::string> get_vector_types() {
+    return std::vector<std::string>(
+            {Numa::AlignedArray<int>::name(), AlignedUniquePtr<int>::name()});
 }

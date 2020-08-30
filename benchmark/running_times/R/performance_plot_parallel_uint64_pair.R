@@ -1,7 +1,7 @@
 library(tidyverse)
 library(scales)
 
-RPostgreSQL::dbDisconnect(my_db$con)
+# RPostgreSQL::dbDisconnect(my_db$con)
 my_db <- src_postgres(user = 'axtman', password = '')
 
 avgpar <- tbl(my_db, 'avgparallel')
@@ -13,7 +13,7 @@ pfast <- tbl(my_db, 'pfast')
 
 avgfast = avgpar %>% filter(datatype %in% c("uint64","uint32","pair"))
 avgfast = avgfast %>% filter(!(gen %in% c("reverse","zero","sorted"))) %>% inner_join(pfast) %>% collect(n=Inf)
-avgfast = avgfast %>% filter(!(algo %in% c('aspasparallel','tbbparallelsort','gnuquicksortunbalanced','gnuparallel','gnuquicksortbalanced','ps4oparallel')))
+avgfast = avgfast %>% filter(!(algo %in% c('aspasparallel','tbbparallelsort','mcstlubq','mcstlmwm','mcstlbq','ps4oparallel')))
 
 avgparmin = avgfast %>% group_by(machine, gen, datatype, parallel, threads, size) %>% summarise(min = min(milli)) %>% collect(n=Inf)
 num_instances = length(avgparmin$machine)
@@ -53,7 +53,7 @@ ggplot(data = performance1, aes(x = ratio, y = n, group = algo)) +
   scale_x_continuous(trans="mysqrt", limits=c(begin, NA), breaks=mybreaks)
 
 tb_name = "perfparliteralkey"
-performance1 = performance1 %>% add_row(algo = 'gnuquicksortbalanced', n = -1, ratio = 4)
+performance1 = performance1 %>% add_row(algo = 'mcstlbq', n = -1, ratio = 4)
 formatted = performance1 %>% mutate(ratio=sqrt(ratio)) %>% format_csv()
 test = sub("\n", ") VALUES (", formatted)
 test = gsub("\n", "),(", test)

@@ -16,7 +16,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see
  * <https://www.gnu.org/licenses/>.
@@ -34,34 +34,26 @@
 namespace sequential {
 
 class Timsort {
-public:
-  Timsort() {
-  }
+ public:
+    Timsort() {}
 
-  template<class T>
-  static constexpr bool accepts() {
-    return true;
-  }
+    template <class T>
+    static constexpr bool accepts() {
+        return true;
+    }
 
-  static bool isParallel() {
-    return false;
-  }
+    static bool isParallel() { return false; }
 
-  static std::string name() {
-    return "timsort";
-  }
+    static std::string name() { return "timsort"; }
 
-  template<class T, template<class T1> class Vector>
-  static std::pair<double, double> sort(T* begin, T* end, size_t num_threads) {
-    auto start = std::chrono::high_resolution_clock::now();
-    gfx::timsort(begin, end, Datatype<T>::getComparator());
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = finish - start;
-    return {0, elapsed.count()};
-  }
-
-protected:
+    template <class T, template <class T1> class Vector>
+    static std::pair<double, double> sort(T* begin, T* end, size_t num_threads) {
+        auto start = std::chrono::high_resolution_clock::now();
+        gfx::timsort(begin, end, Datatype<T>::getComparator());
+        auto finish = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed = finish - start;
+        return {0, elapsed.count()};
+    }
 };
 
-} // namespace sequential
-
+}  // namespace sequential

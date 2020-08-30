@@ -23,21 +23,22 @@
  ******************************************************************************/
 
 #pragma once
-#include <vector>
+
 #include <string>
+#include <vector>
 
 #include "sequence.hpp"
 
-template<class Sequence>
+template <class Sequence>
 std::vector<std::string> NameExtractor() {
-  constexpr bool last = Sequence::isLast();
-  using SequenceClass = typename Sequence::SequenceClass;
-  using SubSequence = typename Sequence::SubSequence;
+    constexpr bool last = Sequence::isLast();
+    using SequenceClass = typename Sequence::SequenceClass;
+    using SubSequence = typename Sequence::SubSequence;
 
-  std::vector<std::string> algos = {SequenceClass::name()};
-  if constexpr (!last) {
-      const auto subalgos = NameExtractor<SubSequence>();
-      algos.insert(algos.end(), subalgos.begin(), subalgos.end());
+    std::vector<std::string> algos = {SequenceClass::name()};
+    if constexpr (!last) {
+        const auto subalgos = NameExtractor<SubSequence>();
+        algos.insert(algos.end(), subalgos.begin(), subalgos.end());
     }
-  return algos;
+    return algos;
 }

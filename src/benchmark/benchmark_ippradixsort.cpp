@@ -16,32 +16,30 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see
  * <https://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-#include <chrono>
-#include <algorithm>
-#include <random>
-#include <iostream>
-#include <vector>
 #include <algorithm>
 #include <cassert>
+#include <chrono>
+#include <iostream>
+#include <random>
+#include <vector>
 
 #include <ippcore.h>
 
-#include "../benchmark.hpp"
 #include "../algorithm/ippradixsort.hpp"
+#include "../benchmark.hpp"
 #include "../name_extractor.hpp"
 
 using Algorithm = Sequence<true, sequential::Ippradixsort>;
 
 int main(int argc, char *argv[]) {
-  ippInit();
-  Config config = readParameters(argc, argv, NameExtractor<Algorithm>());
-  benchmark<Algorithm>(config);
-  return 0;
+    ippInit();
+    Config config = readParameters(argc, argv, NameExtractor<Algorithm>());
+    benchmark<Algorithm>(config);
+    return 0;
 }
-

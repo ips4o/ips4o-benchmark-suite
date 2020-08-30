@@ -3,7 +3,7 @@
 %% create view algos as
 %% select run, machine, gen, datatype, algo, parallel, threads, vector, size, meminterleaved, copyback, milli
 %% from statsnuma
-%% where (datatype like 'double' and (algo similar to 'ips4omlparallel|ips4oparallel'))
+%% where (datatype like 'double' and (algo similar to 'ips4oparallel|ips4ooldparallel'))
 
 
 %% SQL
@@ -57,42 +57,42 @@
 %% inner join datatypesizes
 %% on avg.datatype = datatypesizes.datatype
 %% where size * datatypesizes.dsize >= (2^21 * threads)
-%%  and algo like 'ips4omlparallel'
+%%  and algo like 'ips4oparallel'
 %%  group by machine, gen, avg.datatype, algo, parallel, threads, vector, meminterleaved, copyback
 
 %% SQL
 %% create OR REPLACE view ratiovectornaming as
 %% select machine, ratio, 'd' myvec
 %% from ratio
-%% where vector like 'vector' and meminterleaved=0 and copyback=1 and algo like 'ips4oparallel'
+%% where vector like 'vector' and meminterleaved=0 and copyback=1 and algo like 'ips4ooldparallel'
 %% UNION ALL
 %% select machine, ratio, 'i' myvec
 %% from ratio
-%% where vector like 'vector' and meminterleaved=1 and copyback=0 and algo like 'ips4oparallel'
+%% where vector like 'vector' and meminterleaved=1 and copyback=0 and algo like 'ips4ooldparallel'
 %% UNION ALL
 %% select machine, ratio, 's' myvec
 %% from ratio
-%% where vector like 'vector' and meminterleaved=0 and copyback=0 and algo like 'ips4oparallel'
+%% where vector like 'vector' and meminterleaved=0 and copyback=0 and algo like 'ips4ooldparallel'
 %% UNION ALL
 %% select machine, ratio, 'n' myvec
 %% from ratio
-%% where vector like 'NumaAlignedArray' and meminterleaved=0 and copyback=0 and algo like 'ips4oparallel'
+%% where vector like 'NumaAlignedArray' and meminterleaved=0 and copyback=0 and algo like 'ips4ooldparallel'
 %% UNION ALL
 %% select machine, ratio, 'dml' myvec
 %% from ratio
-%% where vector like 'vector' and meminterleaved=0 and copyback=1 and algo like 'ips4omlparallel'
+%% where vector like 'vector' and meminterleaved=0 and copyback=1 and algo like 'ips4oparallel'
 %% UNION ALL
 %% select machine, ratio, 'iml' myvec
 %% from ratio
-%% where vector like 'vector' and meminterleaved=1 and copyback=0 and algo like 'ips4omlparallel'
+%% where vector like 'vector' and meminterleaved=1 and copyback=0 and algo like 'ips4oparallel'
 %% UNION ALL
 %% select machine, ratio, 'sml' myvec
 %% from ratio
-%% where vector like 'vector' and meminterleaved=0 and copyback=0 and algo like 'ips4omlparallel'
+%% where vector like 'vector' and meminterleaved=0 and copyback=0 and algo like 'ips4oparallel'
 %% UNION ALL
 %% select machine, ratio, 'nml' myvec
 %% from ratio
-%% where vector like 'NumaAlignedArray' and meminterleaved=0 and copyback=0 and algo like 'ips4omlparallel'
+%% where vector like 'NumaAlignedArray' and meminterleaved=0 and copyback=0 and algo like 'ips4oparallel'
 %% UNION ALL
 %% select machine, ratio, 'dabs' myvec
 %% from rtips4o

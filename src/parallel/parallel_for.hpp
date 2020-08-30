@@ -29,7 +29,7 @@
 #include <thread>
 #include <vector>
 
-template<class Fct>
+template <class Fct>
 static void std_parallel_for(size_t size, Fct&& fct) {
     size_t num_concurrency = std::thread::hardware_concurrency();
     size_t num_threads = num_concurrency == 0 ? 1 : (num_concurrency);
@@ -39,12 +39,11 @@ static void std_parallel_for(size_t size, Fct&& fct) {
     std::vector<std::thread> threads(num_threads - 1);
 
     // Create threads and execute.
-    for(size_t i = 0; i < num_threads - 1; ++i)
-    {
-      const size_t start = std::min(i * thread_size, size);
-      const size_t stop = std::min(start + thread_size, size);
-      
-      threads[i] = std::thread(std::forward<Fct>(fct), start, stop, i);
+    for (size_t i = 0; i < num_threads - 1; ++i) {
+        const size_t start = std::min(i * thread_size, size);
+        const size_t stop = std::min(start + thread_size, size);
+
+        threads[i] = std::thread(std::forward<Fct>(fct), start, stop, i);
     }
 
     // Execute the remainder
@@ -54,7 +53,7 @@ static void std_parallel_for(size_t size, Fct&& fct) {
     const size_t start = std::min((num_threads - 1) * thread_size, size);
     const size_t stop = std::min(start + thread_size, size);
     fct(start, stop, num_threads - 1);
-    
+
     // Wait for the other thread to finish their task
     std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
 }

@@ -1,0 +1,66 @@
+[submodule "extern/aspas_sort"]
+	path = extern/aspas_sort
+	url = https://github.com/ips4o/aspas_sort.git
+[submodule "extern/BlockQuicksort"]
+	path = extern/BlockQuicksort
+	url = https://github.com/ips4o/BlockQuicksort.git
+[submodule "extern/CPPSFMT"]
+	path = extern/CPPSFMT
+	url = https://github.com/ips4o/CPPSFMT.git
+[submodule "extern/cpp-TimSort"]
+	path = extern/cpp-TimSort
+	url = https://github.com/ips4o/cpp-TimSort.git
+[submodule "extern/fast-and-robust"]
+	path = extern/fast-and-robust
+	url = https://github.com/ips4o/fast-and-robust.git
+[submodule "extern/InPlaceMSDradixsort"]
+	path = extern/InPlaceMSDradixsort
+	url = https://github.com/ips4o/InPlaceMSDradixsort.git
+[submodule "extern/ips4o"]
+	path = extern/ips4o
+	url = https://github.com/SaschaWitt/ips4o.git
+[submodule "extern/LearnedSort"]
+	path = extern/LearnedSort
+	url = https://github.com/ips4o/LearnedSort.git
+[submodule "extern/NumaArray"]
+	path = extern/NumaArray
+	url = https://github.com/ips4o/NumaArray.git
+[submodule "extern/parallel-inplace-radixsort"]
+	path = extern/parallel-inplace-radixsort
+	url = https://github.com/ips4o/parallel-inplace-radixsort.git
+[submodule "extern/pbbs-sorting"]
+	path = extern/pbbs-sorting
+	url = https://github.com/ips4o/pbbs-sorting.git
+[submodule "extern/pdqsort"]
+	path = extern/pdqsort
+	url = https://github.com/ips4o/pdqsort.git
+[submodule "extern/QuickXsort"]
+	path = extern/QuickXsort
+	url = https://github.com/ips4o/QuickXsort.git
+[submodule "extern/RADULS"]
+	path = extern/RADULS
+	url = https://github.com/ips4o/RADULS.git
+[submodule "extern/ska_sort"]
+	path = extern/ska_sort
+	url = https://github.com/ips4o/ska_sort.git
+[submodule "extern/SortChecker"]
+	path = extern/SortChecker
+	url = https://github.com/ips4o/SortChecker.git
+[submodule "extern/ssssort"]
+	path = extern/ssssort
+	url = https://github.com/ips4o/ssssort.git
+[submodule "extern/tbb"]
+	path = extern/tbb
+	url = https://github.com/MichaelAxtmann/tbb.git
+[submodule "extern/WikiSort"]
+	path = extern/WikiSort
+	url = https://github.com/ips4o/WikiSort.git
+[submodule "extern/ps4o"]
+	path = extern/ps4o
+	url = https://github.com/ips4o/ps4o.git
+[submodule "extern/ips2ra_journal"]
+	path = extern/ips2ra_journal
+	url = https://github.com/ips4o/ips2ra.git
+[submodule "extern/ips4o_journal"]
+	path = extern/ips4o_journal
+	url = https://github.com/ips4o/ips4o.git

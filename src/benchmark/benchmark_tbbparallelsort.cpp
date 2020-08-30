@@ -16,7 +16,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see
  * <https://www.gnu.org/licenses/>.
@@ -25,16 +25,15 @@
 #include <tbb/parallel_sort.h>
 #include <tbb/task_scheduler_init.h>
 
-#include "../benchmark.hpp"
 #include "../algorithm/tbb.hpp"
+#include "../benchmark.hpp"
 #include "../name_extractor.hpp"
 
 using Algorithm = Sequence<true, tbb_algo::TbbParallelSort>;
 
 int main(int argc, char *argv[]) {
-  Config config = readParameters(argc, argv, NameExtractor<tbb_algo::Algorithms>());
-  tbb::task_scheduler_init init(config.num_threads);
-  benchmark<Algorithm>(config);
-  return 0;
+    Config config = readParameters(argc, argv, NameExtractor<tbb_algo::Algorithms>());
+    tbb::task_scheduler_init init(config.num_threads);
+    benchmark<Algorithm>(config);
+    return 0;
 }
-

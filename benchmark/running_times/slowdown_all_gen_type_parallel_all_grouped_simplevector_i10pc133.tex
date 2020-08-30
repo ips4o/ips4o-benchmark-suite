@@ -56,11 +56,11 @@
 %% SQL drop table if exists aggrresy83n CASCADE;
 %% create table aggrresy83n as
 %% select datatypename, genname,
-%% MIN((case when algo like 'ips4omlparallel' then slowdown else NULL end)) as ips4omlparallel,
+%% MIN((case when algo like 'ips4oparallel' then slowdown else NULL end)) as ips4oparallel,
 %% MIN((case when algo like 'pbbssamplesort' then slowdown else NULL end)) as pbbssamplesort,
 %% MIN((case when algo like 'ps4oparallel' then slowdown else NULL end)) as ps4oparallel,
-%% MIN((case when algo like 'gnuparallel' then slowdown else NULL end)) as gnuparallel,
-%% MIN((case when algo like 'gnuquicksortbalanced' then slowdown else NULL end)) as gnuquicksortbalanced,
+%% MIN((case when algo like 'mcstlmwm' then slowdown else NULL end)) as mcstlmwm,
+%% MIN((case when algo like 'mcstlbq' then slowdown else NULL end)) as mcstlbq,
 %% MIN((case when algo like 'tbbparallelsort' then slowdown else NULL end)) as tbbparallelsort,
 %% MIN((case when algo like 'regionsort' then slowdown else NULL end)) as regionsort,
 %% MIN((case when algo like 'pbbsradixsort' then slowdown else NULL end)) as pbbsradixsort,
@@ -144,11 +144,11 @@
   
   %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then slowdown else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then slowdown else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then slowdown else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then slowdown else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then slowdown else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then slowdown else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then slowdown else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then slowdown else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then slowdown else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then slowdown else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then slowdown else NULL end)) as pbbsradixsort,
@@ -157,16 +157,16 @@
   %% MIN((case when algo like 'ips2raparallel' then slowdown else NULL end)) as ips2raparallel
   %% from slowdownoverall
   \textbf{1.00} &  & 1.52 &  &  &  &  &  &  &  &  \\
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then slowdo...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then slowdown...))
 
   Rank & &
   %% TABULAR
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then rank else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then rank else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then rank else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then rank else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then rank else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then rank else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then rank else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then rank else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then rank else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then rank else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then rank else NULL end)) as pbbsradixsort,
@@ -175,7 +175,7 @@
   %% MIN((case when algo like 'ips2raparallel' then rank else NULL end)) as ips2raparallel
   %% from overallrank
   1 &  & 2 &  &  &  &  &  &  &  &  \\\hline\hline
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then rank e...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then rank els...))
   
   %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
   %% select * from aggrresy83n where datatypename like '\\ulong'
@@ -236,11 +236,11 @@
   
   %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then slowdown else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then slowdown else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then slowdown else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then slowdown else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then slowdown else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then slowdown else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then slowdown else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then slowdown else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then slowdown else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then slowdown else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then slowdown else NULL end)) as pbbsradixsort,
@@ -249,16 +249,16 @@
   %% MIN((case when algo like 'ips2raparallel' then slowdown else NULL end)) as ips2raparallel
   %% from slowdownoverall
   \textbf{1.03} &  & 1.58 &  &  &  & 1.23 &  &  &  & 1.17 \\
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then slowdo...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then slowdown...))
 
   Rank & &
   %% TABULAR
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then rank else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then rank else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then rank else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then rank else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then rank else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then rank else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then rank else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then rank else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then rank else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then rank else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then rank else NULL end)) as pbbsradixsort,
@@ -267,7 +267,7 @@
   %% MIN((case when algo like 'ips2raparallel' then rank else NULL end)) as ips2raparallel
   %% from overallrank
   1 &  & 4 &  &  &  & 3 &  &  &  & 2 \\\hline\hline
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then rank e...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then rank els...))
   
   %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
   %% select * from aggrresy83n where datatypename like '\\uint'
@@ -328,11 +328,11 @@
   
   %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then slowdown else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then slowdown else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then slowdown else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then slowdown else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then slowdown else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then slowdown else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then slowdown else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then slowdown else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then slowdown else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then slowdown else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then slowdown else NULL end)) as pbbsradixsort,
@@ -341,16 +341,16 @@
   %% MIN((case when algo like 'ips2raparallel' then slowdown else NULL end)) as ips2raparallel
   %% from slowdownoverall
   1.09 &  & 1.65 &  &  &  & 1.17 &  &  &  & \textbf{1.07} \\
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then slowdo...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then slowdown...))
 
   Rank & &
   %% TABULAR
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then rank else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then rank else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then rank else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then rank else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then rank else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then rank else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then rank else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then rank else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then rank else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then rank else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then rank else NULL end)) as pbbsradixsort,
@@ -359,7 +359,7 @@
   %% MIN((case when algo like 'ips2raparallel' then rank else NULL end)) as ips2raparallel
   %% from overallrank
   2 &  & 4 &  &  &  & 3 &  &  &  & 1 \\\hline\hline
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then rank e...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then rank els...))
   
   %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
   %% select * from aggrresy83n where datatypename like '\\pair'
@@ -420,11 +420,11 @@
   
   %% TABULAR REFORMAT(col 0-13=(precision=2) row 0-100=(min=bold))
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then slowdown else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then slowdown else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then slowdown else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then slowdown else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then slowdown else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then slowdown else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then slowdown else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then slowdown else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then slowdown else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then slowdown else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then slowdown else NULL end)) as pbbsradixsort,
@@ -433,16 +433,16 @@
   %% MIN((case when algo like 'ips2raparallel' then slowdown else NULL end)) as ips2raparallel
   %% from slowdownoverall
   \textbf{1.02} &  & 1.53 &  &  &  & 1.27 &  &  &  & 1.19 \\
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then slowdo...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then slowdown...))
 
   Rank & &
   %% TABULAR
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then rank else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then rank else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then rank else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then rank else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then rank else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then rank else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then rank else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then rank else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then rank else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then rank else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then rank else NULL end)) as pbbsradixsort,
@@ -451,7 +451,7 @@
   %% MIN((case when algo like 'ips2raparallel' then rank else NULL end)) as ips2raparallel
   %% from overallrank
   1 &  & 4 &  &  &  & 3 &  &  &  & 2 \\\hline\hline
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then rank e...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then rank els...))
   
   %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
   %% select * from aggrresy83n where datatypename like '\\quartet'
@@ -496,11 +496,11 @@
   Rank & &
   %% TABULAR
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then rank else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then rank else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then rank else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then rank else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then rank else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then rank else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then rank else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then rank else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then rank else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then rank else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then rank else NULL end)) as pbbsradixsort,
@@ -509,7 +509,7 @@
   %% MIN((case when algo like 'ips2raparallel' then rank else NULL end)) as ips2raparallel
   %% from overallrank
   1 &  & 2 &  &  &  &  &  &  &  &  \\\hline\hline
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then rank e...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then rank els...))
   
   %% TABULAR REFORMAT(col 2-16=(precision=2) row 0-100=(min=bold))
   %% select * from aggrresy83n where datatypename like '\\bytes'
@@ -554,11 +554,11 @@
   Rank & &
   %% TABULAR
   %% select
-  %% MIN((case when algo like 'ips4omlparallel' then rank else NULL end)) as ips4omlparallel,
+  %% MIN((case when algo like 'ips4oparallel' then rank else NULL end)) as ips4oparallel,
   %% MIN((case when algo like 'pbbssamplesort' then rank else NULL end)) as pbbssamplesort,
   %% MIN((case when algo like 'ps4oparallel' then rank else NULL end)) as ps4oparallel,
-  %% MIN((case when algo like 'gnuparallel' then rank else NULL end)) as gnuparallel,
-  %% MIN((case when algo like 'gnuquicksortbalanced' then rank else NULL end)) as gnuquicksortbalanced,
+  %% MIN((case when algo like 'mcstlmwm' then rank else NULL end)) as mcstlmwm,
+  %% MIN((case when algo like 'mcstlbq' then rank else NULL end)) as mcstlbq,
   %% MIN((case when algo like 'tbbparallelsort' then rank else NULL end)) as tbbparallelsort,
   %% MIN((case when algo like 'regionsort' then rank else NULL end)) as regionsort,
   %% MIN((case when algo like 'pbbsradixsort' then rank else NULL end)) as pbbsradixsort,
@@ -567,7 +567,7 @@
   %% MIN((case when algo like 'ips2raparallel' then rank else NULL end)) as ips2raparallel
   %% from overallrank
   1 &  & 2 &  &  &  &  &  &  &  &  \\\hline\hline
-  % END TABULAR select MIN((case when algo like 'ips4omlparallel' then rank e...))
+  % END TABULAR select MIN((case when algo like 'ips4oparallel' then rank els...))
 \end{tabular}
 
 %% SQL

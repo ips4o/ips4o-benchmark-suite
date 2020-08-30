@@ -64,6 +64,7 @@
       },
       width=0.5\textwidth,
       height=0.25\textheight,
+      every axis title/.append style={yshift=-0.2cm},
       plotstyleparallel,
       xmajorgrids=true,
       ymajorgrids=true,
@@ -93,7 +94,7 @@
     %% MULTIPLOT(algo|ptitle) select title as ptitle, threads as x, speedup as y, MULTIPLOT
     %% from speedup
     %% where machine like 'i10pc135' and (threads % 8 = 0 or threads = 2)
-    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'mcstlmwm'
     %% order by titleorder, x
     \addplot coordinates { (2,1.24142) (8,4.57697) (16,8.58199) (24,11.5176) (32,13.5939) (40,14.9173) (48,15.4915) (56,17.0632) (64,18.0857) (72,18.6926) (80,20.0208) (88,27.1158) (96,26.6139) (104,27.829) (112,31.972) (120,33.3546) (128,40.036) (136,38.0662) (144,42.5895) (152,39.9528) (160,47.4141) };
     \addlegendentry{\compiparassssort};
@@ -112,6 +113,7 @@
 
       \legend{}
       
+    % (Relative) Coordinate at top of the first plot
     \coordinate (c1) at (rel axis cs:0,1);
       
       \nextgroupplot[
@@ -120,7 +122,7 @@
     %% MULTIPLOT(algo|ptitle) select title as ptitle, threads as x, speedup as y, MULTIPLOT
     %% from speedup
     %% where machine like 'i10pc133' and (threads % 2 = 0 or threads = 2)
-    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'mcstlmwm'
     %% order by titleorder, x
     \addplot coordinates { (2,1.38565) (4,2.62811) (6,3.75338) (8,4.81279) (10,5.43335) (12,6.38123) (14,7.0237) (16,7.42546) (18,7.64376) (20,7.85615) (22,8.23461) (24,8.34362) (26,8.29617) (28,8.2702) (30,8.34553) (32,8.37237) };
     \addlegendentry{\compiparassssort};
@@ -139,6 +141,7 @@
 
       \legend{}
       
+    % (Relative) Coordinate at top of the second plot
     \coordinate (c2) at (rel axis cs:1,1);
       
       \nextgroupplot[
@@ -150,7 +153,7 @@
     %% MULTIPLOT(algo|ptitle) select title as ptitle, threads as x, speedup as y, MULTIPLOT
     %% from speedup
     %% where machine like 'i10pc132' and (threads % 4 = 0 or threads = 2)
-    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel'
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'mcstlmwm'
     %% order by titleorder, x
     \addplot coordinates { (2,1.44669) (4,2.87562) (8,5.71036) (12,8.51577) (16,11.2257) (20,13.816) (24,16.2904) (28,18.7002) (32,20.8188) (36,23.4011) (40,25.6398) (44,26.1082) (48,27.1086) (52,31.1665) (56,33.203) (60,36.2755) (64,37.9008) };
     \addlegendentry{\compiparassssort};
@@ -180,7 +183,7 @@
     %% MULTIPLOT(algo|ptitle) select title as ptitle, threads as x, speedup as y, MULTIPLOT
     %% from speedup
     %% where machine like 'i10pc136' and (threads % 4 = 0 or threads = 2)
-    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'gnuparallel' and algo not like 'gnuparallel'
+    %% and algo not like 'ps4oparallel' and algo not like 'tbbparallelsort' and algo not like 'mcstlmwm' and algo not like 'mcstlmwm'
     %% order by titleorder, x
     \addplot coordinates { (2,1.36796) (4,2.72115) (8,5.29791) (12,7.21394) (16,9.5254) (20,11.106) (24,14.3613) (28,15.9906) (32,17.6192) (36,19.2483) (40,20.8719) (44,20.3963) (48,23.4963) (52,25.0392) (56,26.5642) (60,25.4949) (64,27.7334) (68,29.9416) (72,31.435) (76,31.7803) (80,33.1362) (84,30.7624) (88,34.2156) (92,32.7803) (96,35.1258) (100,33.0093) (104,37.8254) (108,34.9046) (112,38.7227) (116,39.3754) (120,38.6412) (124,40.4467) (128,40.9235) };
     \addlegendentry{\compiparassssort};

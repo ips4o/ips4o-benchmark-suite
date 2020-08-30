@@ -10,7 +10,7 @@ avgpar <- avgpar %>% filter(size * dsize >= (2^21 * threads))
 pfast <- tbl(my_db, 'pfast')
 
 avgfast <- avgpar %>% filter(!(gen  %in% c("zero","sorted","reverse"))) %>% inner_join(pfast) %>% collect(n=Inf)
-avgfast = avgfast %>% filter(!(algo  %in% c('aspasparallel','tbbparallelsort','gnuquicksortunbalanced','ips2raparallel','regionsort','raduls','pbbsradixsort','gnuparallel','ps4oparallel')))
+avgfast = avgfast %>% filter(!(algo  %in% c('aspasparallel','tbbparallelsort','mcstlubq','ips2raparallel','regionsort','raduls','pbbsradixsort','mcstlmwm','ps4oparallel')))
 
 avgparmin = avgfast %>% group_by(machine, gen, datatype, parallel, threads, size) %>% summarise(min = min(milli)) %>% collect(n=Inf)
 num_instances = length(avgparmin$machine)

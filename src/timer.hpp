@@ -28,52 +28,68 @@
 
 #ifdef IPS4O_TIMER
 
+thread_local long g_ips4o_level{0};
 thread_local long g_active_counters;
 
 class Timer {
-public:
-  Timer()
-    : num_activations_(0)
-  {}
+ public:
+    Timer() : num_activations_(0) {}
 
-  void start() {
-    // std::cout << "start: " << g_active_counters << " " << num_activations_ << std::endl;
-    if (g_active_counters <= 0 && num_activations_ == 0) start_ = Clock::now();
-    ++g_active_counters;
-    ++num_activations_;
-  }
-
-  void stop() {
-    --g_active_counters;
-    --num_activations_;
-    // std::cout << "stop: " << g_active_counters << " " << num_activations_ << std::endl;
-    
-    if (g_active_counters <= 0 && num_activations_ == 0) {
-      TimePoint end = Clock::now();
-      auto elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(end - start_);
-      time_ += elapsed.count();
+    void start() {
+        // std::cout << "start: " << g_active_counters << " " << num_activations_ <<
+        // std::endl;
+        if (g_active_counters <= 0 && num_activations_ == 0) start_ = Clock::now();
+        ++g_active_counters;
+        ++num_activations_;
     }
-  }
 
-  double getTime() const {
-    return time_;
-  }
+  void stop(std::size_t size, std::string name) {
+        --g_active_counters;
+        --num_activations_;
+        // std::cout << "stop: " << g_active_counters << " " << num_activations_ <<
+        // std::endl;
 
-  void reset() {
-    time_ = 0.;
-    num_activations_ = 0;
-  }
-  
-private:
-  using Clock = std::chrono::steady_clock;
-  using TimePoint = std::chrono::time_point<Clock>;
+        if (g_active_counters <= 0 && num_activations_ == 0) {
+            TimePoint end = Clock::now();
+            auto elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(
+                    end - start_);
+            time_ += elapsed.count();
+	    std::cout << "RESULT\t" << "name=" << name << "\tlevel=" << g_ips4o_level << "\tsize=" << size << "\ttime=" << elapsed.count() << std::endl;
+        }
 
-  TimePoint start_;
-  double time_;
-  long num_activations_;
+    }
+
+    void stop() {
+        --g_active_counters;
+        --num_activations_;
+        // std::cout << "stop: " << g_active_counters << " " << num_activations_ <<
+        // std::endl;
+
+        if (g_active_counters <= 0 && num_activations_ == 0) {
+            TimePoint end = Clock::now();
+            auto elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(
+                    end - start_);
+            time_ += elapsed.count();
+        }
+    }
+
+    double getTime() const { return time_; }
+
+    void reset() {
+        time_ = 0.;
+        num_activations_ = 0;
+    }
+
+ private:
+    using Clock = std::chrono::steady_clock;
+    using TimePoint = std::chrono::time_point<Clock>;
+
+    TimePoint start_;
+    double time_;
+    long num_activations_;
 };
 
-thread_local Timer g_base_case, g_sampling, g_classification, g_permutation,
-  g_cleanup, g_overhead, g_empty_block, g_total;
+thread_local Timer g_base_case, g_sampling, g_classification, g_permutation, g_cleanup,
+        g_overhead, g_empty_block, g_total;
 
 #endif

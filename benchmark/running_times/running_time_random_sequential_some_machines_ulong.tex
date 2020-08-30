@@ -60,6 +60,7 @@
       ymajorgrids=true,
       xtick={2^8, 2^12, 2^16, 2^20, 2^24, 2^28, 2^32},
       clip mode=individual,
+      every axis title/.append style={yshift=-0.2cm},
       ]
       
       \nextgroupplot[
@@ -86,6 +87,7 @@
 
       \legend{}
       
+    % (Relative) Coordinate at top of the first plot
     \coordinate (c1) at (rel axis cs:0,1);
       
       \nextgroupplot[
@@ -112,6 +114,7 @@
 
       \legend{}
       
+    % (Relative) Coordinate at top of the second plot
     \coordinate (c2) at (rel axis cs:1,1);
       
       \nextgroupplot[

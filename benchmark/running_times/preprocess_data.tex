@@ -44,8 +44,8 @@
 %% SQL
 %% insert into pownalgos (datatype, algo)
 %% values
+%% ('double', 'ips4ooldparallel'),
 %% ('double', 'ips4oparallel'),
-%% ('double', 'ips4omlparallel'),
 %% ('double', 'ps4oparallel')
 
 %% SQL
@@ -58,13 +58,13 @@
 %% SQL
 %% insert into pcomparisonalgos (datatype, algo)
 %% values
-%% ('double', 'gnuquicksortbalanced'),
+%% ('double', 'mcstlbq'),
+%% ('double', 'ips4ooldparallel'),
 %% ('double', 'ips4oparallel'),
-%% ('double', 'ips4omlparallel'),
 %% ('double', 'pbbssamplesort'),
 %% ('double', 'tbbparallelsort'),
 %% ('double', 'aspasparallel'),
-%% ('double', 'gnuparallel'),
+%% ('double', 'mcstlmwm'),
 %% ('double', 'ps4oparallel')
 
 
@@ -78,8 +78,8 @@
 %% SQL
 %% insert into ips4omlmsdradix (datatype, algo)
 %% values
-%% ('pair', 'ips4omlparallel'),
-%% ('pair', 'inplacemsdradixsort')
+%% ('pair', 'ips4oparallel'),
+%% ('pair', 'imsdradix')
 
 
 %% SQL
@@ -92,7 +92,7 @@
 %% SQL
 %% insert into pradixalgoswithips4oml (datatype, algo)
 %% values
-%% ('uint64', 'ips4omlparallel'),
+%% ('uint64', 'ips4oparallel'),
 %% ('uint64', 'pbbsradixsort'),
 %% ('uint64', 'raduls'),
 %% ('uint64', 'ps4oparallel'),
@@ -142,9 +142,9 @@
 %% insert into pfast (machine, algo, vector, copyback, meminterleaved)
 %% values
 %% ('i10pc133', 'aspasparallel', 'vector', 0, 0),
-%% ('i10pc133', 'gnuparallel', 'vector', 0, 0),
-%% ('i10pc133', 'gnuquicksortbalanced', 'vector', 0, 0),
-%% ('i10pc133', 'ips4omlparallel', 'vector', 0, 0),
+%% ('i10pc133', 'mcstlmwm', 'vector', 0, 0),
+%% ('i10pc133', 'mcstlbq', 'vector', 0, 0),
+%% ('i10pc133', 'ips4oparallel', 'vector', 0, 0),
 %% ('i10pc133', 'ps4oparallel', 'vector', 0, 0),
 %% ('i10pc133', 'pbbssamplesort', 'vector', 0, 0),
 %% ('i10pc133', 'tbbparallelsort', 'vector', 0, 0),
@@ -153,9 +153,9 @@
 %% ('i10pc133', 'regionsort', 'vector', 0, 0),
 %% ('i10pc133', 'ips2raparallel', 'vector', 0, 0),
 %% ('i10pc132', 'aspasparallel', 'vector', 0, 1),
-%% ('i10pc132', 'gnuparallel', 'vector', 0, 1),
-%% ('i10pc132', 'gnuquicksortbalanced', 'vector', 0, 1),
-%% ('i10pc132', 'ips4omlparallel', 'vector', 0, 1),
+%% ('i10pc132', 'mcstlmwm', 'vector', 0, 1),
+%% ('i10pc132', 'mcstlbq', 'vector', 0, 1),
+%% ('i10pc132', 'ips4oparallel', 'vector', 0, 1),
 %% ('i10pc132', 'ps4oparallel', 'vector', 0, 1),
 %% ('i10pc132', 'pbbssamplesort', 'vector', 0, 1),
 %% ('i10pc132', 'tbbparallelsort', 'vector', 0, 1),
@@ -164,10 +164,10 @@
 %% ('i10pc132', 'regionsort', 'vector', 0, 1),
 %% ('i10pc132', 'ips2raparallel', 'vector', 0, 1),
 %% ('i10pc136', 'aspasparallel', 'vector', 0, 1),
-%% ('i10pc136', 'gnuparallel', 'vector', 0, 1),
-%% ('i10pc136', 'gnuquicksortbalanced', 'vector', 0, 1),
-%% ('i10pc136', 'gnuquicksortunbalanced', 'vector', 0, 1),
-%% ('i10pc136', 'ips4omlparallel', 'vector', 0, 1),
+%% ('i10pc136', 'mcstlmwm', 'vector', 0, 1),
+%% ('i10pc136', 'mcstlbq', 'vector', 0, 1),
+%% ('i10pc136', 'mcstlubq', 'vector', 0, 1),
+%% ('i10pc136', 'ips4oparallel', 'vector', 0, 1),
 %% ('i10pc136', 'ps4oparallel', 'vector', 0, 1),
 %% ('i10pc136', 'pbbssamplesort', 'vector', 0, 1),
 %% ('i10pc136', 'tbbparallelsort', 'vector', 0, 1),
@@ -176,9 +176,9 @@
 %% ('i10pc136', 'regionsort', 'vector', 0, 1),
 %% ('i10pc136', 'ips2raparallel', 'vector', 0, 1),
 %% ('i10pc135', 'aspasparallel', 'vector', 0, 1),
-%% ('i10pc135', 'gnuparallel', 'vector', 0, 1),
-%% ('i10pc135', 'gnuquicksortbalanced', 'vector', 0, 1),
-%% ('i10pc135', 'ips4omlparallel', 'vector', 0, 1),
+%% ('i10pc135', 'mcstlmwm', 'vector', 0, 1),
+%% ('i10pc135', 'mcstlbq', 'vector', 0, 1),
+%% ('i10pc135', 'ips4oparallel', 'vector', 0, 1),
 %% ('i10pc135', 'ps4oparallel', 'vector', 0, 1),
 %% ('i10pc135', 'pbbssamplesort', 'vector', 0, 1),
 %% ('i10pc135', 'tbbparallelsort', 'vector', 0, 1),
@@ -201,10 +201,10 @@
 %% insert into psimplevector (machine, algo, vector, copyback, meminterleaved)
 %% values
 %% ('i10pc133', 'aspasparallel', 'vector', 1, 0),
-%% ('i10pc133', 'gnuparallel', 'vector', 1, 0),
-%% ('i10pc133', 'gnuquicksortbalanced', 'vector', 1, 0),
+%% ('i10pc133', 'mcstlmwm', 'vector', 1, 0),
+%% ('i10pc133', 'mcstlbq', 'vector', 1, 0),
 %% ('i10pc133', 'ips2ramlparallel', 'vector', 1, 0),
-%% ('i10pc133', 'ips4omlparallel', 'vector', 1, 0),
+%% ('i10pc133', 'ips4oparallel', 'vector', 1, 0),
 %% ('i10pc133', 'ps4oparallel', 'vector', 1, 0),
 %% ('i10pc133', 'pbbssamplesort', 'vector', 1, 0),
 %% ('i10pc133', 'tbbparallelsort', 'vector', 1, 0),
@@ -213,9 +213,9 @@
 %% ('i10pc133', 'regionsort', 'vector', 1, 0),
 %% ('i10pc133', 'ips2raparallel', 'vector', 1, 0),
 %% ('i10pc132', 'aspasparallel', 'vector', 1, 0),
-%% ('i10pc132', 'gnuparallel', 'vector', 1, 0),
-%% ('i10pc132', 'gnuquicksortbalanced', 'vector', 1, 0),
-%% ('i10pc132', 'ips4omlparallel', 'vector', 1, 0),
+%% ('i10pc132', 'mcstlmwm', 'vector', 1, 0),
+%% ('i10pc132', 'mcstlbq', 'vector', 1, 0),
+%% ('i10pc132', 'ips4oparallel', 'vector', 1, 0),
 %% ('i10pc132', 'ps4oparallel', 'vector', 1, 0),
 %% ('i10pc132', 'ips2ramlparallel', 'vector', 1, 0),
 %% ('i10pc132', 'pbbssamplesort', 'vector', 1, 0),
@@ -225,10 +225,10 @@
 %% ('i10pc132', 'regionsort', 'vector', 1, 0),
 %% ('i10pc132', 'ips2raparallel', 'vector', 1, 0),
 %% ('i10pc136', 'aspasparallel', 'vector', 1, 0),
-%% ('i10pc136', 'gnuparallel', 'vector', 1, 0),
-%% ('i10pc136', 'gnuquicksortbalanced', 'vector', 1, 0),
-%% ('i10pc136', 'gnuquicksortunbalanced', 'vector', 1, 0),
-%% ('i10pc136', 'ips4omlparallel', 'vector', 1, 0),
+%% ('i10pc136', 'mcstlmwm', 'vector', 1, 0),
+%% ('i10pc136', 'mcstlbq', 'vector', 1, 0),
+%% ('i10pc136', 'mcstlubq', 'vector', 1, 0),
+%% ('i10pc136', 'ips4oparallel', 'vector', 1, 0),
 %% ('i10pc136', 'ps4oparallel', 'vector', 1, 0),
 %% ('i10pc136', 'ips2ramlparallel', 'vector', 1, 0),
 %% ('i10pc136', 'pbbssamplesort', 'vector', 1, 0),
@@ -238,9 +238,9 @@
 %% ('i10pc136', 'regionsort', 'vector', 1, 0),
 %% ('i10pc136', 'ips2raparallel', 'vector', 1, 0),
 %% ('i10pc135', 'aspasparallel', 'vector', 1, 0),
-%% ('i10pc135', 'gnuparallel', 'vector', 1, 0),
-%% ('i10pc135', 'gnuquicksortbalanced', 'vector', 1, 0),
-%% ('i10pc135', 'ips4omlparallel', 'vector', 1, 0),
+%% ('i10pc135', 'mcstlmwm', 'vector', 1, 0),
+%% ('i10pc135', 'mcstlbq', 'vector', 1, 0),
+%% ('i10pc135', 'ips4oparallel', 'vector', 1, 0),
 %% ('i10pc135', 'ps4oparallel', 'vector', 1, 0),
 %% ('i10pc135', 'ips2ramlparallel', 'vector', 1, 0),
 %% ('i10pc135', 'pbbssamplesort', 'vector', 1, 0),
@@ -250,10 +250,10 @@
 %% ('i10pc135', 'regionsort', 'vector', 1, 0),
 %% ('i10pc135', 'ips2raparallel', 'vector', 1, 0)
 
-%% ('i10pc135', 'gnuquicksortunbalanced', 'vector', 1, 0),
-%% ('i10pc136', 'gnuquicksortunbalanced', 'vector', 1, 0),
-%% ('i10pc132', 'gnuquicksortunbalanced', 'vector', 1, 0),
-%% ('i10pc133', 'gnuquicksortunbalanced', 'vector', 1, 0),
+%% ('i10pc135', 'mcstlubq', 'vector', 1, 0),
+%% ('i10pc136', 'mcstlubq', 'vector', 1, 0),
+%% ('i10pc132', 'mcstlubq', 'vector', 1, 0),
+%% ('i10pc133', 'mcstlubq', 'vector', 1, 0),
 
 %% SQL
 %% drop table if exists scomparisonunselectedalgos CASCADE;
@@ -365,17 +365,17 @@
 %% ('openjdkyaroslavskiy', '\compjdksyaros', 3),
 %% ('aspasparallel', '\comppaspas', 10),
 %% ('raduls', '\radixraduls', 8),
-%% ('ips4oparallel', '\compiparassssortnts', 12),
+%% ('ips4ooldparallel', '\compiparassssortnts', 12),
 %% ('ps4oparallel', '\compmyparassssaxtmann', 2),
-%% ('ips4omlparallel', '\compiparassssort', 0),
-%% ('gnuquicksortbalanced', '\comppbalancedsort', 3),
+%% ('ips4oparallel', '\compiparassssort', 0),
+%% ('mcstlbq', '\comppbalancedsort', 3),
 %% ('tbbparallelsort', '\compptbb', 6),
 %% ('regionsort', '\radixregion', 9),
 %% ('ips2raparallel', '\compiparassrsort', 13),
 %% ('pbbsradixsort', '\radixppbbr', 7),
 %% ('pbbssamplesort', '\compppbbs', 1),
-%% ('gnuparallel', '\comppsort', 5),
-%% ('inplacemsdradixsort', '\radiximsd', 12)
+%% ('mcstlmwm', '\comppsort', 5),
+%% ('imsdradix', '\radiximsd', 12)
 
 %% SQL
 %% drop table if exists gennames CASCADE;

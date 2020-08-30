@@ -16,26 +16,25 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see
  * <https://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-#include "../benchmark.hpp"
 #include "../algorithm/pbbssamplesort.hpp"
+#include "../benchmark.hpp"
 #include "../name_extractor.hpp"
 
 using Algorithm = Sequence<true, cilk_algos::PbbsSamplesort>;
 
 int main(int argc, char *argv[]) {
-  Config config = readParameters(argc, argv, NameExtractor<Algorithm>());
+    Config config = readParameters(argc, argv, NameExtractor<Algorithm>());
 
-  __cilkrts_end_cilk();
-  const std::string num_workers = std::to_string(config.num_threads);
-  __cilkrts_set_param("nworkers", num_workers.c_str());
+    __cilkrts_end_cilk();
+    const std::string num_workers = std::to_string(config.num_threads);
+    __cilkrts_set_param("nworkers", num_workers.c_str());
 
-  benchmark<Algorithm>(config);
-  return 0;
+    benchmark<Algorithm>(config);
+    return 0;
 }
-
