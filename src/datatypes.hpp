@@ -27,6 +27,7 @@
 #include <string>
 #include <tuple>
 #include <utility>
+#include <type_traits>
 
 #include "pbbs_generators/data_types.h"
 #include "sequence.hpp"
