@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include <chrono>
 #include <string>
 #include <tuple>
 #include <utility>
