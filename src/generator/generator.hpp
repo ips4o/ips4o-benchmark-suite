@@ -134,8 +134,8 @@ class GenRootdupls {
                                                      size_t /*thread_id*/) {
             uint64_t val = begin_idx % froot;
             for (size_t i = begin_idx; i != end_idx; ++i) {
-                begin[i] = static_cast<T>(val);
                 if (val == froot) val = 0;
+                begin[i] = static_cast<T>(val);
                 ++val;
             }
         });
